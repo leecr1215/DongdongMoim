@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Image } from "react-native";
 import axios from "axios";
@@ -72,7 +73,7 @@ export default function Login({ navigation }) {
           style={styles.input}
           value={id}
           onChangeText={setId}
-          placeholder="아이디"
+          placeholder="아이디(닉네임)"
         />
         <TextInput
           style={styles.input}
@@ -132,6 +133,7 @@ const styles = StyleSheet.create({
     marginBottom: SCREEN_HEIGHT * 0.08,
     width: SCREEN_WIDTH * 0.55,
     borderColor: "#9C9C9C",
+    fontSize: 15,
   },
   loginBtn: {
     backgroundColor: "#D3EEFF",

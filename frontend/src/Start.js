@@ -1,32 +1,45 @@
 import { StatusBar } from "expo-status-bar";
+import { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   Dimensions,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Image } from "react-native";
+import * as Font from "expo-font";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function Start({ navigation }) {
-  return (
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(async () => {
+    await Font.loadAsync({
+      Nanum: require("../assets/fonts/Nanum.ttf"),
+    });
+    setIsReady(true);
+  }, []);
+
+  return isReady ? (
     <View style={styles.container}>
       <View>
         <Image style={styles.logo} source={require("../icon/red_logo.png")} />
       </View>
-      <View>
-        <Text style={styles.appName}>동동모임</Text>
-        <Text style={styles.appText}>동네운동 모임</Text>
-      </View>
-
+      <Text style={styles.appName}>동동모임</Text>
+      <Text style={styles.appText}>동네운동 모임</Text>
       <StatusBar style="auto" />
       <View style={styles.startBtn}>
         <TouchableOpacity onPress={() => navigation.navigate("Login")}>
           <Text style={styles.startText}>시작하기</Text>
         </TouchableOpacity>
       </View>
+    </View>
+  ) : (
+    <View>
+      <Text>로딩중..</Text>
     </View>
   );
 }
@@ -39,12 +52,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   appName: {
-    fontSize: 30,
-    fontWeight: "700",
+    fontSize: 40,
+    fontFamily: "Nanum",
   },
   appText: {
     fontSize: 20,
-    fontWeight: "600",
     paddingTop: 10,
     color: "grey",
   },
@@ -59,7 +71,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: { width: 2, height: 2 },
     elevation: 3,
-    marginTop: SCREEN_WIDTH * 0.2,
+    marginTop: SCREEN_WIDTH * 0.3,
   },
   startText: { fontSize: 16, fontWeight: "700" },
   logo: {
