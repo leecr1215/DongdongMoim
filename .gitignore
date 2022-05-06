@@ -1,4 +1,3 @@
 .venv
 .DS_Store
-frontend/package-lock.json
 backend/backend/__pycache__
