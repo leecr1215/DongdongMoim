@@ -16,7 +16,11 @@ export default function Start({ navigation }) {
       <View>
         <Image style={styles.logo} source={require("../icon/red_logo.png")} />
       </View>
-      <Text style={styles.appText}>동동모임</Text>
+      <View>
+        <Text style={styles.appName}>동동모임</Text>
+        <Text style={styles.appText}>동네운동 모임</Text>
+      </View>
+
       <StatusBar style="auto" />
       <View style={styles.startBtn}>
         <TouchableOpacity onPress={() => navigation.navigate("Login")}>
@@ -30,13 +34,19 @@ export default function Start({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#D8E1FF",
+    backgroundColor: "#D3EEFF",
     alignItems: "center",
     justifyContent: "center",
   },
+  appName: {
+    fontSize: 30,
+    fontWeight: "700",
+  },
   appText: {
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: "600",
+    paddingTop: 10,
+    color: "grey",
   },
   startBtn: {
     backgroundColor: "white",
