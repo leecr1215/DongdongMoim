@@ -14,8 +14,8 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser
-        fields = ('id','username','password')
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ('id','username','password','gender','phone_number','age','soccer_skill','baseball_skill','badminton_skill')
+        extra_kwargs = {'password': {'write_only': True}, 'phone_number': {'write_only': True} }
 
         
 # jwt token 결과 커스텀 

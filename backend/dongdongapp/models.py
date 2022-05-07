@@ -5,7 +5,13 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=30, unique=True)
     password = models.CharField(max_length=30)
-    is_active = models.BooleanField(default=True)
+    gender = models.CharField(max_length=1) # M or F
+    phone_number = models.CharField(max_length=15)
+    age = models.IntegerField()
+    soccer_skill = models.IntegerField()
+    baseball_skill = models.IntegerField()
+    badminton_skill = models.IntegerField()
     
-    def __str__(self):
-        return str(self.username)
+    class Meta:
+        db_table = 'user'
+        
