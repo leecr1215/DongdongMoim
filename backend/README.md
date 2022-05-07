@@ -35,9 +35,9 @@
 3) 사용자 정보 조회    
 [GET] `localhost:8080/api/v1/users/{id}`   
    
-4) 사용자 정보 수정 
-[PUT] `localhost:8080/api/v1/users/{id}`   
-[RequestBody]   
+4) 사용자 정보 수정    
+[PUT] `localhost:8080/api/v1/users/{id}`     
+[RequestBody]    
     ```shell
     {   
         "username":"test",
