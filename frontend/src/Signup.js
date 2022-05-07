@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Image } from "react-native";
 import axios from "axios";
@@ -69,7 +70,7 @@ export default function Home({ navigation }) {
   // };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.head}>
         <Text style={styles.appText}>회원가입</Text>
@@ -144,7 +145,7 @@ export default function Home({ navigation }) {
           <Text style={styles.signUpBtn}>확인</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   head: {
-    flex: 2,
+    flex: 1.7,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#D3EEFF",
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     borderTopWidth: 0,
     borderBottomWidth: 1,
-    marginBottom: SCREEN_HEIGHT * 0.05,
+    marginBottom: SCREEN_HEIGHT * 0.02,
     width: SCREEN_WIDTH * 0.55,
     borderColor: "#9C9C9C",
     fontSize: 15,
@@ -192,7 +193,11 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.55,
     justifyContent: "space-between",
   },
-  genderText: { fontSize: 15, fontWeight: "700" },
+  genderText: {
+    fontSize: 15,
+    fontWeight: "700",
+    marginTop: SCREEN_HEIGHT * 0.01,
+  },
   genderBtn: {
     backgroundColor: "#F3F3F3",
     fontSize: 15,
@@ -205,6 +210,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     elevation: 3,
     color: "#9C9C9C",
+    marginBottom: SCREEN_HEIGHT * 0.03,
   },
   ageContainer: {
     flexDirection: "row",
@@ -217,7 +223,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     borderTopWidth: 0,
     borderBottomWidth: 1,
-    marginBottom: SCREEN_HEIGHT * 0.05,
+    marginBottom: SCREEN_HEIGHT * 0.03,
     width: SCREEN_WIDTH * 0.3,
     borderColor: "#9C9C9C",
   },
