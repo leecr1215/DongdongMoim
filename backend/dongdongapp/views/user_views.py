@@ -52,10 +52,8 @@ class UserDetail(APIView):
             serializer.delete()
             return Response(Util.response(True,serializer.data,204),status=status.HTTP_204_NO_CONTENT)
         return Response(Util.response(False,serializer.errors,400),status=status.HTTP_400_BAD_REQUEST)
-       
-<<<<<<< HEAD
 
-=======
+
 class Util():
     def response(success,data,status):
         return {
@@ -63,4 +61,3 @@ class Util():
             "result":data,
             "status":status
         }
->>>>>>> 20e8e1170d14ab17def801ab6d032413e29a2f34
