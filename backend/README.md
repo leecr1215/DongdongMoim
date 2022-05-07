@@ -6,7 +6,10 @@
 ./manage.py runserver 8080   
 ```
 ## API Documentation 
-1) 회원가입   
+
+### USER
+
+1) 회원가입
 [POST] `localhost:8080/api/v1/users`   
 [RequestBody]    
     ```shell
@@ -47,5 +50,50 @@
         "soccer_skill":2,
         "baseball_skill":1,
         "badminton_skill":4
+    }
+    ```
+
+### POSTS
+
+1) 전체 게시글 조회   
+[GET] `localhost:8080/api/v1/posts/all`   
+
+2) 게시글 조회   
+[GET] `localhost:8080/api/v1/posts/{post_id}`   
+
+3) 게시글 작성   
+[POST] `localhost:8080/api/v1/posts`   
+[RequestBody]    
+    ```shell
+    {
+            "post_id": 1,
+            "user_id": 2,
+            "title": "This is the title",
+            "content": "This is content",
+            "location": "Deajeon",
+            "meeting_date": "2022-05-07T15:19:27.340471Z",
+            "post_date": "2022-05-07T14:56:47.933953Z",
+            "required_number": 5,
+            "gender": "F",
+            "exercise": "badminton",
+            "exercise_skil": 2
+    }
+    
+4) 게시글 수정   
+[PUT] `localhost:8080/api/v1/posts/{post_id}`   
+[RequestBody]    
+    ```shell
+    {
+            "post_id": 1,
+            "user_id": 2,
+            "title": "This is new title",
+            "content": "This is new content",
+            "location": "Deajeon",
+            "meeting_date": "2022-05-07T15:19:27.340471Z",
+            "post_date": "2022-05-07T14:56:47.933953Z",
+            "required_number": 5,
+            "gender": "F",
+            "exercise": "badminton",
+            "exercise_skil": 2
     }
     ```
