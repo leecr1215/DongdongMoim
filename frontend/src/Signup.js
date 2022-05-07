@@ -55,6 +55,19 @@ export default function Home({ navigation }) {
     }
   };
 
+  // const phoneFormat = (phnum) => {
+  //   var cleaned = ("" + phnum).replace(/\D/g, "");
+  //   var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+  //   if (match) {
+  //     var intlCode = match[1] ? "+1 " : "",
+  //       number = [intlCode, "(", match[2], ") ", match[3], "-", match[4]].join(
+  //         ""
+  //       );
+  //     setPhoneNum(number);
+  //   }
+  //   setPhoneNum(phnum);
+  // };
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -66,7 +79,7 @@ export default function Home({ navigation }) {
           style={styles.input}
           onChangeText={setId}
           value={id}
-          placeholder="아이디"
+          placeholder="아이디(닉네임)"
         />
         <TextInput
           style={styles.input}
@@ -74,6 +87,58 @@ export default function Home({ navigation }) {
           value={pw}
           placeholder="비밀번호"
         />
+        <View>
+          <Text style={styles.genderText}>성별</Text>
+          <View style={styles.genderContainer}>
+            <TouchableOpacity>
+              <Text style={styles.genderBtn}>남</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.genderBtn}>여</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.ageContainer}>
+          <Text style={styles.ageText}>나이</Text>
+          <TextInput
+            style={styles.ageInput}
+            onChangeText={setAge}
+            value={age}
+            placeholder="00"
+            keyboardType="numeric"
+            maxLength={3}
+          />
+          <Text>세</Text>
+        </View>
+
+        <View style={styles.phoneContainer}>
+          <Text style={styles.phoneText}>전화번호</Text>
+          <TextInput
+            style={styles.phoneInput}
+            onChangeText={setPhoneNum}
+            value={phoneNum}
+            placeholder="010-0000-0000"
+            maxLength={13}
+          />
+        </View>
+
+        <View style={styles.exerciseContainer}>
+          <View>
+            <Text>운동능력</Text>
+            <TouchableOpacity>
+              <Text>?</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text>축구</Text>
+          </View>
+          <View>
+            <Text>야구</Text>
+          </View>
+          <View>
+            <Text>배드민턴</Text>
+          </View>
+        </View>
 
         <TouchableOpacity onPress={() => onPress()}>
           <Text style={styles.signUpBtn}>확인</Text>
@@ -88,12 +153,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     alignItems: "center",
+    justifyContent: "center",
   },
   head: {
     flex: 2,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#D8E1FF",
+    backgroundColor: "#D3EEFF",
     width: SCREEN_WIDTH,
   },
   logo: {
@@ -106,7 +172,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   signUp: {
-    flex: 3,
+    flex: 8,
     width: SCREEN_WIDTH,
     alignItems: "center",
     justifyContent: "center",
@@ -119,9 +185,60 @@ const styles = StyleSheet.create({
     marginBottom: SCREEN_HEIGHT * 0.05,
     width: SCREEN_WIDTH * 0.55,
     borderColor: "#9C9C9C",
+    fontSize: 15,
   },
+  genderContainer: {
+    flexDirection: "row",
+    width: SCREEN_WIDTH * 0.55,
+    justifyContent: "space-between",
+  },
+  genderText: { fontSize: 15, fontWeight: "700" },
+  genderBtn: {
+    backgroundColor: "#F3F3F3",
+    fontSize: 15,
+    textAlign: "center",
+    paddingBottom: 8,
+    paddingTop: 8,
+    width: SCREEN_WIDTH * 0.25,
+    shadowColor: "#000000",
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 2, height: 2 },
+    elevation: 3,
+    color: "#9C9C9C",
+  },
+  ageContainer: {
+    flexDirection: "row",
+    width: SCREEN_WIDTH * 0.55,
+    justifyContent: "space-between",
+  },
+  ageText: { fontSize: 15, fontWeight: "700" },
+  ageInput: {
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderTopWidth: 0,
+    borderBottomWidth: 1,
+    marginBottom: SCREEN_HEIGHT * 0.05,
+    width: SCREEN_WIDTH * 0.3,
+    borderColor: "#9C9C9C",
+  },
+  phoneContainer: {
+    flexDirection: "row",
+    width: SCREEN_WIDTH * 0.55,
+    justifyContent: "space-between",
+  },
+  phoneText: { fontSize: 15, fontWeight: "700" },
+  phoneInput: {
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderTopWidth: 0,
+    borderBottomWidth: 1,
+    marginBottom: SCREEN_HEIGHT * 0.05,
+    width: SCREEN_WIDTH * 0.3,
+    borderColor: "#9C9C9C",
+  },
+  exerciseContainer: {},
   signUpBtn: {
-    backgroundColor: "#D8E1FF",
+    backgroundColor: "#D3EEFF",
     fontSize: 17,
     alignItems: "center",
     textAlign: "center",

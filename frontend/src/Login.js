@@ -20,9 +20,17 @@ export default function Login({ navigation }) {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const storeData = async (id) => {
+  const storeData = async (username) => {
     try {
-      await AsyncStorage.setItem("@id", JSON.stringify(id));
+      await AsyncStorage.setItem("@username", JSON.stringify(username));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const storeID = async (idNum) => {
+    try {
+      await AsyncStorage.setItem("@id", JSON.stringify(idNum));
     } catch (e) {
       console.log(e);
     }
@@ -39,11 +47,12 @@ export default function Login({ navigation }) {
 
       try {
         const response = await axios
-          .post(`http://192.168.0.12:8080/api/v1/authenticate`, data)
+          .post(`localhost:8080/api/v1/token`, data)
           .then(function async(response) {
             if (response.data["success"] == true) {
               alert("로그인되었습니다.");
               storeData(id);
+              storeID(response.data["id"]);
               navigation.navigate("Home");
               setId("");
               setPw("");
