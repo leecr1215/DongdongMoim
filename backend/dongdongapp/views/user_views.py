@@ -1,9 +1,9 @@
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
-from ..serializers import UserSerializer
+from ..serializers import UserSerializer, UserInfoSerializer
 from ..models import CustomUser
 from rest_framework import permissions
-from custom_response import Util
+# from custom_response import Util
 from rest_framework import status
 
 class UserList(APIView):
@@ -21,38 +21,37 @@ class CreateUser(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(Util.response(True,serializer.data,201),status=status.HTTP_201_CREATED)
-        return Response(Util.response(True,serializer.data,400),status=status.HTTP_400_BAD_REQUEST)
+        return Response(Util.response(False,serializer.errors,400),status=status.HTTP_400_BAD_REQUEST)
     
 
 class UserDetail(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     
-    def get_object(self, pk): # PK 존재할 경우 리턴 
-        user = CustomUser.objects.get(pk=pk)
-        if not "username" in user:
-            return Response("NOT FOUND",status=404)
-        return user
-        
+    def get_object(self, pk):
+        try:
+            user = CustomUser.objects.get(pk=pk)
+            return user
+        except CustomUser.DoesNotExist:
+            return Response(data=Util.response("NOT FOUND",400,False), status=status.HTTP_404_NOT_FOUND)
+
     def get(self,request,pk):
-        serializer = UserSerializer(self.get_object(pk))
-        return Response(serializer.data)
-    
-    def post(self,request,pk):
-        serializer = UserSerializer(data=request.data)
-        return Response(serializer.data)
-    
-    def put(self,request,pk):
-        serializer = UserSerializer(data=request.data)
+        serializer = UserInfoSerializer(self.get_object(pk))
+        return Response(Util.response(True,serializer.data,200),status=status.HTTP_200_OK)
+     
+    def put(self, request, pk, format=None):
+        user = self.get_object(pk)
+        serializer = UserInfoSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors,status=400)
+            return Response(Util.response(True,serializer.data,200),status=status.HTTP_200_OK)
+        return Response(Util.response(False,serializer.errors,400),status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self,request,pk):
-        serializer = UserSerializer(self.get_object(pk))
+        serializer = UserInfoSerializer(self.get_object(pk))
         if serializer.is_valid():
             serializer.delete()
-            return Response(status=204)
-        return Response(serializer.errors,status=400)
+            return Response(Util.response(True,serializer.data,204),status=status.HTTP_204_NO_CONTENT)
+        return Response(Util.response(False,serializer.errors,400),status=status.HTTP_400_BAD_REQUEST)
        
 class Util():
     def response(success,data,status):

@@ -7,10 +7,10 @@ class CustomUser(AbstractUser):
     password = models.CharField(max_length=30)
     gender = models.CharField(max_length=1) # M or F
     phone_number = models.CharField(max_length=15)
-    age = models.IntegerField()
-    soccer_skill = models.IntegerField()
-    baseball_skill = models.IntegerField()
-    badminton_skill = models.IntegerField()
+    age = models.IntegerField(null=True)
+    soccer_skill = models.IntegerField(null=True)
+    baseball_skill = models.IntegerField(null=True)
+    badminton_skill = models.IntegerField(null=True)
     
     class Meta:
         db_table = 'user'

@@ -4,7 +4,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import permissions
 
-# 사용자 정보 
+# 사용자 정보 생성 
 class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = super().create(validated_data)
@@ -17,6 +17,15 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id','username','password','gender','phone_number','age','soccer_skill','baseball_skill','badminton_skill')
         extra_kwargs = {'password': {'write_only': True}, 'phone_number': {'write_only': True} }
 
+# 사용자 정보 수정 및 조회 
+class UserInfoSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = CustomUser
+        fields = ('id','username','gender','phone_number','age','soccer_skill','baseball_skill','badminton_skill')
+        extra_kwargs = { ## 유효성 검사에서 제외 
+            'username': {'validators': []},
+        }
         
 # jwt token 결과 커스텀 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
