@@ -2,3 +2,5 @@
 .DS_Store
 backend/backend/__pycache__
 backend/dongdongapp/__pycache__
+backend/dongdongapp/migrations
+backend/dongdongapp/views/__pycache__
