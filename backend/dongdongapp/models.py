@@ -8,10 +8,16 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=30, unique=True)
     password = models.CharField(max_length=30)
-    is_active = models.BooleanField(default=True)
+    gender = models.CharField(max_length=1) # M or F
+    phone_number = models.CharField(max_length=15)
+    age = models.IntegerField(null=True)
+    soccer_skill = models.IntegerField(null=True)
+    baseball_skill = models.IntegerField(null=True)
+    badminton_skill = models.IntegerField(null=True)
     
-    def __str__(self):
-        return str(self.username)
+    class Meta:
+        db_table = 'user'
+
 
 class Post(models.Model):
     post_id = models.AutoField(primary_key=True, db_column="post_id")
@@ -25,7 +31,4 @@ class Post(models.Model):
     gender = models.CharField(max_length=10, null=True)
     exercise = models.CharField(max_length=10, null=True)
     exercise_skil = models.IntegerField(default=1, null=True)
-
-
-
 
