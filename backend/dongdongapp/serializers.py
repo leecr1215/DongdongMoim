@@ -1,5 +1,6 @@
+from datetime import datetime
 from rest_framework import  serializers
-from .models import CustomUser
+from .models import CustomUser, Post
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import permissions
@@ -45,3 +46,23 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
+
+
+class PostSerializer(serializers.ModelSerializer):
+
+    # def update(self, instance, validated_data):
+    #     instance.title = validated_data("title", instance.title)
+    #     instance.content = validated_data("content", instance.content)
+    #     instance.location = validated_data("location", instance.location)
+    #     instance.meeting_date = validated_data("meeting_date", instance.meeting_date)
+    #     instance.post_date = datetime.now()
+    #     instance.required_number = validated_data("required_number", instance.required_number)
+    #     instance.gender = validated_data("gender", instance.gender)
+    #     instance.exercise = validated_data("exercise", instance.exercise)
+    #     instance.exercise_skil = validated_data("exercise_skil", instance.exercise_skil)
+    #     return instance
+
+
+    class Meta:
+        model = Post
+        fields = ('post_id','user_id','title','content','location','meeting_date', 'post_date','required_number','gender','exercise','exercise_skil')

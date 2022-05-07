@@ -52,3 +52,4 @@ class UserDetail(APIView):
             return Response(status=204)
         return Response(serializer.errors,status=400)
        
+
