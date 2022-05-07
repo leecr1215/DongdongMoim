@@ -1,3 +1,5 @@
 # DongdongMoim
 ## ERD
-<img src="https://user-images.githubusercontent.com/52441906/167180194-e1bf9588-c325-46cd-b06e-0f4afd62ff45.png" height=400 weight=800></img>
+<img src="https://user-images.githubusercontent.com/52441906/167264520-e9d616b6-b7c6-4b09-9fe4-9e0e8487b136.png" height=400 weight=800></img>
+
+
