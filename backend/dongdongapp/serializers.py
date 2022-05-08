@@ -44,6 +44,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         refresh = self.get_token(self.user)
         
          # Add extra responses here
+        data['id'] = self.user.id
         data['username'] = self.user.username
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)

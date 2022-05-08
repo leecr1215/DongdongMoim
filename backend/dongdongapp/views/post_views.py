@@ -1,7 +1,3 @@
-from ast import Delete
-from dataclasses import dataclass
-from os import stat
-from urllib import request, response
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
 from rest_framework import status
