@@ -28,6 +28,7 @@ class Post(models.Model):
     meeting_date = models.DateTimeField(null=True)
     post_date = models.DateTimeField(null=True, auto_now_add=True)
     required_number = models.IntegerField(default=1, null=True)
+    age = models.CharField(max_length=10, null=True)
     gender = models.CharField(max_length=10, null=True)
     exercise = models.CharField(max_length=10, null=True)
     exercise_skil = models.IntegerField(default=1, null=True)
