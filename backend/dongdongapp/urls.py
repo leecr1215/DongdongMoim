@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView
 )
-from .views import post_views
+from .views import post_views,comment_views
 
 urlpatterns = [
     
@@ -25,4 +25,7 @@ urlpatterns = [
     path('posts/all', post_views.PostList.as_view()),
     path('posts', post_views.CreatePost.as_view()),
     path('posts/<int:pk>', post_views.PostDetail.as_view()),
+    
+    # 댓글 
+    path('comments', comment_views.CommentList.as_view())
 ]
