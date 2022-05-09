@@ -36,10 +36,10 @@
     ```   
 
 3) 사용자 정보 조회    
-[GET] `localhost:8080/api/v1/users/{id}`   
+[GET] `localhost:8080/api/v1/users/{user_id}`   
    
 4) 사용자 정보 수정    
-[PUT] `localhost:8080/api/v1/users/{id}`     
+[PUT] `localhost:8080/api/v1/users/{user_id}`     
 [RequestBody]    
     ```shell
     {   
@@ -53,7 +53,7 @@
     }
     ```
 
-### POSTS
+### POST
 
 1) 전체 게시글 조회   
 [GET] `localhost:8080/api/v1/posts/all`   
@@ -66,7 +66,6 @@
 [RequestBody]    
     ```shell
     {
-            "post_id": 1,
             "user_id": 2,
             "title": "This is the title",
             "content": "This is content",
@@ -97,3 +96,17 @@
             "exercise_skil": 2
     }
     ```
+
+### COMMENT 
+1) 댓글 작성      
+[POST] `localhost:8080/api/v1/comments`   
+[RequestBody]     
+    ```shell
+    {
+        "user_id":1,
+        "post_id":1,
+        "text":"댓글 테스트입니다."
+    }
+    ```  
+2) 게시물 별 댓글 조회   
+[GET] `localhost:8080/api/v1/posts/{post_id}/comments`   

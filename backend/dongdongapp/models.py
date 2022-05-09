@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class CustomUser(AbstractUser):
+    id = models.AutoField(primary_key=True, db_column="user_id")
     username = models.CharField(max_length=30, unique=True)
     password = models.CharField(max_length=30)
     gender = models.CharField(max_length=1) # M or F
@@ -33,3 +34,9 @@ class Post(models.Model):
     exercise = models.CharField(max_length=10, null=True)
     exercise_skil = models.IntegerField(default=1, null=True)
 
+class Comment(models.Model):
+    comment_id = models.AutoField(primary_key=True, db_column="comment_id")
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE, db_column="post_id")
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, db_column="user_id")
+    text = models.CharField(max_length=200)
+    created_date = models.DateTimeField(auto_now_add=True)

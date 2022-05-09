@@ -1,6 +1,7 @@
+from dataclasses import fields
 from datetime import datetime
 from rest_framework import  serializers
-from .models import CustomUser, Post
+from .models import CustomUser, Post, Comment
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import permissions
@@ -44,6 +45,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         refresh = self.get_token(self.user)
         
          # Add extra responses here
+        data['id'] = self.user.id
         data['username'] = self.user.username
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
@@ -61,3 +63,10 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('post_id','user_id','title','content','location','meeting_date', 'post_date','required_number','age','gender','exercise','exercise_skil')
+   
+
+class CommentSerializer(serializers.ModelSerializer):
+    #user = UserInfoSerializer(read_only= True) # 사용자 정보 받기 
+    class Meta:
+        model = Comment
+        fields = ('user_id','post_id','text','created_date')
