@@ -22,7 +22,7 @@ urlpatterns = [
     path('token/verify', TokenVerifyView.as_view(), name='token_verify'),
 
     # 게시글
-    path('posts/all', post_views.PostList.as_view()),
+    path('posts/a', post_views.PostList.as_view()),
     path('posts', post_views.CreatePost.as_view()),
     path('posts/<int:pk>', post_views.PostDetail.as_view()),
 ]
