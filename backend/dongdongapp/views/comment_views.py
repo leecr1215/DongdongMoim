@@ -7,9 +7,10 @@ from rest_framework import status
 
 class CommentList(APIView):
     permission_classes = [permissions.AllowAny]
+    # 게시물별 댓글 조회 
     def get(self,request,pk,format=None):
         post_id = Post.objects.get(pk=pk).post_id
-        comment = Comment.objects.filter(post_id=post_id)
+        comment = Comment.objects.filter(post_id=post_id).order_by('-created_date')
         serializer = CommentSerializer(instance=comment, many=True)
         return Response(Util.response(True,serializer.data,200),status=status.HTTP_200_OK)
 
