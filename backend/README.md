@@ -58,8 +58,8 @@
 1) 전체 게시글 조회   
 [GET] `localhost:8080/api/v1/posts/all`   
 
-2) 게시글 필터링 조회
-[GET] `localhost:8080/api/v1/posts/all?age={age}&gender={gender}&skil={skil}`
+2) 게시글 필터링 조회  
+[GET] `localhost:8080/api/v1/posts/all?age={age}&gender={gender}&skil={skil}`  
 
 3) 게시글 작성   
 [POST] `localhost:8080/api/v1/posts`   
