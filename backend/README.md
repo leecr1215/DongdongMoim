@@ -58,27 +58,32 @@
 1) 전체 게시글 조회   
 [GET] `localhost:8080/api/v1/posts/all`   
 
-2) 게시글 조회   
-[GET] `localhost:8080/api/v1/posts/{post_id}`   
+2) 게시글 필터링 조회
+[GET] `localhost:8080/api/v1/posts/all?age={age}&gender={gender}&skil={skil}`
 
 3) 게시글 작성   
 [POST] `localhost:8080/api/v1/posts`   
 [RequestBody]    
     ```shell
     {
-            "user_id": 2,
-            "title": "This is the title",
-            "content": "This is content",
+            "post_id": 4,
+            "user_id": 3,
+            "title": "hello there",
+            "content": "hellooooo",
             "location": "Deajeon",
-            "meeting_date": "2022-05-07T15:19:27.340471Z",
-            "post_date": "2022-05-07T14:56:47.933953Z",
+            "meeting_date": "2022-05-09T09:12:14.558914Z",
+            "post_date": "2022-05-09T09:12:14.558914Z",
             "required_number": 5,
+            "age": 23,
             "gender": "F",
             "exercise": "badminton",
             "exercise_skil": 2
     }
+
+4) 게시글 조회   
+[GET] `localhost:8080/api/v1/posts/{post_id}`   
     
-4) 게시글 수정   
+5) 게시글 수정   
 [PUT] `localhost:8080/api/v1/posts/{post_id}`   
 [RequestBody]    
     ```shell
@@ -91,6 +96,7 @@
             "meeting_date": "2022-05-07T15:19:27.340471Z",
             "post_date": "2022-05-07T14:56:47.933953Z",
             "required_number": 5,
+            "age": 23,
             "gender": "F",
             "exercise": "badminton",
             "exercise_skil": 2
