@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView
 )
-from .views import post_views,comment_views
+from .views import post_views, comment_views, friend_views
 
 urlpatterns = [
     
@@ -29,5 +29,11 @@ urlpatterns = [
     # 댓글 
     path('comments', comment_views.CommentList.as_view()),
     path('comments/<int:pk>', comment_views.CommentDetail.as_view()),
-    path('posts/<int:pk>/comments', comment_views.CommentList.as_view())
+    path('posts/<int:pk>/comments', comment_views.CommentList.as_view()),
+    
+    # 친구
+    path('friends', friend_views.FriendList.as_view()),
+    path('friends/<int:user1>', friend_views.FriendDetail.as_view()),
+    path('friends/<int:user1>/<int:user2>', friend_views.FriendDetail.as_view()),
+    
 ]
