@@ -21,10 +21,12 @@ class PostApplicationList(APIView):
         for a in applicant:      
             data = {"postApplication_id":a['postApplication_id'], "post_id":a['post_id'], "user_id":a['user_id'], "username":a['user_id__username']}
         return Response(Util.response(True, data, 200), status=status.HTTP_200_OK)
-    
+
+
 class PostApplicationDetail(APIView):
     permission_classes = [permissions.AllowAny]
-        
+    
+    # user의 post 신청 여부
     def get(self, request, post_pk, user_pk):
         try:
             applicant = PostApplication.objects.get(post_id=post_pk, user_id=user_pk)
@@ -33,6 +35,7 @@ class PostApplicationDetail(APIView):
         except PostApplication.DoesNotExist:
             return Response(Util.response(True, {"application":False}, 200),status=status.HTTP_200_OK)
     
+    # user의 post 신청
     def post(self, request, user_pk, post_pk):
         serializer = PostApplicationSerializer(data={'user_id':user_pk,'post_id':post_pk})
         if serializer.is_valid():
@@ -40,6 +43,7 @@ class PostApplicationDetail(APIView):
             return Response(Util.response(True,serializer.data,201),status=status.HTTP_201_CREATED)
         return Response(Util.response(False,serializer.errors,400),status=status.HTTP_400_BAD_REQUEST)
 
+    # user의 post 신청 취소
     def delete(self, request, user_pk, post_pk):
         try:
             applicant = PostApplication.objects.get(post_id=post_pk, user_id=user_pk)
