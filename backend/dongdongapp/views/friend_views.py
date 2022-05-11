@@ -6,8 +6,7 @@ from ..serializers import CommentSerializer, FriendSerializer, UserSerializer, U
 from ..models import Comment, CustomUser, Post, Friend
 from rest_framework import permissions
 from rest_framework import status
-from django.db.models import Q,FilteredRelation,Subquery
-import sqlite3 
+from django.db.models import Q,F
 
 class FriendList(APIView):
     permission_classes = [permissions.AllowAny]
@@ -72,7 +71,17 @@ class FriendDetail(APIView):
         friend.delete()
         return Response(Util.response(True,serializer.data,204),status=status.HTTP_204_NO_CONTENT)
 
-    
+class FriendDetail2(APIView):
+    permission_classes = [permissions.AllowAny]
+    # 나의 친구리스트 조회 ver.2
+    def get(self,request,user1):
+        friends = Friend.objects.filter(Q(user1_id=user1)|Q(user2_id=user1),status="CONNECTING").all()
+        queryset = friends.select_related("user2_id").values("friend_id", "user1_id", "user2_id", "user2_id__username")
+        queryset = queryset.values(friend_username=F("user2_id__username"))
+        print(str(queryset))
+     
+        return Response(Util.response(True,queryset.values("friend_id", "user1_id", "user2_id", "friend_username"),204),status=status.HTTP_204_NO_CONTENT)
+
 class Util():
     def response(success,data,status):
         return {
