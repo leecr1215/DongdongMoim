@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from .views import user_views
+from .views import user_views, postApplication_views
 from .serializers import MyTokenObtainPairView
 from rest_framework_simplejwt.views import TokenVerifyView
 from rest_framework_simplejwt.views import (
@@ -30,10 +30,16 @@ urlpatterns = [
     path('comments', comment_views.CommentList.as_view()),
     path('comments/<int:pk>', comment_views.CommentDetail.as_view()),
     path('posts/<int:pk>/comments', comment_views.CommentList.as_view()),
+
     
     # 친구
     path('friends', friend_views.FriendList.as_view()),
     path('friends/<int:user1>', friend_views.FriendDetail.as_view()),
     path('friends/<int:user1>/<int:user2>', friend_views.FriendDetail.as_view()),
-    
+
+
+    # 게시글 신청
+    path('posts/<int:pk>/applicants', postApplication_views.PostApplicationList.as_view()),
+    path('posts/<int:post_pk>/applicants/<int:user_pk>', postApplication_views.PostApplicationDetail.as_view())
+
 ]
