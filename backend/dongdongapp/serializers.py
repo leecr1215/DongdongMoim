@@ -1,7 +1,7 @@
 from dataclasses import fields
 from datetime import datetime
 from rest_framework import  serializers
-from .models import CustomUser, Post, Comment
+from .models import CustomUser, Post, Comment, PostApplication
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import permissions
@@ -70,3 +70,13 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('user_id','post_id','text','created_date')
+
+
+class PostApplicationSerializer(serializers.ModelSerializer):
+    #def update(self, instance, validated_data):
+    #    instance.delete()
+    #    return 
+
+    class Meta:
+        model = PostApplication
+        fields = ('postApplication_id', 'user_id', 'post_id')
