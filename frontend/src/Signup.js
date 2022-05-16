@@ -27,6 +27,7 @@ export default function Home({ navigation }) {
 
   const onPress = async () => {
     //navigation.navigate("Home");
+
     const data = {
       username: id, // 아이디
       password: pw, // 비밀번호
@@ -40,7 +41,7 @@ export default function Home({ navigation }) {
 
     try {
       const response = await axios
-        .post(`http://192.168.0.12:8080/api/v1/members`, data)
+        .post(`http://192.168.0.12:8080/api/v1/users`, data)
         .then(function (response) {
           if (response.data["success"] == true) {
             alert("회원가입되었습니다.");
@@ -124,19 +125,37 @@ export default function Home({ navigation }) {
         </View>
 
         <View style={styles.exerciseContainer}>
-          <View>
-            <Text>운동능력</Text>
+          <View style={styles.exerciseTextContainer}>
+            <Text style={styles.exerciseText}>운동능력</Text>
             <TouchableOpacity>
               <Text>?</Text>
             </TouchableOpacity>
           </View>
-          <View>
-            <Text>축구</Text>
+          <View style={styles.exercises}>
+            <Text style={styles.soccer}>축구</Text>
+            <TouchableOpacity>
+              <Image style={styles.logo} source={require("../icon/sole.png")} />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image style={styles.logo} source={require("../icon/sock.png")} />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                style={styles.logo}
+                source={require("../icon/slipper.png")}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                style={styles.logo}
+                source={require("../icon/sneaker.png")}
+              />
+            </TouchableOpacity>
           </View>
-          <View>
+          <View style={styles.exercises}>
             <Text>야구</Text>
           </View>
-          <View>
+          <View style={styles.exercises}>
             <Text>배드민턴</Text>
           </View>
         </View>
@@ -162,11 +181,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#D3EEFF",
     width: SCREEN_WIDTH,
-  },
-  logo: {
-    resizeMode: "contain",
-    width: SCREEN_WIDTH * 0.3,
-    height: SCREEN_HEIGHT * 0.13,
   },
   appText: {
     fontSize: 20,
@@ -243,6 +257,18 @@ const styles = StyleSheet.create({
     borderColor: "#9C9C9C",
   },
   exerciseContainer: {},
+  exerciseTextContainer: { flexDirection: "row", fontWeight: "700" },
+  exerciseText: { fontSize: 15, fontWeight: "700" },
+  exercises: { flexDirection: "row" },
+  soccer: { fontSize: 15, fontWeight: "700", color: "#898989" },
+  logo: {
+    resizeMode: "contain",
+    borderColor: "#898989",
+    borderWidth: 1,
+    height: SCREEN_HEIGHT * 0.03,
+    width: SCREEN_WIDTH * 0.08,
+    marginLeft: SCREEN_WIDTH * 0.01,
+  },
   signUpBtn: {
     backgroundColor: "#D3EEFF",
     fontSize: 17,
