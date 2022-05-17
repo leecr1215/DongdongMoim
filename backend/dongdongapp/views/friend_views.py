@@ -73,8 +73,7 @@ class FriendDetail(APIView):
     def put(self,request,user1,user2):
         user1_id = self.kwargs['user1']
         user2_id = self.kwargs['user2']
-        Friend.objects.filter(user1_id=user1_id,user2_id=user2_id).update(status = "CONNECTING")
-        Friend.objects.filter(user1_id=user2_id,user2_id=user1_id).update(status = "CONNECTING")
+        Friend.objects.filter(Q(user1_id=user1_id,user2_id=user2_id)|Q(user1_id=user2_id,user2_id=user1_id)).update(status = "CONNECTING")
         return Response(Util.response(True,"친구 수락에 성공하였습니다.",204),status=status.HTTP_204_NO_CONTENT)
       
     # 친구 연결 끊기 
@@ -82,9 +81,10 @@ class FriendDetail(APIView):
     def delete(self,request,user1,user2):
         user1_id = self.kwargs['user1']
         user2_id = self.kwargs['user2']
-        friend = Friend.objects.filter(user1_id=user1_id,user2_id=user2_id)
+        friend = Friend.objects.filter(Q(user1_id=user1_id,user2_id=user2_id)|Q(user1_id=user2_id,user2_id=user1_id))
         serializer = FriendSerializer(instance=friend,many=True)
         friend.delete()
+        
         return Response(Util.response(True,serializer.data,204),status=status.HTTP_204_NO_CONTENT)
 
 class FriendDetail2(APIView):
