@@ -21,9 +21,30 @@ export default function Home({ navigation }) {
   const [gender, setGender] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
   const [age, setAge] = useState("");
-  const [soccer, setSoccer] = useState("");
-  const [baseball, setBaseball] = useState("");
-  const [badminton, setBadminton] = useState("");
+  const [soccer, setSoccer] = useState(0);
+  const [baseball, setBaseball] = useState(0);
+  const [badminton, setBadminton] = useState(0);
+
+  const [isGenderSelect, setGenderSelect] = useState([false, false]);
+
+  const [isSoccerSelect, setSoccerSelect] = useState([
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [isBaseballSelect, setBaseballSelect] = useState([
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [isBadminSelect, setBadminSelect] = useState([
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   const onPress = async () => {
     //navigation.navigate("Home");
@@ -69,6 +90,31 @@ export default function Home({ navigation }) {
   //   }
   //   setPhoneNum(phnum);
   // };
+  const onPressGender = async (gender) => {
+    if (gender === "남") {
+      setGender("M");
+      setGenderSelect([true, false]);
+    } else if (gender === "여") {
+      setGender("F");
+      setGenderSelect([false, true]);
+    }
+  };
+
+  const onPressSoccer = async (name) => {
+    if (name === "sole") {
+      setSoccer(1);
+      setSoccerSelect([true, false, false, false]);
+    } else if (name === "sock") {
+      setSoccer(2);
+      setSoccerSelect([false, true, false, false]);
+    } else if (name === "slipper") {
+      setSoccer(3);
+      setSoccerSelect([false, false, true, false]);
+    } else if (name === "sneaker") {
+      setSoccer(4);
+      setSoccerSelect([false, false, false, true]);
+    }
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -92,11 +138,23 @@ export default function Home({ navigation }) {
         <View>
           <Text style={styles.genderText}>성별</Text>
           <View style={styles.genderContainer}>
-            <TouchableOpacity>
-              <Text style={styles.genderBtn}>남</Text>
+            <TouchableOpacity onPress={() => onPressGender("남")}>
+              <Text
+                style={
+                  isGenderSelect[0] ? styles.genderPressBtn : styles.genderBtn
+                }
+              >
+                남
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.genderBtn}>여</Text>
+            <TouchableOpacity onPress={() => onPressGender("여")}>
+              <Text
+                style={
+                  isGenderSelect[1] ? styles.genderPressBtn : styles.genderBtn
+                }
+              >
+                여
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -124,39 +182,66 @@ export default function Home({ navigation }) {
           />
         </View>
 
+        {/* 운동 능력 부분 */}
+
         <View style={styles.exerciseContainer}>
           <View style={styles.exerciseTextContainer}>
             <Text style={styles.exerciseText}>운동능력</Text>
             <TouchableOpacity>
-              <Text>?</Text>
+              <Text style={styles.question}>?</Text>
             </TouchableOpacity>
           </View>
+          {/* 축구 부분 */}
           <View style={styles.exercises}>
             <Text style={styles.soccer}>축구</Text>
-            <TouchableOpacity>
-              <Image style={styles.logo} source={require("../icon/sole.png")} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image style={styles.logo} source={require("../icon/sock.png")} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={styles.logo}
-                source={require("../icon/slipper.png")}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={styles.logo}
-                source={require("../icon/sneaker.png")}
-              />
-            </TouchableOpacity>
+            <View
+              style={isSoccerSelect[0] ? styles.pressBtn : styles.imageStyle}
+            >
+              <TouchableOpacity onPress={() => onPressSoccer("sole")}>
+                <Image
+                  style={styles.logo}
+                  source={require("../icon/sole.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={isSoccerSelect[1] ? styles.pressBtn : styles.imageStyle}
+            >
+              <TouchableOpacity onPress={() => onPressSoccer("sock")}>
+                <Image
+                  style={styles.logo}
+                  source={require("../icon/sock.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={isSoccerSelect[2] ? styles.pressBtn : styles.imageStyle}
+            >
+              <TouchableOpacity onPress={() => onPressSoccer("slipper")}>
+                <Image
+                  style={styles.logo}
+                  source={require("../icon/slipper.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={isSoccerSelect[3] ? styles.pressBtn : styles.imageStyle}
+            >
+              <TouchableOpacity onPress={() => onPressSoccer("sneaker")}>
+                <Image
+                  style={styles.logo}
+                  source={require("../icon/sneaker.png")}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
+          {/* 야구 부분 */}
           <View style={styles.exercises}>
-            <Text>야구</Text>
+            <Text style={styles.baseball}>야구</Text>
           </View>
+          {/* 배드민턴 부분 */}
           <View style={styles.exercises}>
-            <Text>배드민턴</Text>
+            <Text style={styles.badminton}>배드민턴</Text>
           </View>
         </View>
 
@@ -256,18 +341,51 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.3,
     borderColor: "#9C9C9C",
   },
-  exerciseContainer: {},
-  exerciseTextContainer: { flexDirection: "row", fontWeight: "700" },
+  exerciseContainer: { width: SCREEN_WIDTH * 0.55 },
+  exerciseTextContainer: {
+    flexDirection: "row",
+    fontWeight: "700",
+    justifyContent: "space-between",
+  },
   exerciseText: { fontSize: 15, fontWeight: "700" },
+  question: {
+    textAlign: "center",
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderRadius: 20 / 2,
+    backgroundColor: "#DFDFDF",
+    borderColor: "#DFDFDF",
+  },
   exercises: { flexDirection: "row" },
-  soccer: { fontSize: 15, fontWeight: "700", color: "#898989" },
+  soccer: {
+    fontSize: 13,
+    color: "#898989",
+    marginRight: SCREEN_WIDTH * 0.09,
+  },
   logo: {
     resizeMode: "contain",
+    height: SCREEN_HEIGHT * 0.025,
+    width: SCREEN_WIDTH * 0.08,
+    alignContent: "center",
+  },
+  imageStyle: {
     borderColor: "#898989",
     borderWidth: 1,
-    height: SCREEN_HEIGHT * 0.03,
-    width: SCREEN_WIDTH * 0.08,
+    alignContent: "center",
+    // height: SCREEN_HEIGHT * 0.028,
+    // width: SCREEN_WIDTH * 0.085,
     marginLeft: SCREEN_WIDTH * 0.01,
+  },
+  baseball: {
+    fontSize: 13,
+    color: "#898989",
+    marginRight: SCREEN_WIDTH * 0.09,
+  },
+  badminton: {
+    fontSize: 13,
+    color: "#898989",
+    marginRight: SCREEN_WIDTH * 0.09,
   },
   signUpBtn: {
     backgroundColor: "#D3EEFF",
@@ -282,5 +400,28 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: { width: 2, height: 2 },
     elevation: 3,
+  },
+  genderPressBtn: {
+    backgroundColor: "#F3F3F3",
+    fontSize: 15,
+    textAlign: "center",
+    paddingBottom: 8,
+    paddingTop: 8,
+    width: SCREEN_WIDTH * 0.25,
+    shadowColor: "#000000",
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 2, height: 2 },
+    elevation: 3,
+    color: "black",
+    borderColor: "#FBE573",
+    borderWidth: 1,
+    marginBottom: SCREEN_HEIGHT * 0.03,
+  },
+  pressBtn: {
+    borderColor: "#FBE573",
+    borderWidth: 1,
+    height: SCREEN_HEIGHT * 0.03,
+    width: SCREEN_WIDTH * 0.08,
+    marginLeft: SCREEN_WIDTH * 0.01,
   },
 });
