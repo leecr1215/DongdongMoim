@@ -237,11 +237,11 @@ export default function Home({ navigation }) {
           </View>
           {/* 야구 부분 */}
           <View style={styles.exercises}>
-            <Text>야구</Text>
+            <Text style={styles.baseball}>야구</Text>
           </View>
           {/* 배드민턴 부분 */}
           <View style={styles.exercises}>
-            <Text>배드민턴</Text>
+            <Text style={styles.badminton}>배드민턴</Text>
           </View>
         </View>
 
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   },
   exercises: { flexDirection: "row" },
   soccer: {
-    fontSize: 15,
+    fontSize: 13,
     color: "#898989",
     marginRight: SCREEN_WIDTH * 0.09,
   },
@@ -376,6 +376,16 @@ const styles = StyleSheet.create({
     // height: SCREEN_HEIGHT * 0.028,
     // width: SCREEN_WIDTH * 0.085,
     marginLeft: SCREEN_WIDTH * 0.01,
+  },
+  baseball: {
+    fontSize: 13,
+    color: "#898989",
+    marginRight: SCREEN_WIDTH * 0.09,
+  },
+  badminton: {
+    fontSize: 13,
+    color: "#898989",
+    marginRight: SCREEN_WIDTH * 0.09,
   },
   signUpBtn: {
     backgroundColor: "#D3EEFF",
