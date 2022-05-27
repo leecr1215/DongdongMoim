@@ -96,7 +96,7 @@ class FriendDetail2(APIView):
         queryset = queryset.values(friend_username=F("user2_id__username"))
         print(str(queryset))
      
-        return Response(Util.response(True,queryset.values("friend_id", "user1_id", "user2_id", "user2_id__username"),204),status=status.HTTP_204_NO_CONTENT)
+        return Response(Util.response(True,queryset.values("friend_username"),204),status=status.HTTP_204_NO_CONTENT)
 
 class Util():
     def response(success,data,status):
