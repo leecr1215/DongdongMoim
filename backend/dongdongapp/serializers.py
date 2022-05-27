@@ -1,7 +1,8 @@
 from dataclasses import fields
 from datetime import datetime
 from rest_framework import  serializers
-from .models import CustomUser, Post, Comment, PostApplication
+
+from .models import CustomUser, Post, Comment, PostApplication, Friend
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import permissions
@@ -63,13 +64,24 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('post_id','user_id','title','content','location','meeting_date', 'post_date','required_number','age','gender','exercise','exercise_skil')
-   
+
 
 class CommentSerializer(serializers.ModelSerializer):
     #user = UserInfoSerializer(read_only= True) # 사용자 정보 받기 
     class Meta:
         model = Comment
         fields = ('user_id','post_id','text','created_date')
+
+
+class FriendSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many = True, read_only=True)
+
+    class Meta:
+        model = Friend
+        fields = ('user1_id','user2_id','status','user')
+    
+    # def get_username(self,obj):
+    #     return obj.user.username
 
 
 class PostApplicationSerializer(serializers.ModelSerializer):
