@@ -20,30 +20,30 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 export default function Home({ navigation }) {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState("M");
   const [phoneNum, setPhoneNum] = useState("");
   const [age, setAge] = useState("");
-  const [soccer, setSoccer] = useState(0);
-  const [baseball, setBaseball] = useState(0);
-  const [badminton, setBadminton] = useState(0);
+  const [soccer, setSoccer] = useState(1);
+  const [baseball, setBaseball] = useState(1);
+  const [badminton, setBadminton] = useState(1);
 
   const [isModalClick, setModalClick] = useState(false);
-  const [isGenderSelect, setGenderSelect] = useState([false, false]);
+  const [isGenderSelect, setGenderSelect] = useState([true, false]);
 
   const [isSoccerSelect, setSoccerSelect] = useState([
-    false,
+    true,
     false,
     false,
     false,
   ]);
   const [isBaseballSelect, setBaseballSelect] = useState([
-    false,
+    true,
     false,
     false,
     false,
   ]);
   const [isBadminSelect, setBadminSelect] = useState([
-    false,
+    true,
     false,
     false,
     false,
@@ -58,33 +58,38 @@ export default function Home({ navigation }) {
 
   const onPress = async () => {
     //navigation.navigate("Home");
+    if (id == "" || pw == "" || gender == "" || phoneNum == "" || age == "") {
+      alert("빈칸없이 다 입력해주세요😊");
+    } else {
+      const data = {
+        username: id, // 아이디
+        password: pw, // 비밀번호
+        gender: gender,
+        phone_number: phoneNum,
+        age: age,
+        soccer_skill: soccer,
+        baseball_skill: baseball,
+        badminton_skill: badminton,
+      };
 
-    const data = {
-      username: id, // 아이디
-      password: pw, // 비밀번호
-      gender: gender,
-      phone_number: phoneNum,
-      age: age,
-      soccer_skill: soccer,
-      baseball_skill: baseball,
-      badminton_skill: badminton,
-    };
-
-    try {
-      const response = await axios
-        .post(`http://192.168.0.12:8080/api/v1/users`, data)
-        .then(function (response) {
-          if (response.data["success"] == true) {
-            alert("회원가입되었습니다.");
-            navigation.navigate("Login");
-          }
-        })
-        .catch(function (error) {
-          alert(error.response.data);
-          console.log(error);
-        });
-    } catch (error) {
-      console.log(error);
+      try {
+        const response = await axios
+          .post(`http://192.168.0.12:8080/api/v1/users`, data)
+          .then(function (response) {
+            if (response.data["success"] == true) {
+              alert("회원가입되었습니다.");
+              navigation.navigate("Login");
+            } else {
+              alert("중복된 아이디가 존재합니다.");
+            }
+          })
+          .catch(function (error) {
+            alert(error.response.data);
+            console.log(error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -498,8 +503,8 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT * 0.025,
     width: SCREEN_WIDTH * 0.08,
     alignContent: "center",
-    borderColor: "#FBE573",
-    borderWidth: 1,
+    borderColor: "#ffd700",
+    borderWidth: 1.6,
   },
   imageStyle: {
     //borderColor: "#898989",
@@ -529,7 +534,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   genderPressBtn: {
-    backgroundColor: "#FBE573",
+    backgroundColor: "#ffd700",
     fontSize: 15,
     textAlign: "center",
     paddingBottom: 8,
@@ -540,7 +545,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     elevation: 3,
     color: "black",
-    borderColor: "#FBE573",
+    borderColor: "#ffd700",
     borderWidth: 1,
     marginBottom: SCREEN_HEIGHT * 0.05,
   },
