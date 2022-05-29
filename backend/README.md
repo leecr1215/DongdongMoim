@@ -153,3 +153,12 @@
 
 4) 친구 수락    
 [PUT] `localhost:8080/api/v1/friends/{user1_id}/{user2_id}`   
+
+### [Response Body]   
+  ```shell
+    {
+        "success": true,
+        "result": [~~~],
+        "status": 201
+    }
+```   

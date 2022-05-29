@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser
-        fields = ('id','username','password','gender','phone_number','age','soccer_skill','baseball_skill','badminton_skill')
+        fields = ('id','username','password','gender','phone_number','age','soccer_skill','baseball_skill','basketball_skill')
         extra_kwargs = {'password': {'write_only': True}, 'phone_number': {'write_only': True} }
 
 # 사용자 정보 수정 및 조회 
@@ -25,7 +25,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser
-        fields = ('id','username','gender','phone_number','age','soccer_skill','baseball_skill','badminton_skill')
+        fields = ('id','username','gender','phone_number','age','soccer_skill','baseball_skill','basketball_skill')
         extra_kwargs = { ## 유효성 검사에서 제외 
             'username': {'validators': []},
         }

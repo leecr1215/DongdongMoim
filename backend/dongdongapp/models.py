@@ -14,7 +14,7 @@ class CustomUser(AbstractUser):
     age = models.IntegerField(null=True)
     soccer_skill = models.IntegerField(null=True)
     baseball_skill = models.IntegerField(null=True)
-    badminton_skill = models.IntegerField(null=True)
+    basketball_skill = models.IntegerField(null=True)
     
     class Meta:
         db_table = 'user'
