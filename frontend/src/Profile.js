@@ -23,10 +23,11 @@ export default function Profile({ navigation }) {
       <View style={styles.container}>
           <View style={styles.head}>
           </View>
-            <View>
-                <Image style={styles.profileImage} source={require("../icon/red_logo.png")} />
+                <View style={styles.circle}>
+                  <Image style={styles.profileImage} source={require("../icon/red_logo.png")} />
+                </View>
                 <Text style={styles.username}>님의 프로필</Text>
-            </View>
+            
             <View style={styles.sideProfile}>
                 <TouchableOpacity onPress={() => navigation.navigate("???")}>
                     <Text style={styles.sideProfileText}>회원정보보기</Text>
@@ -101,11 +102,99 @@ export default function Profile({ navigation }) {
           {/* 야구 부분 */}
           <View style={styles.exercises}>
             <Text style={styles.baseball}>야구</Text>
+            <View
+              style={styles.imageStyle}
+            >
+              <TouchableOpacity onPress={() => onPressSoccer("sole")}>
+                <Image
+                  style={styles.logo}
+                  source={require("../icon/sole.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={styles.pressBtn}
+            >
+              <TouchableOpacity onPress={() => onPressSoccer("sock")}>
+                <Image
+                  style={styles.logo}
+                  source={require("../icon/sock.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={styles.imageStyle}
+            >
+              <TouchableOpacity onPress={() => onPressSoccer("slipper")}>
+                <Image
+                  style={styles.logo}
+                  source={require("../icon/slipper.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={styles.imageStyle}
+            >
+              <TouchableOpacity onPress={() => onPressSoccer("sneaker")}>
+                <Image
+                  style={styles.logo}
+                  source={require("../icon/sneaker.png")}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-          {/* 배드민턴 부분 */}
+          {/* 농구 부분 */}
           <View style={styles.exercises}>
-            <Text style={styles.badminton}>배드민턴</Text>
+            <Text style={styles.basketball}>농구</Text>
+            <View
+              style={styles.imageStyle}
+            >
+              <TouchableOpacity onPress={() => onPressSoccer("sole")}>
+                <Image
+                  style={styles.logo}
+                  source={require("../icon/sole.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={styles.pressBtn}
+            >
+              <TouchableOpacity onPress={() => onPressSoccer("sock")}>
+                <Image
+                  style={styles.logo}
+                  source={require("../icon/sock.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={styles.imageStyle}
+            >
+              <TouchableOpacity onPress={() => onPressSoccer("slipper")}>
+                <Image
+                  style={styles.logo}
+                  source={require("../icon/slipper.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={styles.imageStyle}
+            >
+              <TouchableOpacity onPress={() => onPressSoccer("sneaker")}>
+                <Image
+                  style={styles.logo}
+                  source={require("../icon/sneaker.png")}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
+        </View>
+        <View style={styles.friendIcon}>
+        <Image
+                  style={styles.logo}
+                  source={require("../icon/friends.png")}
+                  width={40}
+                  height={40}
+                />
         </View>
       </View>
     );
@@ -118,25 +207,27 @@ export default function Profile({ navigation }) {
       alignItems: "center",
     },
     head: {
-        flex: 0.4,
+        flex: 0.7,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#D3EEFF",
         width: SCREEN_WIDTH,
     },
     circle : {
-        position: "relative",
-        width : SCREEN_WIDTH * 0.4,
-        borderRadius: 50,
-        backgroundColor: "black",
+        //position: "relative",
+        width : SCREEN_WIDTH * 0.3,
+        borderRadius: 60,
+        borderColor: "black",
+        borderWidth:2,
+        alignItems: "center",
+        alignContent: "center",
+        left: -SCREEN_WIDTH*0.23, 
+        top: SCREEN_HEIGHT*0.06
     },
     profileImage: {
       resizeMode: "contain",
       width: SCREEN_WIDTH * 0.2,
-      height: SCREEN_HEIGHT * 0.13,
-      right: SCREEN_WIDTH/4,
-      top: SCREEN_HEIGHT/15,
-
+      height: SCREEN_HEIGHT * 0.13
     },
     username:{
         left: SCREEN_WIDTH*0.33,
@@ -221,8 +312,6 @@ export default function Profile({ navigation }) {
         borderColor: "#898989",
         borderWidth: 1,
         alignContent: "center",
-        // height: SCREEN_HEIGHT * 0.028,
-        // width: SCREEN_WIDTH * 0.085,
         marginLeft: SCREEN_WIDTH * 0.01,
       },
       logo: {
@@ -249,11 +338,22 @@ export default function Profile({ navigation }) {
         color: "#898989",
         marginRight: SCREEN_WIDTH * 0.09,
       },
-      badminton: {
+      basketball: {
         fontSize: 13,
         color: "#898989",
         marginRight: SCREEN_WIDTH * 0.09,
       },
-    
+      friendIcon: {
+        marginTop: SCREEN_HEIGHT*0.06,
+        marginLeft : SCREEN_WIDTH*0.65,
+        width:70,
+        height:70,
+        borderRadius:50,
+        backgroundColor:"#D3EEFF",
+        alignContent:"center",
+        alignItems:"center",
+        display: "flex",
+        justifyContent: "center"
+      }
   });
   
