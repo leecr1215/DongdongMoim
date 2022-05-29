@@ -33,7 +33,7 @@ urlpatterns = [
 
     # 게시글 신청
     path('v1/posts/<int:pk>/applicants', postApplication_views.PostApplicationList.as_view()),
-    path('v1/posts/<int:post_pk>/applicants/<int:user_pk>', postApplication_views.PostApplicationDetail.as_view())
+    path('v1/posts/<int:post_pk>/applicants/<int:user_pk>', postApplication_views.PostApplicationDetail.as_view()),
 
     path('v1/comments', comment_views.CommentList.as_view()),
     path('v1/comments/<int:pk>', comment_views.CommentDetail.as_view()),
