@@ -88,6 +88,7 @@ export default function Login({ navigation }) {
           style={styles.input}
           value={pw}
           onChangeText={setPw}
+          secureTextEntry={true}
           placeholder="비밀번호"
         />
         <TouchableOpacity

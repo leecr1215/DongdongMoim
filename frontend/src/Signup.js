@@ -25,7 +25,7 @@ export default function Home({ navigation }) {
   const [age, setAge] = useState("");
   const [soccer, setSoccer] = useState(1);
   const [baseball, setBaseball] = useState(1);
-  const [badminton, setBadminton] = useState(1);
+  const [basketball, setBasketball] = useState(1);
 
   const [isModalClick, setModalClick] = useState(false);
   const [isGenderSelect, setGenderSelect] = useState([true, false]);
@@ -42,7 +42,7 @@ export default function Home({ navigation }) {
     false,
     false,
   ]);
-  const [isBadminSelect, setBadminSelect] = useState([
+  const [isBasketballSelect, setBasketballSelect] = useState([
     true,
     false,
     false,
@@ -50,11 +50,11 @@ export default function Home({ navigation }) {
   ]);
 
   //최외각에서 뷰들을 감싸는 Constainer
-  const StyledSafeAreaView = styled.SafeAreaView`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-  `;
+  // const StyledSafeAreaView = styled.SafeAreaView`
+  //   flex: 1;
+  //   justify-content: center;
+  //   align-items: center;
+  // `;
 
   const onPress = async () => {
     //navigation.navigate("Home");
@@ -69,7 +69,7 @@ export default function Home({ navigation }) {
         age: age,
         soccer_skill: soccer,
         baseball_skill: baseball,
-        badminton_skill: badminton,
+        basketball_skill: basketball,
       };
 
       try {
@@ -155,43 +155,46 @@ export default function Home({ navigation }) {
     }
   };
 
-  const onPressBadmin = async (name) => {
+  const onPressBasket = async (name) => {
     if (name === "sole") {
-      setBadminton(1);
-      setBadminSelect([true, false, false, false]);
+      setBasketball(1);
+      setBasketballSelect([true, false, false, false]);
     } else if (name === "sock") {
-      setBadminton(2);
-      setBadminSelect([false, true, false, false]);
+      setBasketball(2);
+      setBasketballSelect([false, true, false, false]);
     } else if (name === "slipper") {
-      setBadminton(3);
-      setBadminSelect([false, false, true, false]);
+      setBasketball(3);
+      setBasketballSelect([false, false, true, false]);
     } else if (name === "sneaker") {
-      setBadminton(4);
-      setBadminSelect([false, false, false, true]);
+      setBasketball(4);
+      setBasketballSelect([false, false, false, true]);
     }
   };
 
   return (
-    <StyledSafeAreaView style={styles.container}>
-      <ExerciseModal isVisible={isModalClick} isClose={onPressModalClose} />
+    <View style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.head}>
         <Text style={styles.appText}>회원가입</Text>
       </View>
 
       <View style={styles.signUp}>
-        <TextInput
-          style={styles.input}
-          onChangeText={setId}
-          value={id}
-          placeholder="아이디(닉네임)"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={setPw}
-          value={pw}
-          placeholder="비밀번호"
-        />
+        <View>
+          <TextInput
+            style={styles.input}
+            onChangeText={setId}
+            value={id}
+            placeholder="아이디(닉네임)"
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={setPw}
+            value={pw}
+            secureTextEntry={true}
+            placeholder="비밀번호"
+          />
+        </View>
+
         <View>
           <Text style={styles.genderText}>성별</Text>
           <View style={styles.genderContainer}>
@@ -322,35 +325,35 @@ export default function Home({ navigation }) {
           </View>
           {/* 배드민턴 부분 */}
           <View style={styles.exercises}>
-            <Text style={styles.badminton}>배드민턴</Text>
+            <Text style={styles.basketball}>농구</Text>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressBadmin("sole")}>
+              <TouchableOpacity onPress={() => onPressBasket("sole")}>
                 <Image
-                  style={isBadminSelect[0] ? styles.pressBtn : styles.logo}
+                  style={isBasketballSelect[0] ? styles.pressBtn : styles.logo}
                   source={require("../icon/sole.png")}
                 />
               </TouchableOpacity>
             </View>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressBadmin("sock")}>
+              <TouchableOpacity onPress={() => onPressBasket("sock")}>
                 <Image
-                  style={isBadminSelect[1] ? styles.pressBtn : styles.logo}
+                  style={isBasketballSelect[1] ? styles.pressBtn : styles.logo}
                   source={require("../icon/sock.png")}
                 />
               </TouchableOpacity>
             </View>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressBadmin("slipper")}>
+              <TouchableOpacity onPress={() => onPressBasket("slipper")}>
                 <Image
-                  style={isBadminSelect[2] ? styles.pressBtn : styles.logo}
+                  style={isBasketballSelect[2] ? styles.pressBtn : styles.logo}
                   source={require("../icon/slipper.png")}
                 />
               </TouchableOpacity>
             </View>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressBadmin("sneaker")}>
+              <TouchableOpacity onPress={() => onPressBasket("sneaker")}>
                 <Image
-                  style={isBadminSelect[3] ? styles.pressBtn : styles.logo}
+                  style={isBasketballSelect[3] ? styles.pressBtn : styles.logo}
                   source={require("../icon/sneaker.png")}
                 />
               </TouchableOpacity>
@@ -358,11 +361,12 @@ export default function Home({ navigation }) {
           </View>
         </View>
 
-        <TouchableOpacity onPress={() => onPress()}>
+        <TouchableOpacity onPress={() => onPress()} underlayColor="white">
           <Text style={styles.signUpBtn}>확인</Text>
         </TouchableOpacity>
       </View>
-    </StyledSafeAreaView>
+      <ExerciseModal isVisible={isModalClick} isClose={onPressModalClose} />
+    </View>
   );
 }
 
@@ -483,10 +487,10 @@ const styles = StyleSheet.create({
     color: "#898989",
     marginRight: SCREEN_WIDTH * 0.08,
   },
-  badminton: {
+  basketball: {
     fontSize: 12,
     color: "#898989",
-    marginRight: SCREEN_WIDTH * 0.013,
+    marginRight: SCREEN_WIDTH * 0.08,
     marginBottom: SCREEN_HEIGHT * 0.05,
   },
   logo: {
@@ -495,7 +499,6 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.08,
     alignContent: "center",
     borderColor: "#898989",
-    backgroundColor: "#FBE573",
     borderWidth: 1,
   },
   pressBtn: {
