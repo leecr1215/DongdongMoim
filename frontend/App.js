@@ -6,6 +6,7 @@ import LoginScreen from "./src/Login";
 import HomeScreen from "./src/Home";
 import SignupScreen from "./src/Signup";
 import ProfileScreen from "./src/Profile";
+import UserinfoScreen from "./src/Userinfo";
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,11 @@ export default function App() {
           options={{ headerShown: false }}
           name="Profile"
           component={ProfileScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Userinfo"
+          component={UserinfoScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
