@@ -8,7 +8,7 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView
 )
 from .views import post_views,comment_views
-
+#url
 urlpatterns = [
     
     # 사용자 조회
