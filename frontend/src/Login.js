@@ -19,6 +19,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 export default function Login({ navigation }) {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const [idNum, setIdNum] = useState(0);
 
   const storeData = async (username) => {
     try {
@@ -41,18 +42,20 @@ export default function Login({ navigation }) {
       alert("아이디와 비밀번호를 입력해 주세요");
     } else {
       const data = {
-        username: id, // 아이디
-        password: pw, // 비밀번호
+        username: id,
+        password: pw,
       };
+      console.log(data);
 
       try {
         const response = await axios
-          .post(`localhost:8080/api/v1/token`, data)
+          .post(`http://192.168.0.12:8080/api/v1/token`, data)
           .then(function async(response) {
             if (response.data["success"] == true) {
+              setIdNum(response.data["id"]);
               alert("로그인되었습니다.");
-              storeData(id);
-              storeID(response.data["id"]);
+              const store1 = await storeData(id);
+              const store2 = await storeID(idNum);
               navigation.navigate("Home");
               setId("");
               setPw("");
@@ -63,9 +66,11 @@ export default function Login({ navigation }) {
             alert("로그인 오류입니다.");
             //console.log(error.response.data);
             console.log(error);
+            throw error;
           });
       } catch (error) {
         console.log(error);
+        throw error;
       }
     }
   };

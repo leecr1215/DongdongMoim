@@ -84,7 +84,7 @@ export default function Home({ navigation }) {
             }
           })
           .catch(function (error) {
-            alert(error.response.data);
+            //alert(error.response.data);
             console.log(error);
           });
       } catch (error) {

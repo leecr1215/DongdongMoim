@@ -1,5 +1,6 @@
 .venv
 .DS_Store
+backend/backend/settings.py
 backend/backend/__pycache__
 backend/dongdongapp/__pycache__
 backend/dongdongapp/migrations
