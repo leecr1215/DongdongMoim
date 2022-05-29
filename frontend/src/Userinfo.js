@@ -22,7 +22,28 @@ export default function Userinfo({ navigation }) {
   
     return (
       <View style={styles.container}>
-        <View style={styles.head}></View>
+        <View style={styles.head}>
+          <View style={styles.homeIcons}>
+            <Image
+              style={styles.homeLogo}
+              source={require("../icon/home.png")}
+            />
+            <View style={styles.homeLogo2}></View>
+          </View>
+          <View>
+            <Text style={styles.title}> 동동모임 </Text>
+          </View>
+          <View style={styles.icons}>
+            <Image
+              style={styles.bellLogo}
+              source={require("../icon/bell.png")}
+            />
+            <Image
+              style={styles.myPageLogo}
+              source={require("../icon/mypage.png")}
+            />
+          </View>
+        </View>
         <View style={styles.body}>
           <View style={styles.back}>
             <TouchableOpacity>
@@ -30,17 +51,17 @@ export default function Userinfo({ navigation }) {
             </TouchableOpacity>
             <Text style={styles.backText}>회원정보 보기</Text>
           </View>
-          <View>
+          <View style={styles.introContainer}>
             <Text style={styles.username}>님의 회원정보</Text>
-          </View>
-          <View style={styles.modifyinfo}>
-            <Image
-              style={styles.pencil}
-              source={require("../icon/pencil.png")}
-            />
-            <TouchableOpacity onPress={() => navigation.navigate("???")}>
-              <Text style={styles.modifyinfoText}>수정</Text>
-            </TouchableOpacity>
+            <View style={styles.modifyinfo}>
+              <Image
+                style={styles.pencil}
+                source={require("../icon/pencil.png")}
+              />
+              <TouchableOpacity onPress={() => navigation.navigate("???")}>
+                <Text style={styles.modifyinfoText}>수정</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <View style={styles.info}>
             <View style={styles.genderContainer}>
@@ -166,71 +187,115 @@ export default function Userinfo({ navigation }) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#E5E5E5",
+      backgroundColor: "white",
       alignItems: "center",
     },
     head: {
         flex: 0.13,
-        justifyContent: "center",
+        justifyContent: "space-around",
         alignItems: "center",
         backgroundColor: "#D3EEFF",
-        width: SCREEN_WIDTH
+        width: SCREEN_WIDTH,
+        flexDirection: "row"
     },
+    homeIcons : {
+        justifyContent:"flex",
+        flexDirection:"row",
+        marginTop : SCREEN_HEIGHT*0.04,
+        marginRight : 10
+  
+      },
+      title: {
+        fontSize:20,
+        marginTop : SCREEN_HEIGHT*0.04,
+        alignContent : "center",
+        marginLeft: SCREEN_WIDTH*0.05,
+        marginRight: SCREEN_WIDTH*0.05,
+      },
+      homeLogo : {
+        resizeMode: "contain",
+        width: SCREEN_WIDTH * 0.07,
+        height: SCREEN_HEIGHT * 0.13,
+      },
+      homeLogo2 : {
+        resizeMode: "contain",
+        width: SCREEN_WIDTH * 0.07,
+        height: SCREEN_HEIGHT * 0.13,
+  
+      },
+      bellLogo : {
+        resizeMode: "contain",
+        width: SCREEN_WIDTH * 0.07,
+        height: SCREEN_HEIGHT * 0.13,
+        marginRight : 10
+      },
+      icons : {
+        justifyContent:"flex",
+        flexDirection:"row",
+        marginTop : SCREEN_HEIGHT*0.04,
+      },
+      myPageLogo: {
+        resizeMode: "contain",
+        width: SCREEN_WIDTH * 0.07,
+        height: SCREEN_HEIGHT * 0.13,
+      },
     body: {
-        flex: 0.9,
-        alignItems: "center"
+        flex: 0.87,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#E5E5E5",
+        width: SCREEN_WIDTH
     },
     back:{
         flexDirection:"row",
         marginRight: SCREEN_WIDTH*0.6,
-        marginTop: SCREEN_HEIGHT*0.02,
     },
     backText:{
         fontSize: 20,
     },
+    introContainer: {
+        width: SCREEN_WIDTH*0.75,
+        marginTop: SCREEN_HEIGHT*0.04,
+        justifyContent: "space-between"
+    },
     username:{
-        left: SCREEN_WIDTH*-0.2,
-        fontSize: 25,
-        bottom: SCREEN_HEIGHT*-0.05
+        fontSize: 23,
+        fontWeight: "700"
+    },
+    modifyinfo: {
+        marginTop: SCREEN_HEIGHT*0.03,
+        marginBottom: SCREEN_HEIGHT*0.02,
+        justifyContent: 'flex-end',
+        flexDirection : "row",
     },
     pencil:{
-        marginTop: 10,
         resizeMode: "contain",
         height: SCREEN_HEIGHT * 0.02,
         width: SCREEN_WIDTH * 0.085,
         alignContent: "center", 
     },
-    modifyinfo: {
-        marginTop: 10,
-        marginLeft: SCREEN_WIDTH*0.75,
-        justifyContent: 'flex-end',
-        flexDirection : "row",
-    },
     modifyinfoText :{
-        textDecorationLine:"underline",
-        marginRight:30,
-        marginTop:10
+        textDecorationLine:"underline"
     },
     info :{
-        marginTop: 50,
-        marginBottom: 30,
         backgroundColor: "white",
         width: SCREEN_WIDTH*0.8,
-        //height: SCREEN_HEIGHT*0.6,
+        height: SCREEN_HEIGHT*0.6,
         borderRadius: 30,
-        paddingLeft: SCREEN_WIDTH*0.05,
-        paddingTop: SCREEN_HEIGHT*0.03,
-        paddingBottom: SCREEN_HEIGHT*0.05,
-        flexDirection: "column"
+        //paddingLeft: SCREEN_WIDTH*0.05,
+        //paddingTop: SCREEN_HEIGHT*0.03,
+        //paddingBottom: SCREEN_HEIGHT*0.05,
+        alignItems: "center"
     },
     subject:{
         fontSize:20,
-        marginRight: SCREEN_WIDTH/20,
         lineHeight:70,
         fontWeight: "700",
         width: 80,
     },
     genderContainer :{
+        width: SCREEN_WIDTH * 0.65,
+        justifyContent: "space-between",
         flexDirection:"row",
         alignItems: "center",
     },
@@ -239,6 +304,8 @@ export default function Userinfo({ navigation }) {
         lineHeight:70,
     },
     ageContainer :{
+        width: SCREEN_WIDTH * 0.65,
+        justifyContent: "space-between",
         flexDirection:"row",
         alignItems: "center"
     },
@@ -247,6 +314,8 @@ export default function Userinfo({ navigation }) {
         lineHeight:70,
     },
     phoneNumContainer:{
+        width: SCREEN_WIDTH * 0.65,
+        justifyContent: "space-between",
         flexDirection:"row",
         alignItems: "center",
     },
@@ -255,18 +324,18 @@ export default function Userinfo({ navigation }) {
         lineHeight:70,
     },
     exerciseContainer: { 
-      // width: SCREEN_WIDTH * 0.6,
+      width: SCREEN_WIDTH * 0.65,
     },
     exerciseTextContainer: {
-      flexDirection: "row",
-      fontWeight: "700",
-      justifyContent: "space-between",
+        width: SCREEN_WIDTH * 0.65,
+        justifyContent: "space-between",
+        flexDirection: "row",
+        fontWeight: "700",
     },
     exerciseText: { 
         fontSize: 20, 
-        marginRight: SCREEN_WIDTH/6,
-        marginTop:SCREEN_HEIGHT*0.03,
-        marginBottom:SCREEN_HEIGHT*0.05
+        //marginTop:SCREEN_HEIGHT*0.03,
+        //marginBottom:SCREEN_HEIGHT*0.05
     },
     imageStyle: {
         borderColor: "#898989",
@@ -281,8 +350,9 @@ export default function Userinfo({ navigation }) {
         alignContent: "center",
       },
       exercises: { 
+        width: SCREEN_WIDTH * 0.55,
+        justifyContent: "space-between",
         flexDirection: "row",
-        marginLeft: SCREEN_WIDTH * 0.1,
         lineHeight: 20,
       },
       soccer: {
