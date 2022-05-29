@@ -2,9 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import APIView
 from ..serializers import UserSerializer, UserInfoSerializer
 from ..models import CustomUser
-from rest_framework import permissions
-# from custom_response import Util
-from rest_framework import status
+from rest_framework import permissions, status
 
 class UserList(APIView):
     # 사용자 조회 
@@ -33,11 +31,12 @@ class UserDetail(APIView):
             return user
         except CustomUser.DoesNotExist:
             return Response(data=Util.response("NOT FOUND",400,False), status=status.HTTP_404_NOT_FOUND)
-
+    
     def get(self,request,pk):
         serializer = UserInfoSerializer(self.get_object(pk))
         return Response(Util.response(True,serializer.data,200),status=status.HTTP_200_OK)
-     
+    
+    # 회원 정보 수정 
     def put(self, request, pk, format=None):
         user = self.get_object(pk)
         serializer = UserInfoSerializer(user, data=request.data)

@@ -74,11 +74,10 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class FriendSerializer(serializers.ModelSerializer):
-    user = UserSerializer(many = True, read_only=True)
 
     class Meta:
         model = Friend
-        fields = ('user1_id','user2_id','status','user')
+        fields = ('user1_id','user2_id','status')
     
     # def get_username(self,obj):
     #     return obj.user.username

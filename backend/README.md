@@ -118,7 +118,7 @@
 [GET] `localhost:8080/api/v1/posts/{post_id}/comments`   
 
 
-### PostApplication 
+### PostApplication    
 1) 게시물 별 지원자 조회      
 [GET] `localhost:8080/api/v1/posts/{post_id}/applicants`   
 
@@ -134,3 +134,22 @@
 
 4) 사용자의 게시물 신청 취소    
 [DELETE] `localhost:8080/api/v1/posts/{post_id}/applicants/{user_id}`  
+   
+### Friend   
+1) 친구 요청    
+[POST] `localhost:8080/api/v1/friends`   
+[RequestBody]   
+    ```shell
+    {
+        "user1_id":1, // 요청한 사람 
+        "user2_id":2  // 요청받은 사람 
+    }
+    ```
+2) 친구 취소    
+[DELETE] `localhost:8080/api/v1/friends/{user1_id}/{user2_id}`   
+
+3) 나의 친구목록 조회   
+[GET] `localhost:8080/api/v2/friends/{user_id}` 
+
+4) 친구 수락    
+[PUT] `localhost:8080/api/v1/friends/{user1_id}/{user2_id}`   
