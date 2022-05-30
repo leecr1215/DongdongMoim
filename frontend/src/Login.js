@@ -19,7 +19,6 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 export default function Login({ navigation }) {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
-  const [idNum, setIdNum] = useState(0);
 
   const storeData = async (username, idNum) => {
     try {
@@ -29,14 +28,6 @@ export default function Login({ navigation }) {
       console.log(e);
     }
   };
-
-  // const storeID = async (idNum) => {
-  //   try {
-  //     await AsyncStorage.setItem("@id", JSON.stringify(idNum));
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
 
   const onPressLogin = async () => {
     if (id == "" || pw == "") {
@@ -53,14 +44,11 @@ export default function Login({ navigation }) {
           .post(`http://192.168.0.14:8080/api/v1/token`, data)
           .then(function async(response) {
             if (response.data["success"] == true) {
-              setIdNum(response.data["id"]);
               alert("로그인되었습니다.");
-              storeData(id, idNum);
-              //const store2 = await storeID(idNum);
+              storeData(id, response.data["id"].toString());
               navigation.navigate("Home");
               setId("");
               setPw("");
-              console.log(AsyncStorage.getItem("@id"));
             }
           })
           .catch(function (error) {
