@@ -12,7 +12,9 @@ import {
 import { Image } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from "expo-constants";
 
+const { manifest } = Constants;
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -41,7 +43,7 @@ export default function Login({ navigation }) {
 
       try {
         const response = await axios
-          .post(`http://192.168.0.14:8080/api/v1/token`, data)
+          .post(`http://${manifest.debuggerHost.split(':').shift()}:8080/api/v1/token`, data)
           .then(function async(response) {
             if (response.data["success"] == true) {
               alert("로그인되었습니다.");
