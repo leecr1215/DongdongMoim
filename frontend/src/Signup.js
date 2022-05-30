@@ -74,7 +74,7 @@ export default function Home({ navigation }) {
 
       try {
         const response = await axios
-          .post(`http://192.168.0.12:8080/api/v1/users`, data)
+          .post(`http://192.168.0.14:8080/api/v1/users`, data)
           .then(function (response) {
             if (response.data["success"] == true) {
               alert("회원가입되었습니다.");
