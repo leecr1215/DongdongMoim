@@ -242,7 +242,6 @@ export default function Userinfo({ navigation }) {
     body: {
         flex: 0.87,
         alignItems: "center",
-        justifyContent: "center",
         backgroundColor: "#E5E5E5",
         width: SCREEN_WIDTH
     },
