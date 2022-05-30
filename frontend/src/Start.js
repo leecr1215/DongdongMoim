@@ -9,11 +9,21 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { Image } from "react-native";
+import * as Font from "expo-font";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function Start({ navigation }) {
-  return (
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(async () => {
+    await Font.loadAsync({
+      Nanum: require("../assets/fonts/Nanum.ttf"),
+    });
+    setIsReady(true);
+  }, []);
+
+  return isReady ? (
     <View style={styles.container}>
       <View>
         <Image style={styles.logo} source={require("../icon/red_logo.png")} />
@@ -27,6 +37,10 @@ export default function Start({ navigation }) {
         </TouchableOpacity>
       </View>
     </View>
+  ) : (
+    <View>
+      <Text>로딩중..</Text>
+    </View>
   );
 }
 
@@ -39,7 +53,7 @@ const styles = StyleSheet.create({
   },
   appName: {
     fontSize: 40,
-    //fontFamily: "Nanum",
+    fontFamily: "Nanum",
   },
   appText: {
     fontSize: 20,
