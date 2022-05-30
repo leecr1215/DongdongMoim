@@ -61,7 +61,7 @@ export default function Profile({ navigation }) {
           </View>
           <View style={styles.bigLine}></View>
           <View style={styles.contentContainer}>
-            <Text style={styles.subject}>내가 올린 게시글</Text> 
+            <Text style={styles.subject}>내가 올린 게시글</Text>
             <View style={styles.listContainer}>
               <View style={styles.listHeader}>
                 <Text>글 번호</Text>
@@ -69,36 +69,51 @@ export default function Profile({ navigation }) {
                 <Text>신청인원</Text>
               </View>
               <View style={styles.smallLine}></View>
-            </View>
-            <View style={styles.uploadPostList}>
-
+              <View style={styles.uploadPostList}>
+                <View style={styles.post}>
+                  <Text>349</Text>
+                  <Text>배드민턴어쩌구</Text>
+                  <Text>1/5</Text>
+                </View>
+              </View>
             </View>
           </View>
           <View style={styles.bigLine}></View>
           <View style={styles.contentContainer}>
-            <Text style={styles.subject}>신청한 운동내역</Text> 
+            <Text style={styles.subject}>신청한 운동내역</Text>
             <View style={styles.listContainer}>
               <View style={styles.listHeader}>
                 <Text>글 번호</Text>
                 <Text>제목</Text>
-                <Text>신청인원</Text>
+                <Text>취소</Text>
               </View>
               <View style={styles.smallLine}></View>
               <View style={styles.applyExerciseList}>
-
+                <View style={styles.post}>
+                  <Text>349</Text>
+                  <Text>배드민턴 어쩌구</Text>
+                  <View style={styles.btn}>
+                    <Text>취소</Text>
+                  </View>
+                </View>
               </View>
             </View>
           </View>
           <View style={styles.bigLine}></View>
           <View style={styles.contentContainer}>
-            <Text style={styles.subject}>친구 요청 내역</Text> 
+            <Text style={styles.subject}>친구 요청 내역</Text>
             <View style={styles.listContainer}>
               <View style={styles.listHeader}>
                 <Text>닉네임</Text>
               </View>
               <View style={styles.smallLine}></View>
               <View style={styles.friendsList}>
-
+              <View style={styles.post}>
+                  <Text>jupyter</Text>
+                  <View style={styles.btn}>
+                    <Text>수락</Text>
+                  </View>
+                </View>
               </View>
             </View>
           </View>
@@ -257,6 +272,23 @@ export default function Profile({ navigation }) {
       width: SCREEN_WIDTH * 0.7,
       justifyContent: "space-between",
       flexDirection: "row"
+    },
+    post:{
+      width: SCREEN_WIDTH * 0.7,
+      justifyContent: "space-between",
+      flexDirection: "row"
+    },
+    btn: {
+      backgroundColor: "#D3EEFF",
+      fontSize: 10,
+      textAlign: "center",
+      alignItems: "center",
+      borderRadius: 100,
+      width: 40,
+      shadowColor: "#000000",
+      shadowOpacity: 0.3,
+      shadowOffset: { width: 2, height: 2 },
+      elevation: 3,
     }
   });
   
