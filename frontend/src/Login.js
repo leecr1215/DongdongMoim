@@ -43,7 +43,12 @@ export default function Login({ navigation }) {
 
       try {
         const response = await axios
-          .post(`http://${manifest.debuggerHost.split(':').shift()}:8080/api/v1/token`, data)
+          .post(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/token`,
+            data
+          )
           .then(function async(response) {
             if (response.data["success"] == true) {
               alert("로그인되었습니다.");
@@ -67,7 +72,7 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.head}>
         <Image style={styles.logo} source={require("../icon/red_logo.png")} />
@@ -99,7 +104,7 @@ export default function Login({ navigation }) {
           <Text style={styles.signupBtn}>회원가입</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

@@ -10,6 +10,7 @@ import {
 import { Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
+//import Header from "../contents/Header";
 import Header from "../contents/Header";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -40,7 +41,7 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Header />
+      <Header></Header>
       <Text></Text>
       <Text>{`안녕하세요 ${username} 님`}</Text>
       <Text>{`id번호는 ${idNum}이다`}</Text>
@@ -53,7 +54,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F3F3F3",
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
