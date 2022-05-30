@@ -71,16 +71,17 @@ export default function Profile({ navigation }) {
           <View style={styles.friendBtn}>
             <Text> 친구 신청 </Text>
           </View>
+          <View style={styles.bigLine}></View>
           <View style={styles.genderContainer}>
             <Text style={styles.subject}> 성별 </Text>
             <Text style={styles.genderText}> 여자 </Text>
           </View>
-
+          <View style={styles.bigLine}></View>
           <View style={styles.ageContainer}>
             <Text style={styles.subject}> 나이 </Text>
             <Text style={styles.ageText}> 23 </Text>
           </View>
-
+          <View style={styles.bigLine}></View>
           {/* 운동 능력 부분 */}
           <View style={styles.exerciseContainer}>
             <View style={styles.exerciseTextContainer}>
@@ -264,11 +265,10 @@ export default function Profile({ navigation }) {
     body: {
       flex: 0.87,
       alignItems: "center",
-      justifyContent: "center",
     },
     back: {
       flexDirection: "row",
-      marginRight: SCREEN_WIDTH * 0.6,
+      marginRight: SCREEN_WIDTH * 0.7,
       marginTop: SCREEN_HEIGHT*0.01,
     },
     backText: {
@@ -336,8 +336,8 @@ export default function Profile({ navigation }) {
       width: 80,
     },
     genderContainer: {
-      width: SCREEN_WIDTH * 0.55,
-      justifyContent: "space-between",
+      width: SCREEN_WIDTH * 0.66,
+      //justifyContent: "space-between",
       flexDirection: "row",
       alignItems: "center",
     },
@@ -346,8 +346,8 @@ export default function Profile({ navigation }) {
       lineHeight: 70,
     },
     ageContainer: {
-      width: SCREEN_WIDTH * 0.55,
-      justifyContent: "space-between",
+      width: SCREEN_WIDTH * 0.66,
+      //justifyContent: "space-between",
       flexDirection: "row",
       alignItems: "center",
     },
@@ -356,7 +356,7 @@ export default function Profile({ navigation }) {
       lineHeight: 70,
     },
     exerciseContainer: { 
-      width: SCREEN_WIDTH * 0.55 
+      width: SCREEN_WIDTH * 0.66
     },
     exerciseTextContainer: {
       flexDirection: "row",
@@ -373,6 +373,7 @@ export default function Profile({ navigation }) {
     skillContainer: {
       justifyContent: "flex-end",
       flexDirection: "row",
+      width: SCREEN_WIDTH * 0.5
     },
     skillText: {
       fontSize: 20,
@@ -398,7 +399,11 @@ export default function Profile({ navigation }) {
       width: SCREEN_WIDTH * 0.08,
       marginLeft: SCREEN_WIDTH * 0.01,
     },
-    exercises: { flexDirection: "row" },
+    exercises: { 
+      flexDirection: "row",
+      alignItems: "center",
+      marginLeft: SCREEN_WIDTH * 0.1 
+    },
     soccer: {
       fontSize: 13,
       color: "#898989",
@@ -426,6 +431,11 @@ export default function Profile({ navigation }) {
       alignItems: "center",
       display: "flex",
       justifyContent: "center",
+    },
+    bigLine: {
+      width: SCREEN_WIDTH,
+      height: 6,
+      backgroundColor: "#E5E5E5"
     },
   });
   
