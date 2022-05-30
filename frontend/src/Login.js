@@ -21,21 +21,22 @@ export default function Login({ navigation }) {
   const [pw, setPw] = useState("");
   const [idNum, setIdNum] = useState(0);
 
-  const storeData = async (username) => {
+  const storeData = async (username, idNum) => {
     try {
       await AsyncStorage.setItem("@username", JSON.stringify(username));
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const storeID = async (idNum) => {
-    try {
       await AsyncStorage.setItem("@id", JSON.stringify(idNum));
     } catch (e) {
       console.log(e);
     }
   };
+
+  // const storeID = async (idNum) => {
+  //   try {
+  //     await AsyncStorage.setItem("@id", JSON.stringify(idNum));
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   const onPressLogin = async () => {
     if (id == "" || pw == "") {
@@ -49,13 +50,13 @@ export default function Login({ navigation }) {
 
       try {
         const response = await axios
-          .post(`http://192.168.0.12:8080/api/v1/token`, data)
+          .post(`http://192.168.0.14:8080/api/v1/token`, data)
           .then(function async(response) {
             if (response.data["success"] == true) {
               setIdNum(response.data["id"]);
               alert("로그인되었습니다.");
-              const store1 = await storeData(id);
-              const store2 = await storeID(idNum);
+              storeData(id, idNum);
+              //const store2 = await storeID(idNum);
               navigation.navigate("Home");
               setId("");
               setPw("");
