@@ -62,7 +62,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('post_id','user_id','title','content','location','meeting_date', 'post_date','required_number','age','gender','exercise','exercise_skil')
+        fields = ('post_id','user_id','title','content','location','meeting_date', 'post_date','required_number','age','gender','exercise','exercise_skill')
    
 
 class CommentSerializer(serializers.ModelSerializer):
