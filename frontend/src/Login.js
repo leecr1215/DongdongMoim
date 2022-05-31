@@ -40,6 +40,7 @@ export default function Login({ navigation }) {
         password: pw,
       };
       console.log(data);
+      console.log(manifest.debuggerHost.split(":").shift());
 
       try {
         const response = await axios

@@ -14,25 +14,37 @@ import { AntDesign } from "@expo/vector-icons";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-const Header = () => {
+const Header = ({ navigation }) => {
   const [isReady, setIsReady] = useState(false);
 
   return (
     <View style={styles.container}>
       <View style={styles.head}>
         <View style={styles.homeIcons}>
-          <Image style={styles.homeLogo} source={require("../icon/home.png")} />
+          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+            <Image
+              style={styles.homeLogo}
+              source={require("../icon/home.png")}
+            />
+          </TouchableOpacity>
           <View style={styles.homeLogo2}></View>
         </View>
         <View>
           <Text style={styles.title}> 동동모임 </Text>
         </View>
         <View style={styles.icons}>
-          <Image style={styles.bellLogo} source={require("../icon/bell.png")} />
-          <Image
-            style={styles.myPageLogo}
-            source={require("../icon/mypage.png")}
-          />
+          <TouchableOpacity>
+            <Image
+              style={styles.bellLogo}
+              source={require("../icon/bell.png")}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              style={styles.myPageLogo}
+              source={require("../icon/mypage.png")}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </View>
