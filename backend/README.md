@@ -5,6 +5,22 @@
 ./manage.py createsuperuser    
 ./manage.py runserver 8080   
 ```
+## Database reset  
+  
+1) db.sqlite3 삭제
+```shell
+    cd backend  
+    rm db.sqlite3  
+```  
+  
+2) migrations 삭제
+```shell
+    cd migrations  
+    rm 000*  
+    rm -rf __pycache__  
+```  
+  
+  
 ## API Documentation 
 
 ### USER
@@ -21,7 +37,7 @@
         "age":23,
         "soccer_skill":1,
         "baseball_skill":1,
-        "badminton_skill":1
+        "basketball_skill":1
     }
     ```
        
@@ -49,7 +65,7 @@
         "age":23,
         "soccer_skill":2,
         "baseball_skill":1,
-        "badminton_skill":4
+        "basketball_skill":4
     }
     ```
 
@@ -66,7 +82,6 @@
 [RequestBody]    
     ```shell
     {
-            "post_id": 4,
             "user_id": 3,
             "title": "hello there",
             "content": "hellooooo",
@@ -76,7 +91,7 @@
             "required_number": 5,
             "age": 23,
             "gender": "F",
-            "exercise": "badminton",
+            "exercise": "basketball",
             "exercise_skill": 2
     }
 
@@ -98,7 +113,7 @@
             "required_number": 5,
             "age": 23,
             "gender": "F",
-            "exercise": "badminton",
+            "exercise": "basketball",
             "exercise_skill": 2
     }
     ```
