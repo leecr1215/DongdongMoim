@@ -8,13 +8,18 @@ import {
   Dimensions,
   TextInput,
   KeyboardAvoidingView,
-  Button
+  Button,
+  ScrollView
 } from "react-native";
 import { Image } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from '@expo/vector-icons'; 
 import Header from "../contents/Header";
+import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-datepicker';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {Picker} from '@react-native-picker/picker';
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -22,7 +27,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 export default function Post({ navigation }) {
   const [comments, setComments] = useState("");
     return (
-      <View style={styles.container}>
+      <View style={styles.container}>s
         <Header navigation={navigation}></Header>
         <View style={styles.body}>
           <View style={styles.back}>
