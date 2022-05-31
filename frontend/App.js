@@ -55,6 +55,26 @@ export default function App() {
           name="MyPage"
           component={MyPageScreen}
         />
+         <Stack.Screen
+          options={{ headerShown: false }}
+          name="WriteUserinfo"
+          component={WriteUserinfoScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="AlarmPage"
+          component={AlarmPageScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Post"
+          component={PostScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="PostWriting"
+          component={PostWritingScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
