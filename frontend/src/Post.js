@@ -257,4 +257,3 @@ export default function Post({ navigation }) {
       fontSize: 15
     }
   });
-  
