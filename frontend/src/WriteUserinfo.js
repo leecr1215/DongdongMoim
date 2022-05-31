@@ -14,6 +14,7 @@ import { Image } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from '@expo/vector-icons'; 
+import Header from "../contents/Header";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -106,28 +107,7 @@ export default function WriteUserinfo({ navigation }) {
   };
     return (
       <View style={styles.container}>
-        <View style={styles.head}>
-          <View style={styles.homeIcons}>
-            <Image
-              style={styles.homeLogo}
-              source={require("../icon/home.png")}
-            />
-            <View style={styles.homeLogo2}></View>
-          </View>
-          <View>
-            <Text style={styles.title}> 동동모임 </Text>
-          </View>
-          <View style={styles.icons}>
-            <Image
-              style={styles.bellLogo}
-              source={require("../icon/bell.png")}
-            />
-            <Image
-              style={styles.myPageLogo}
-              source={require("../icon/mypage.png")}
-            />
-          </View>
-        </View>
+        <Header navigation={navigation}></Header>
         <View style={styles.body}>
           <View style={styles.back}>
             <TouchableOpacity>

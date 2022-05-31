@@ -14,6 +14,7 @@ import { Image } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from '@expo/vector-icons';
+import Header from "../contents/Header";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -22,28 +23,7 @@ export default function Profile({ navigation }) {
   
     return (
       <View style={styles.container}>
-        <View style={styles.head}>
-          <View style={styles.homeIcons}>
-            <Image
-              style={styles.homeLogo}
-              source={require("../icon/home.png")}
-            />
-            <View style={styles.homeLogo2}></View>
-          </View>
-          <View>
-            <Text style={styles.title}> 동동모임 </Text>
-          </View>
-          <View style={styles.icons}>
-            <Image
-              style={styles.bellLogo}
-              source={require("../icon/bell.png")}
-            />
-            <Image
-              style={styles.myPageLogo}
-              source={require("../icon/mypage.png")}
-            />
-          </View>
-        </View>
+        <Header navigation={navigation}></Header>
         <View style={styles.body}>
           <View style={styles.back}>
             <AntDesign name="left" size={20} color="black" />
@@ -214,53 +194,6 @@ export default function Profile({ navigation }) {
       flex: 1,
       backgroundColor: "white",
       alignItems: "center",
-    },
-    head: {
-      flex: 0.13,
-      justifyContent: "space-around",
-      alignItems: "center",
-      backgroundColor: "#D3EEFF",
-      width: SCREEN_WIDTH,
-      flexDirection: "row",
-    },
-    homeIcons: {
-      justifyContent: "flex",
-      flexDirection: "row",
-      marginTop: SCREEN_HEIGHT * 0.04,
-      marginRight: 10,
-    },
-    title: {
-      fontSize: 20,
-      marginTop: SCREEN_HEIGHT * 0.04,
-      alignContent: "center",
-      marginLeft: SCREEN_WIDTH * 0.05,
-      marginRight: SCREEN_WIDTH * 0.05,
-    },
-    homeLogo: {
-      resizeMode: "contain",
-      width: SCREEN_WIDTH * 0.07,
-      height: SCREEN_HEIGHT * 0.13,
-    },
-    homeLogo2: {
-      resizeMode: "contain",
-      width: SCREEN_WIDTH * 0.07,
-      height: SCREEN_HEIGHT * 0.13,
-    },
-    bellLogo: {
-      resizeMode: "contain",
-      width: SCREEN_WIDTH * 0.07,
-      height: SCREEN_HEIGHT * 0.13,
-      marginRight: 10,
-    },
-    icons: {
-      justifyContent: "flex",
-      flexDirection: "row",
-      marginTop: SCREEN_HEIGHT * 0.04,
-    },
-    myPageLogo: {
-      resizeMode: "contain",
-      width: SCREEN_WIDTH * 0.07,
-      height: SCREEN_HEIGHT * 0.13,
     },
     body: {
       flex: 0.87,
