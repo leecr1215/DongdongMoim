@@ -59,7 +59,7 @@
 [GET] `localhost:8080/api/v1/posts/all`   
 
 2) 게시글 필터링 조회  
-[GET] `localhost:8080/api/v1/posts/all?age={age}&gender={gender}&skil={skil}`  
+[GET] `localhost:8080/api/v1/posts/all?age={age}&gender={gender}&skil={skill}`  
 
 3) 게시글 작성   
 [POST] `localhost:8080/api/v1/posts`   
@@ -77,7 +77,7 @@
             "age": 23,
             "gender": "F",
             "exercise": "badminton",
-            "exercise_skil": 2
+            "exercise_skill": 2
     }
 
 4) 게시글 조회   
@@ -99,7 +99,7 @@
             "age": 23,
             "gender": "F",
             "exercise": "badminton",
-            "exercise_skil": 2
+            "exercise_skill": 2
     }
     ```
 
