@@ -5,6 +5,22 @@
 ./manage.py createsuperuser    
 ./manage.py runserver 8080   
 ```
+## Database reset  
+  
+1) db.sqlite3 삭제
+```shell
+    cd backend  
+    rm db.sqlite3  
+```  
+  
+2) migrations 삭제
+```shell
+    cd migrations  
+    rm 000*  
+    rm -rf __pycache__  
+```  
+  
+  
 ## API Documentation 
 
 ### USER
