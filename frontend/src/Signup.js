@@ -77,7 +77,12 @@ export default function Home({ navigation }) {
 
       try {
         const response = await axios
-          .post(`http://${manifest.debuggerHost.split(':').shift()}:8080/api/v1/users`, data)
+          .post(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/users`,
+            data
+          )
           .then(function (response) {
             if (response.data["success"] == true) {
               alert("회원가입되었습니다.");

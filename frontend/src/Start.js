@@ -16,11 +16,14 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 export default function Start({ navigation }) {
   const [isReady, setIsReady] = useState(false);
 
-  useEffect(async () => {
-    await Font.loadAsync({
-      Nanum: require("../assets/fonts/Nanum.ttf"),
-    });
-    setIsReady(true);
+  useEffect(() => {
+    async function getFont() {
+      const response = await Font.loadAsync({
+        Nanum: require("../assets/fonts/Nanum.ttf"),
+      });
+      setIsReady(true);
+    }
+    getFont();
   }, []);
 
   return isReady ? (
