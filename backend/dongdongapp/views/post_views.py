@@ -33,14 +33,14 @@ class PostList(APIView):
                 final_queryset = queryset.order_by('-post_date')
             elif search_gender == None: # 스킬로 정렬하는 경우 
                 search_skill = int(search_skill)
-                queryset = Post.objects.filter(Q(age__gte=search_age) & Q(age__lt=r_age) & Q(exercise_skill=search_skil))                    
+                queryset = Post.objects.filter(Q(age__gte=search_age) & Q(age__lt=r_age) & Q(exercise_skill=search_skill))                    
                 final_queryset = queryset.order_by('-post_date')
             elif search_skill == None: # 성별로 정렬하는 경우
                 queryset = Post.objects.filter(Q(age__gte=search_age) & Q(age__lt=r_age) & Q(gender=search_gender))
                 final_queryset = queryset.order_by('-post_date')
             else: # 나이대, 성별, 스킬로 정렬하는 경우
                 search_skill = int(search_skill)
-                queryset = Post.objects.filter(age__gte=search_age, age__lt=r_age, gender=search_gender, exercise_skil=search_skil)
+                queryset = Post.objects.filter(age__gte=search_age, age__lt=r_age, gender=search_gender, exercise_skill=search_skill)
                 final_queryset = queryset.order_by('-post_date')    
         serializer = PostSerializer(final_queryset, many=True)
         return Response(Util.response(True, serializer.data, 200), status=status.HTTP_200_OK)
