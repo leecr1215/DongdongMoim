@@ -32,7 +32,7 @@ class Post(models.Model):
     age = models.IntegerField(null=True)
     gender = models.CharField(max_length=10, null=True)
     exercise = models.CharField(max_length=10, null=True)
-    exercise_skil = models.IntegerField(default=1, null=True)
+    exercise_skill = models.IntegerField(default=1, null=True)
 
 class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True, db_column="comment_id")
