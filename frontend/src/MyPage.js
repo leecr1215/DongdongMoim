@@ -8,7 +8,8 @@ import {
   Dimensions,
   TextInput,
   KeyboardAvoidingView,
-  Button
+  Button,
+  ScrollView
 } from "react-native";
 import { Image } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
@@ -69,13 +70,34 @@ export default function Profile({ navigation }) {
                 <Text>신청인원</Text>
               </View>
               <View style={styles.smallLine}></View>
-              <View style={styles.uploadPostList}>
-                <View style={styles.post}>
-                  <Text>349</Text>
-                  <Text>배드민턴어쩌구</Text>
-                  <Text>1/5</Text>
+              <ScrollView style={styles.scrollView}>
+                <View style={styles.uploadPostList}>
+                  <View style={styles.post}>
+                    <Text>349</Text>
+                    <Text>배드민턴어쩌구</Text>
+                    <Text>1/5</Text>
+                  </View>
+                  <View style={styles.smallLine}></View>
+                  <View style={styles.post}>
+                    <Text>350</Text>
+                    <Text>어쩌구</Text>
+                    <Text>1/5</Text>
+                  </View>
+                  <View style={styles.smallLine}></View>
+                  <View style={styles.post}>
+                    <Text>351</Text>
+                    <Text>어쩌구</Text>
+                    <Text>1/5</Text>
+                  </View>
+                  <View style={styles.smallLine}></View>
+                  <View style={styles.post}>
+                    <Text>352</Text>
+                    <Text>어쩌구</Text>
+                    <Text>1/5</Text>
+                  </View>
+                  <View style={styles.smallLine}></View>
                 </View>
-              </View>
+              </ScrollView>
             </View>
           </View>
           <View style={styles.bigLine}></View>
@@ -88,15 +110,26 @@ export default function Profile({ navigation }) {
                 <Text>취소</Text>
               </View>
               <View style={styles.smallLine}></View>
-              <View style={styles.applyExerciseList}>
-                <View style={styles.post}>
-                  <Text>349</Text>
-                  <Text>배드민턴 어쩌구</Text>
-                  <View style={styles.btn}>
-                    <Text>취소</Text>
+              <ScrollView style={styles.scrollView}>
+                <View style={styles.applyExerciseList}>
+                  <View style={styles.post}>
+                    <Text>349</Text>
+                    <Text>배드민턴 어쩌구</Text>
+                    <View style={styles.btn}>
+                      <Text>취소</Text>
+                    </View>
                   </View>
+                  <View style={styles.smallLine}></View>
+                  <View style={styles.post}>
+                    <Text>350</Text>
+                    <Text>농구 어쩌구</Text>
+                    <View style={styles.btn}>
+                      <Text>취소</Text>
+                    </View>
+                  </View>
+                  <View style={styles.smallLine}></View>
                 </View>
-              </View>
+              </ScrollView>
             </View>
           </View>
           <View style={styles.bigLine}></View>
@@ -107,14 +140,24 @@ export default function Profile({ navigation }) {
                 <Text>닉네임</Text>
               </View>
               <View style={styles.smallLine}></View>
-              <View style={styles.friendsList}>
-              <View style={styles.post}>
-                  <Text>jupyter</Text>
-                  <View style={styles.btn}>
-                    <Text>수락</Text>
+              <ScrollView style={styles.scrollView}>
+                <View style={styles.friendsList}>
+                  <View style={styles.post}>
+                    <Text>jupyter</Text>
+                    <View style={styles.btn}>
+                      <Text>수락</Text>
+                    </View>
                   </View>
+                  <View style={styles.smallLine}></View>
+                  <View style={styles.post}>
+                    <Text>hub</Text>
+                    <View style={styles.btn}>
+                      <Text>수락</Text>
+                    </View>
+                  </View>
+                  <View style={styles.smallLine}></View>
                 </View>
-              </View>
+              </ScrollView>
             </View>
           </View>
         </View>
@@ -186,8 +229,8 @@ export default function Profile({ navigation }) {
       width: SCREEN_WIDTH * 0.8,
       justifyContent: "space-between",
       flexDirection: "row",
-      marginTop: SCREEN_HEIGHT * 0.03,
-      marginBottom: SCREEN_HEIGHT * 0.03
+      marginTop: SCREEN_HEIGHT * 0.02,
+      marginBottom: SCREEN_HEIGHT * 0.02
     },
     circle: {
       //position: "relative",
@@ -243,7 +286,7 @@ export default function Profile({ navigation }) {
     },
     subject:{
       fontSize:20,
-      lineHeight:70,
+      lineHeight:50,
       fontWeight: "700",
       justifyContent: "flex-start",
       width: SCREEN_WIDTH*0.9,
@@ -256,39 +299,44 @@ export default function Profile({ navigation }) {
     listContainer: {
       alignItems: "center",
       justifyContent: "center",
-      marginBottom: SCREEN_HEIGHT * 0.03
+      marginBottom: SCREEN_HEIGHT * 0.01,
+      height: SCREEN_HEIGHT * 0.13,
     },
     uploadPostList: {
       width: SCREEN_WIDTH * 0.7,
-      justifyContent: "space-between",
-      flexDirection: "row"
+      justifyContent: "space-between"
     },
     applyExerciseList: {
       width: SCREEN_WIDTH * 0.7,
-      justifyContent: "space-between",
-      flexDirection: "row"
+      justifyContent: "space-between"
     },
     friendsList: {
       width: SCREEN_WIDTH * 0.7,
-      justifyContent: "space-between",
-      flexDirection: "row"
+      justifyContent: "space-between"
     },
     post:{
       width: SCREEN_WIDTH * 0.7,
       justifyContent: "space-between",
-      flexDirection: "row"
+      flexDirection: "row",
+      marginTop: SCREEN_HEIGHT * 0.005,
+      marginBottom: SCREEN_HEIGHT * 0.005
     },
     btn: {
       backgroundColor: "#D3EEFF",
-      fontSize: 10,
+      fontSize: 9,
       textAlign: "center",
       alignItems: "center",
       borderRadius: 100,
-      width: 40,
+      width: 35,
       shadowColor: "#000000",
-      shadowOpacity: 0.3,
-      shadowOffset: { width: 2, height: 2 },
+      shadowOpacity: 0.2,
+      shadowOffset: { width: 1, height: 1 },
       elevation: 3,
-    }
+      marginRight: 3
+    },
+    scrollView: {
+      backgroundColor: '#FFFFFF',
+      marginVertical: 2,
+    },
   });
   
