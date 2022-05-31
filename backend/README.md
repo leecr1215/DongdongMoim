@@ -21,7 +21,7 @@
         "age":23,
         "soccer_skill":1,
         "baseball_skill":1,
-        "badminton_skill":1
+        "basketball_skill":1
     }
     ```
        
@@ -49,7 +49,7 @@
         "age":23,
         "soccer_skill":2,
         "baseball_skill":1,
-        "badminton_skill":4
+        "basketball_skill":4
     }
     ```
 
@@ -76,7 +76,7 @@
             "required_number": 5,
             "age": 23,
             "gender": "F",
-            "exercise": "badminton",
+            "exercise": "basketball",
             "exercise_skill": 2
     }
 
@@ -98,7 +98,7 @@
             "required_number": 5,
             "age": 23,
             "gender": "F",
-            "exercise": "badminton",
+            "exercise": "basketball",
             "exercise_skill": 2
     }
     ```
