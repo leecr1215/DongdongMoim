@@ -66,7 +66,6 @@
 [RequestBody]    
     ```shell
     {
-            "post_id": 4,
             "user_id": 3,
             "title": "hello there",
             "content": "hellooooo",
