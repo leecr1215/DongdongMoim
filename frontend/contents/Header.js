@@ -33,13 +33,13 @@ const Header = ({ navigation }) => {
           <Text style={styles.title}> 동동모임 </Text>
         </View>
         <View style={styles.icons}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("AlarmPage")}>
             <Image
               style={styles.bellLogo}
               source={require("../icon/bell.png")}
             />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("MyPage")}>
             <Image
               style={styles.myPageLogo}
               source={require("../icon/mypage.png")}
