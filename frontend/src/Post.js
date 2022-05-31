@@ -16,10 +16,6 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from '@expo/vector-icons'; 
 import Header from "../contents/Header";
-import DateTimePicker from '@react-native-community/datetimepicker';
-import DatePicker from 'react-native-datepicker';
-import DropDownPicker from 'react-native-dropdown-picker';
-import {Picker} from '@react-native-picker/picker';
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -27,7 +23,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 export default function Post({ navigation }) {
   const [comments, setComments] = useState("");
     return (
-      <View style={styles.container}>s
+      <View style={styles.container}>
         <Header navigation={navigation}></Header>
         <View style={styles.body}>
           <View style={styles.back}>
@@ -94,6 +90,7 @@ export default function Post({ navigation }) {
               <Text style={styles.confirmBtnText}>등록</Text>
             </View>
           </View>
+          <ScrollView style={styles.scrollView}>
           <View style={styles.commentsListContainer}>
             <View style={styles.commentsContainer}>
               <Text style={styles.commentsName}>song2</Text>
@@ -105,7 +102,14 @@ export default function Post({ navigation }) {
               <Text style={styles.commentsContent}>저두요</Text>
               <View style={styles.smallLine}></View>
             </View>
+            <View style={styles.commentsContainer}>
+              <Text style={styles.commentsName}>future</Text>
+              <Text style={styles.commentsContent}>저두요</Text>
+              <View style={styles.smallLine}></View>
+            </View>
           </View>
+          </ScrollView>
+          
         </View>
       </View>
     );
@@ -137,15 +141,15 @@ export default function Post({ navigation }) {
       borderRadius: 20,
       alignItems: "center",
       marginTop: SCREEN_HEIGHT * 0.03,
-      marginBottom: SCREEN_HEIGHT * 0.03
+      marginBottom: SCREEN_HEIGHT * 0.01
     },
     titleContainer: {
       width: SCREEN_WIDTH * 0.7,
       justifyContent: "space-between",
       flexDirection: "row",
       alignItems: "center",
-      marginTop: SCREEN_HEIGHT*0.02,
-      marginBottom: SCREEN_HEIGHT*0.02
+      marginTop: SCREEN_HEIGHT*0.01,
+      marginBottom: SCREEN_HEIGHT*0.01
     },
     title: {
       fontSize: 17,
@@ -153,7 +157,8 @@ export default function Post({ navigation }) {
     },
     peopleContainer: {
       flexDirection: "column",
-      justifyContent: "flex-end"
+      justifyContent: "flex-end",
+      alignItems: "center"
     },
     post_peopleLogo: {
       resizeMode: "contain",
@@ -170,7 +175,7 @@ export default function Post({ navigation }) {
     },
     subject: {
       fontSize: 15,
-      lineHeight: 40,
+      lineHeight: 30,
       fontWeight: "700",
       width: 80,
     },
@@ -188,6 +193,8 @@ export default function Post({ navigation }) {
       width: SCREEN_WIDTH * 0.9,
       height: 1,
       backgroundColor: "#E5E5E5",
+      marginBottom: SCREEN_HEIGHT * 0.01,
+      marginTop: SCREEN_HEIGHT * 0.01
     },
     applyBtn: {
       backgroundColor: "#D3EEFF",
@@ -199,7 +206,7 @@ export default function Post({ navigation }) {
       shadowOpacity: 0.3,
       shadowOffset: { width: 2, height: 2 },
       elevation: 3,
-      marginBottom: SCREEN_HEIGHT * 0.03
+      marginBottom: SCREEN_HEIGHT * 0.01
     },
     btnText: {
       fontSize: 18,
@@ -212,7 +219,8 @@ export default function Post({ navigation }) {
       alignItems: "center",
     },
     input: {
-      marginBottom: SCREEN_HEIGHT * 0.02,
+      marginTop: SCREEN_HEIGHT * 0.01,
+      marginBottom: SCREEN_HEIGHT * 0.01,
       width: SCREEN_WIDTH * 0.65,
       height: SCREEN_HEIGHT * 0.03,
       borderColor: "#9C9C9C",
@@ -230,7 +238,7 @@ export default function Post({ navigation }) {
       shadowOffset: { width: 2, height: 2 },
       elevation: 3,
       marginTop: SCREEN_HEIGHT * 0.01,
-      marginBottom: SCREEN_HEIGHT * 0.03
+      marginBottom: SCREEN_HEIGHT * 0.01
     },
     confirmBtnText: {
       fontSize: 15,
@@ -238,22 +246,28 @@ export default function Post({ navigation }) {
     },
     commentsListContainer: {
       width: SCREEN_WIDTH * 0.9,
-      borderWidth: 3,
-      borderColor: "#DFDFDF",
+      //borderWidth: 3,
+      //borderColor: "#DFDFDF",
       backgroundColor: "white",
-      height: SCREEN_HEIGHT * 0.15,
+      //height: SCREEN_HEIGHT * 0.18,
       alignItems: "center"
     },
     commentsContainer: {
       flexDirection: "column",
-      width: SCREEN_WIDTH * 0.8
+      width: SCREEN_WIDTH * 0.88,
+      marginTop: SCREEN_HEIGHT * 0.01
     },
     commentsName: {
       fontSize: 13,
-      fontWeight: "500",
-      color: "#ABA8A8", 
+      fontWeight: "700",
+      color: "#ABA8A8",
     },
     commentsContent: {
-      fontSize: 15
-    }
+      fontSize: 15,
+      fontWeight: "500"
+    },
+    scrollView: {
+      backgroundColor: '#FFFFFF',
+      marginVertical: 20,
+    },
   });
