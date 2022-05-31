@@ -7,15 +7,12 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
-  KeyboardAvoidingView,
-  Button,
   ScrollView
 } from "react-native";
 import { Image } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from '@expo/vector-icons'; 
-import Header from "../contents/Header";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DatePicker from 'react-native-datepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -24,24 +21,25 @@ import {Picker} from '@react-native-picker/picker';
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-export default function PostWriting({ navigation }) {
+export default function Post({ navigation }) {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [requiredNum, setRequiredNum] = useState("");
-  const [gender, setGender] = useState("");
-  const [exerciseType, setExerciseType] = useState("");
-  const [exerciseSkill, setExerciseSkill] = useState("");
+
   const [hour, setHour] = useState("");
   const [minute, setMinute] = useState("");
   const [openTime, setOpenTime] = useState(false);
   const [openGender, setOpenGender] = useState(false);
   const [openExerciseSkill, setOpenExerciseSkill] = useState(false);
   const [openExerciseType, setOpenExerciseType] = useState(false);
-  const [value, setValue] = useState("");
-  const [selectedLanguage, setSelectedLanguage] = useState();
+
+  const [genderValue, setGenderValue] = useState("");
+  const [morningOrEveningValue, setMorningOrEveningValue] = useState("");
+  const [exerciseSkillValue, setExerciseSkillValue] = useState("");
+  const [exerciseTypeValue, setExerciseTypeValue] = useState("");
 
   const [morningOrEvening, setMorningOrEvening] = useState([
     {label: 'AM', value: 'am'},
@@ -51,6 +49,22 @@ export default function PostWriting({ navigation }) {
   const [manOrWomen, setManOrWomen ] = useState([
     {label: '여성', value: 'F'},
     {label: '남성', value: 'M'}
+  ])
+
+  const [exerciseTypes, setExerciseTypes ] = useState([
+    {label: '축구', value: 'soccer'},
+    {label: '야구', value: 'baseball'},
+    {label: '농구', value: 'basketball'}
+
+  ])
+  
+  const [exerciseSkills, setExerciseSkills ] = useState([
+    {label: '발바닥', value: 'sole'},
+    {label: '양말', value: 'sock'},
+    {label: '슬리퍼', value: 'slipper'},
+    {label: '운동화', value: 'sneaker'}
+
+
   ])
 
   const onChange = (event, selectedDate) => {
@@ -160,12 +174,12 @@ export default function PostWriting({ navigation }) {
               <DropDownPicker style={styles.timePicker}
                   placeholder="AM"
                   open={openTime}
-                  value={value}
+                  value={morningOrEveningValue}
                   containerStyle={{ width: SCREEN_WIDTH/6, alignSelf:'center' }}
                   dropDownStyle={{ width: 2, backgroundColor: '#FFFFFF'}}
                   items={morningOrEvening}
                   setOpen={setOpenTime}
-                  setValue={setValue}
+                  setValue={setMorningOrEveningValue}
                   setItems={setMorningOrEvening}
                   
                 />
@@ -206,10 +220,10 @@ export default function PostWriting({ navigation }) {
                 <DropDownPicker style={styles.genderPicker}
                   placeholder = "여"
                   open={openGender}
-                  value={value}
+                  value={genderValue}
                   items={manOrWomen}
                   setOpen={setOpenGender}
-                  setValue={setValue}
+                  setValue={setGenderValue}
                   setItems={setManOrWomen}
 
                 />
@@ -219,11 +233,11 @@ export default function PostWriting({ navigation }) {
                 <DropDownPicker style={styles.exerciseTypePicker}
                   placeholder="축구"
                   open={openExerciseType}
-                  value={value}
-                  items={manOrWomen}
+                  value={exerciseTypeValue}
+                  items={exerciseTypes}
                   setOpen={setOpenExerciseType}
-                  setValue={setValue}
-                  setItems={setManOrWomen}
+                  setValue={setExerciseTypeValue}
+                  setItems={setExerciseTypes}
                 />
                
             </View>
@@ -231,24 +245,24 @@ export default function PostWriting({ navigation }) {
                 <Text style = {styles.exerciseSkillLabel}>운동능력</Text>
                 <DropDownPicker style ={styles.exerciseSkillPicker}
                   placeholder="발바닥"
-                  open={openExerciseType}
-                  value={value}
-                  items={manOrWomen}
-                  setOpen={setOpenExerciseType}
-                  setValue={setValue}
-                  setItems={setManOrWomen}
+                  open={openExerciseSkill}
+                  value={exerciseSkillValue}
+                  items={exerciseSkills}
+                  setOpen={setOpenExerciseSkill}
+                  setValue={setExerciseSkillValue}
+                  setItems={setExerciseSkills}
                 />
             </View>
             <View style = {styles.line}></View>
             <Text style={styles.content}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </Text>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+              minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+              aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+              culpa qui officia deserunt mollit anim id est laborum.
+            </Text>
             </View>
             </ScrollView>
           </View>
