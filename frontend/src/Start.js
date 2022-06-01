@@ -35,7 +35,7 @@ export default function Start({ navigation }) {
       <Text style={styles.appText}>동네운동 모임</Text>
       <StatusBar style="auto" />
       <View style={styles.startBtn}>
-        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
           <Text style={styles.startText}>시작하기</Text>
         </TouchableOpacity>
       </View>
