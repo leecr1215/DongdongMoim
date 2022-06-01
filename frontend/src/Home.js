@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import Header from "../contents/Header";
 import DropDownPicker from "react-native-dropdown-picker";
 import { Picker } from "@react-native-picker/picker";
+import ModalDropdown from "react-native-modal-dropdown";
+import { Dropdown } from "react-native-material-dropdown-v2";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -73,7 +75,17 @@ export default function Home({ navigation }) {
     { label: "축구", value: "soccer" },
     { label: "농구", value: "basketball" },
   ];
-
+  const data = [
+    {
+      value: "Banana",
+    },
+    {
+      value: "Mango",
+    },
+    {
+      value: "Pear",
+    },
+  ];
   return (
     <View style={styles.container}>
       <Header navigation={navigation}></Header>
@@ -141,6 +153,7 @@ export default function Home({ navigation }) {
               />
             ))}
           </Picker>
+          <Dropdown label="Favorite Fruit" data={data} />
         </View>
         <View style={styles.post}></View>
       </View>
@@ -154,8 +167,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#F3F3F3",
   },
   body: {},
-  search: {},
+  search: {
+    //flexDirection: "row"
+  },
   dropdown: {
-    width: SCREEN_WIDTH * 0.5,
+    width: SCREEN_WIDTH * 0.38,
+    fontSize: 12,
   },
 });

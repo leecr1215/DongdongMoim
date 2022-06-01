@@ -21,7 +21,7 @@ const Header = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.head}>
         <View style={styles.homeIcons}>
-          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+          <TouchableOpacity onPress={() => navigation.navigate("Start")}>
             <Image
               style={styles.homeLogo}
               source={require("../icon/home.png")}
