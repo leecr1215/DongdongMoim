@@ -193,7 +193,6 @@ const styles = StyleSheet.create({
     //borderBottomColor: "gray",
     //borderBottomWidth: 0.5,
     //marginTop: 20,
-
     width: SCREEN_WIDTH * 0.15,
   },
 
