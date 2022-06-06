@@ -1,13 +1,9 @@
 from dataclasses import fields
 from datetime import datetime
-from rest_framework import  serializers
 
-from .models import CustomUser, Post, Comment, PostApplication, Friend
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework import permissions
+== == == =
 
-# 사용자 정보 생성 
+# 사용자 정보 생성
 class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = super().create(validated_data)
@@ -61,8 +57,8 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    meeting_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
-    post_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    meeting_date = serializers.DateTimeField(format="%Y/%m/%d %H:%M")
+    post_date = serializers.DateTimeField(format="%Y/%m/%d %H:%M")
 
     class Meta:
         model = Post
@@ -71,7 +67,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     created_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
-    
+
     class Meta:
         model = Comment
         fields = ('user_id','post_id','text','created_date')
