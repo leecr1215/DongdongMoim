@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -21,6 +21,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 export default function Login({ navigation }) {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const [exist, setExist] = useState(false);
 
   const storeData = async (username, idNum) => {
     try {
@@ -53,6 +54,7 @@ export default function Login({ navigation }) {
           .then(function async(response) {
             if (response.data["success"] == true) {
               alert("로그인되었습니다.");
+              console.log("id는 " + response.data["id"].toString());
               storeData(id, response.data["id"].toString());
               navigation.navigate("Home");
               setId("");
@@ -85,6 +87,7 @@ export default function Login({ navigation }) {
           value={id}
           onChangeText={setId}
           placeholder="아이디(닉네임)"
+          placeholderTextColor="#898989"
         />
         <TextInput
           style={styles.input}
@@ -92,6 +95,7 @@ export default function Login({ navigation }) {
           onChangeText={setPw}
           secureTextEntry={true}
           placeholder="비밀번호"
+          placeholderTextColor="#898989"
         />
         <TouchableOpacity
           onPress={() => {

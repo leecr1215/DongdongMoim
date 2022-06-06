@@ -39,7 +39,7 @@ const Header = ({ navigation }) => {
               source={require("../icon/bell.png")}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("MyPage")}>
+          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
             <Image
               style={styles.myPageLogo}
               source={require("../icon/mypage.png")}
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   title: {
-    fontSize: 25,
+    fontSize: 28,
     fontFamily: "Nanum",
     marginTop: SCREEN_HEIGHT * 0.04,
     alignContent: "center",

@@ -55,7 +55,7 @@ export default function App() {
           name="MyPage"
           component={MyPageScreen}
         />
-         <Stack.Screen
+        <Stack.Screen
           options={{ headerShown: false }}
           name="WriteUserinfo"
           component={WriteUserinfoScreen}

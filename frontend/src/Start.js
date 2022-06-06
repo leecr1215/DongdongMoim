@@ -8,6 +8,7 @@ import {
   Dimensions,
   KeyboardAvoidingView,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "react-native";
 import * as Font from "expo-font";
 
@@ -15,6 +16,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function Start({ navigation }) {
   const [isReady, setIsReady] = useState(false);
+  const [exist, setExist] = useState(false);
 
   useEffect(() => {
     async function getFont() {
@@ -22,9 +24,27 @@ export default function Start({ navigation }) {
         Nanum: require("../assets/fonts/Nanum.ttf"),
       });
       setIsReady(true);
+      loginUser();
     }
     getFont();
   }, []);
+
+  const loginUser = async () => {
+    const user = await AsyncStorage.getItem("@username");
+    if (user != null) {
+      setExist(true);
+    }
+  };
+
+  const onPress = () => {
+    if (exist) {
+      // 로그아웃 구현하면 이걸로 바꾸기
+      //navigation.navigate("Home");
+      navigation.navigate("Login");
+    } else {
+      navigation.navigate("Login");
+    }
+  };
 
   return isReady ? (
     <View style={styles.container}>
@@ -35,7 +55,7 @@ export default function Start({ navigation }) {
       <Text style={styles.appText}>동네운동 모임</Text>
       <StatusBar style="auto" />
       <View style={styles.startBtn}>
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity onPress={() => onPress()}>
           <Text style={styles.startText}>시작하기</Text>
         </TouchableOpacity>
       </View>
