@@ -107,41 +107,6 @@ export default function PostWriting({ navigation }) {
               onSelectedChange={date => setSelectedDate(date)}
               />
             </View>
-            <View style= {styles.timeContainer}>
-              <Text style={styles.timeLabel}>모임시간</Text>
-              <DropDownPicker style={styles.timePicker}
-                  placeholder="AM"
-                  open={openTime}
-                  value={morningOrEveningValue}
-                  containerStyle={styles.dropDownContainer}
-                  dropDownStyle={{ width: 100, backgroundColor: '#FFFFFF'}}
-                  items={morningOrEvening}
-                  setOpen={setOpenTime}
-                  setValue={setMorningOrEveningValue}
-                  setItems={setMorningOrEvening}
-                  listMode="SCROLLVIEW"
-                />
-              <View style={styles.timeHourMinuteContainer}>
-                <TextInput
-                style={styles.timeInput}
-                onChangeText={setHour}
-                value={hour}
-                placeholder="00"
-                keyboardType="numeric"
-                maxLength={3}
-              />
-              <Text style={{ zIndex: 900 }}>시  </Text>
-              <TextInput
-                style={styles.timeInput}
-                onChangeText={setMinute}
-                value={minute}
-                placeholder="00"
-                keyboardType="numeric"
-                maxLength={3}
-              />
-              <Text style={{ zIndex: 900 }}>분</Text>
-              </View>
-            </View>
             <View style = {styles.requiredNumContainer}>
             <Text style={styles.requiredNumLabel}>필요인원</Text>
               <TextInput
@@ -199,6 +164,7 @@ export default function PostWriting({ navigation }) {
             <TextInput
                 style={styles.content}
                 value={content}
+                onChangeText={setContent}
                 maxLength={500}
                 placeholder = "운동 모임에 필요한 내용을 적어주세요!"
                 placeholderTextColor="#E5E5E5"
@@ -318,48 +284,7 @@ export default function PostWriting({ navigation }) {
       marginRight:10,
       marginBottom : SCREEN_HEIGHT*0.01
     },
-    timeContainer : {
-      flexDirection:"row",
-      width: SCREEN_WIDTH*0.7,
-      marginTop : -SCREEN_HEIGHT*0.05,
-      marginBottom : SCREEN_HEIGHT*0.01,
-      zIndex : 900
-    },
-    timePicker : {
-      width :  SCREEN_WIDTH/5,  
-      marginTop: SCREEN_HEIGHT*0.01,
-      zIndex : 900
-    },
-    timeLabel : {
-      fontSize : 16,
-      marginRight:10,
-      marginTop : SCREEN_HEIGHT*0.05,
-      zIndex : 900
-    },
-    hourInput : {
-      marginLeft : -SCREEN_WIDTH*0.4,
-      zIndex : 900
-    },
-    timeInput : {
-      borderLeftWidth: 0,
-      borderRightWidth: 0,
-      borderTopWidth: 0,
-      borderBottomWidth: 1,
-      marginBottom: SCREEN_HEIGHT * 0.05,
-      marginLeft:10,
-      width: SCREEN_WIDTH * 0.05,
-      zIndex : 900
-    },
-    minuteInput : {
-      marginLeft : SCREEN_WIDTH*0.1,
-      zIndex : 900
-    },
-    timeHourMinuteContainer : {
-      zIndex : 900,
-      flexDirection:"row",
-      height: "auto",
-      marginTop : SCREEN_HEIGHT*0.05,
-    },
+    
     exerciseTypeContainer : {
       flexDirection:"row",
       marginRight: SCREEN_WIDTH*0.1,
