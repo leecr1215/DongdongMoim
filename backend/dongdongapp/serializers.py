@@ -7,10 +7,6 @@ from .models import CustomUser, Post, Comment, PostApplication, Friend
 from rest_framework import serializers
 from dataclasses import fields
 from datetime import datetime
-<< << << < HEAD
-
-== == == =
->>>>>> > feature/post_api
 
 # 사용자 정보 생성
 
