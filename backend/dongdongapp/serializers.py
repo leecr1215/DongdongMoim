@@ -61,13 +61,17 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    meeting_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    post_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+
     class Meta:
         model = Post
         fields = ('post_id','user_id','title','content','location','meeting_date', 'post_date','required_number','age','gender','exercise','exercise_skill')
    
 
 class CommentSerializer(serializers.ModelSerializer):
-    #user = UserInfoSerializer(read_only= True) # 사용자 정보 받기 
+    created_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    
     class Meta:
         model = Comment
         fields = ('user_id','post_id','text','created_date')
