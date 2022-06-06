@@ -8,7 +8,8 @@ import {
   Dimensions,
   TextInput,
   ScrollView,
-  FlatList
+  FlatList,
+  KeyboardAvoidingView
 } from "react-native";
 import { Image } from "react-native";
 import axios from "axios";
@@ -148,7 +149,7 @@ AsyncStorage.getItem('@id').then((userid) =>
                     source={require("../icon/x.png")}
             />  
             </TouchableOpacity>
-            <ScrollView nestedScrollEnabled={true} style={styles.scrollView}>
+            <ScrollView nestedScrollEnabled={true} style={styles.scrollView} persistentScrollbar={true}>
             <View style={styles.postInfo}>
             <View style={styles.titleContainer}>
               <Text style={styles.titleLabel}>제목</Text>
@@ -243,6 +244,7 @@ AsyncStorage.getItem('@id').then((userid) =>
                   listMode="SCROLLVIEW"
                 />
             </View>
+            <KeyboardAvoidingView behavior="padding" enabled>
             <View style = {styles.line}></View>
             <TextInput
                 style={styles.content}
@@ -252,6 +254,7 @@ AsyncStorage.getItem('@id').then((userid) =>
                 placeholder = "운동 모임에 필요한 내용을 적어주세요!"
                 placeholderTextColor="#E5E5E5"
               />
+              </KeyboardAvoidingView>
             </View>
             </ScrollView>
           </View>
