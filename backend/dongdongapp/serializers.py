@@ -36,10 +36,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
         }
 
 # jwt token 결과 커스텀
-
-
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-
     # response 커스텀
     default_error_messages = {
         'no_active_account': {'message': 'username or password is incorrect!',

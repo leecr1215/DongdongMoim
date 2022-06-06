@@ -36,6 +36,7 @@ export default function PostWriting({ navigation }) {
   const [exerciseTypeValue, setExerciseTypeValue] = useState("soccer");
   const [content, setContent] = useState("");
   const [age,setAge] = useState(0);
+  const [applicantNum,setApplicantNum] = useState(0);
 
   const [openGender, setOpenGender] = useState(false);
   const [openExerciseSkill, setOpenExerciseSkill] = useState(false);
@@ -93,7 +94,8 @@ AsyncStorage.getItem('@id').then((userid) =>
         "age": age,
         "gender": genderValue,
         "exercise": exerciseTypeValue,
-        "exercise_skill": exerciseSkillValue
+        "exercise_skill": exerciseSkillValue,
+        "applicant_num": applicantNum
       };
       try {
         console.log(data);
@@ -193,10 +195,10 @@ AsyncStorage.getItem('@id').then((userid) =>
                   placeholder="축구"
                   open={openExerciseType}
                   containerStyle={styles.dropDownContainer}
-                  value={"soccer"}
                   items={exerciseTypes}
                   setOpen={setOpenExerciseType}
                   setValue={setExerciseTypeValue}
+                  value={exerciseTypeValue}
                   setItems={setExerciseTypes}
                   onChangeValue = {setExerciseTypeValue}
                   listMode="SCROLLVIEW"
@@ -211,6 +213,7 @@ AsyncStorage.getItem('@id').then((userid) =>
                   items={exerciseSkills}
                   setOpen={setOpenExerciseSkill}
                   setValue={setExerciseSkillValue}
+                  value={exerciseSkillValue}
                   setItems={setExerciseSkills}
                   onChangeValue= {setExerciseSkillValue}
                   listMode="SCROLLVIEW"
@@ -225,6 +228,7 @@ AsyncStorage.getItem('@id').then((userid) =>
                   items={ages}
                   setOpen={setOpenAge}
                   setValue={setAge}
+                  value={age}
                   setItems={setAges}
                   onChangeValue= {setAge}
                   listMode="SCROLLVIEW"
@@ -239,6 +243,7 @@ AsyncStorage.getItem('@id').then((userid) =>
                   items={manOrWomen}
                   setOpen={setOpenGender}
                   setValue={setGenderValue}
+                  value={genderValue}
                   setItems={setManOrWomen}
                   onChangeValue= {setGenderValue}
                   listMode="SCROLLVIEW"

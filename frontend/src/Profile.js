@@ -20,7 +20,44 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function Profile({ navigation }) {
-  
+
+  AsyncStorage.getItem('@id').then((userid) =>
+  setUserId(userid.slice(1, -1))
+  );
+
+  const opPressCreateFriend = async () => {
+    
+      var data = {
+        "user1_id": userId,
+        "user2_id": title,
+      };
+      try {
+        console.log(data);
+        const response = await axios
+          .post(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/friends`,
+            data
+          )
+          .then(function async(response) {
+            if (response.data["success"] == true) {
+              alert("친구 신청이 완료되었습니다.");
+              navigation.navigate("Profile");
+            }
+          })
+          .catch(function (error) {
+            alert("친구 신청 오류입니다.");
+            //console.log(error.response.data);
+            console.log(error);
+            throw error;
+          });
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    
+
     return (
       <View style={styles.container}>
         <Header navigation={navigation}></Header>
@@ -48,9 +85,13 @@ export default function Profile({ navigation }) {
             </View>
           </View>
 
-          <View style={styles.friendBtn}>
-            <Text> 친구 신청 </Text>
-          </View>
+          <TouchableOpacity oonPress={() => {
+            opPressCreateFriend();
+          }}>
+            <View style={styles.friendBtn}>
+              <Text> 친구 신청 </Text>
+            </View>
+          </TouchableOpacity>
           <View style={styles.bigLine}></View>
           <View style={styles.genderContainer}>
             <Text style={styles.subject}> 성별 </Text>
@@ -188,6 +229,7 @@ export default function Profile({ navigation }) {
       </View>
     );
   }
+}
 
   const styles = StyleSheet.create({
     container: {
