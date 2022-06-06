@@ -16,7 +16,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DatePicker from 'react-native-modern-datepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Header from "../contents/Header";
-import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -31,9 +30,9 @@ export default function PostWriting({ navigation }) {
   const [meetingDate, setMeetingDate] = useState(new Date());
   const [postDate, setPostDate] = useState(new Date());
   const [requiredNum, setRequiredNum] = useState(0);
-  const [genderValue, setGenderValue] = useState("");
-  const [exerciseSkillValue, setExerciseSkillValue] = useState("");
-  const [exerciseTypeValue, setExerciseTypeValue] = useState("");
+  const [genderValue, setGenderValue] = useState("I");
+  const [exerciseSkillValue, setExerciseSkillValue] = useState("0");
+  const [exerciseTypeValue, setExerciseTypeValue] = useState("soccer");
   const [content, setContent] = useState("");
   const [age,setAge] = useState(0);
 
@@ -78,7 +77,7 @@ AsyncStorage.getItem('@id').then((userid) =>
     );
 
   const opPressCreatePost = async () => {
-    if (title == "" || location== "" || requiredNum == 0) {
+    if (title == "" || location== "" || requiredNum == 0 || content == "") {
       alert("빈칸을 채워주세요!");
     }
     else {
@@ -206,7 +205,6 @@ AsyncStorage.getItem('@id').then((userid) =>
                   placeholder="무관"
                   open={openExerciseSkill}
                   containerStyle={{width: SCREEN_WIDTH/4, alignSelf:'center', backgroundColor : 'white'}}
-                  value={0}
                   items={exerciseSkills}
                   setOpen={setOpenExerciseSkill}
                   setValue={setExerciseSkillValue}
@@ -221,7 +219,6 @@ AsyncStorage.getItem('@id').then((userid) =>
                   placeholder = "무관"
                   open={openAge}
                   containerStyle={styles.dropDownContainer}
-                  value={0}
                   items={ages}
                   setOpen={setOpenAge}
                   setValue={setAge}
@@ -236,7 +233,6 @@ AsyncStorage.getItem('@id').then((userid) =>
                   placeholder = "무관"
                   open={openGender}
                   containerStyle={styles.dropDownContainer}
-                  value={"I"}
                   items={manOrWomen}
                   setOpen={setOpenGender}
                   setValue={setGenderValue}
