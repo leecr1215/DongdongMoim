@@ -9,8 +9,6 @@ from dataclasses import fields
 from datetime import datetime
 
 # 사용자 정보 생성
-
-
 class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = super().create(validated_data)
@@ -69,8 +67,8 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    meeting_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
-    post_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    meeting_date = serializers.DateTimeField(format="%Y/%m/%d %H:%M")
+    post_date = serializers.DateTimeField(format="%Y/%m/%d %H:%M")
 
     class Meta:
         model = Post
@@ -79,7 +77,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    created_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    created_date = serializers.DateTimeField(format="%Y/%m/%d %H:%M")
 
     class Meta:
         model = Comment
