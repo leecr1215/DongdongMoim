@@ -46,7 +46,7 @@ class PostApplicationDetail(APIView):
             return Response(Util.response(True, {"application": False}, 200), status=status.HTTP_200_OK)
 
     # user의 post 신청
-    def put(self, request, post_pk, user_pk):
+    def post(self, request, post_pk, user_pk):
         serializer = PostApplicationSerializer(
             data={'user_id': user_pk, 'post_id': post_pk})
         if serializer.is_valid():
