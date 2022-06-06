@@ -311,7 +311,7 @@ AsyncStorage.getItem('@id').then((userid) =>
         resizeMode: "contain",
         height: SCREEN_HEIGHT * 0.025,
         width: SCREEN_WIDTH * 0.08,
-        marginLeft: SCREEN_WIDTH*0.6,
+        marginLeft: SCREEN_WIDTH*0.7,
         marginTop: -SCREEN_HEIGHT*0.05
     },
     postInfo : {
