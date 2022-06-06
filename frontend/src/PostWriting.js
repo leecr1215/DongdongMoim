@@ -142,10 +142,12 @@ AsyncStorage.getItem('@id').then((userid) =>
             <View style={styles.postHeader}>
                 <Text style={styles.postHeaderText}> 게시물 등록 </Text>
             </View>
+            <TouchableOpacity onPress={() => navigation.navigate("Home")}>
             <Image
                     style={styles.x}
                     source={require("../icon/x.png")}
             />  
+            </TouchableOpacity>
             <ScrollView nestedScrollEnabled={true} style={styles.scrollView}>
             <View style={styles.postInfo}>
             <View style={styles.titleContainer}>
