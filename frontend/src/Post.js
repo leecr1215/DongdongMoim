@@ -20,8 +20,10 @@ import Header from "../contents/Header";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-export default function Post({ navigation }) {
+export default function Post({ route, navigation }) {
   const [comments, setComments] = useState("");
+  const { postId } = route.params;
+  console.log("!!!!!!!!!!!!"+postId);
   return (
     <View style={styles.container}>
       <Header navigation={navigation}></Header>
