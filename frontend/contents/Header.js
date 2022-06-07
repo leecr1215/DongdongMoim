@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
+  StatusBar,
 } from "react-native";
 import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
     flex: 0.13,
     backgroundColor: "white",
     alignItems: "center",
+    alignContent: "center",
   },
   head: {
     flex: 1,

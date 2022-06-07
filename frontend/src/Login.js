@@ -97,13 +97,15 @@ export default function Login({ navigation }) {
           placeholder="비밀번호"
           placeholderTextColor="#898989"
         />
-        <TouchableOpacity
-          onPress={() => {
-            onPressLogin();
-          }}
-        >
-          <Text style={styles.loginBtn}>로그인</Text>
-        </TouchableOpacity>
+        <View style={styles.loginBtn}>
+          <TouchableOpacity
+            onPress={() => {
+              onPressLogin();
+            }}
+          >
+            <Text style={styles.loginText}>로그인</Text>
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
           <Text style={styles.signupBtn}>회원가입</Text>
@@ -153,7 +155,6 @@ const styles = StyleSheet.create({
   },
   loginBtn: {
     backgroundColor: "#D3EEFF",
-    fontSize: 17,
     alignItems: "center",
     textAlign: "center",
     paddingBottom: 8,
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     marginBottom: SCREEN_HEIGHT * 0.08,
   },
+  loginText: { fontSize: 17 },
   signupBtn: {
     borderBottomWidth: 1,
     alignItems: "center",
