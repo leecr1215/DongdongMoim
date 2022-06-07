@@ -127,114 +127,138 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={"#D3EEFF"} />
-      <Header navigation={navigation}></Header>
-      <View style={styles.search}>
-        <Dropdown
-          style={styles.dropdown}
-          containerStyle={styles.shadow}
-          data={ageItems}
-          labelField="label"
-          valueField="value"
-          label="Dropdown"
-          placeholder="연령"
-          value={selectedAge}
-          onChange={(item) => {
-            setSelectedAge(item.value);
-            console.log("selected", item);
-          }}
-          autoScroll
-          renderItem={(item) => _renderItem(item)}
-          textError="Error"
-          placeholderStyle={styles.selectedText}
-          selectedTextStyle={styles.selectedText}
-        />
-        <Dropdown
-          style={styles.dropdown}
-          containerStyle={styles.shadow}
-          data={genderItems}
-          labelField="label"
-          valueField="value"
-          label="Dropdown"
-          placeholder="성별"
-          value={selectedGender}
-          onChange={(item) => {
-            setSelectedGender(item.value);
-            console.log("selected", item);
-          }}
-          renderItem={(item) => _renderItem(item)}
-          textError="Error"
-          placeholderStyle={styles.selectedText}
-          selectedTextStyle={styles.selectedText}
-        />
-        <Dropdown
-          style={styles.dropdown}
-          containerStyle={styles.shadow}
-          data={skillItems}
-          labelField="label"
-          valueField="value"
-          label="Dropdown"
-          placeholder="능력"
-          value={selectedSkill}
-          onChange={(item) => {
-            setSelectedSkill(item.value);
-            console.log("selected", item);
-          }}
-          renderItem={(item) => _renderItem(item)}
-          textError="Error"
-          placeholderStyle={styles.selectedText}
-          selectedTextStyle={styles.selectedText}
-        />
-        <Dropdown
-          style={styles.dropdown}
-          containerStyle={styles.shadow}
-          data={exerItems}
-          labelField="label"
-          valueField="value"
-          label="Dropdown"
-          placeholder="운동"
-          value={selectedExercise}
-          autoScroll
-          onChange={(item) => {
-            setSelectedExercise(item.value);
-            console.log("selected", item);
-          }}
-          renderItem={(item) => _renderItem(item)}
-          textError="Error"
-          placeholderStyle={styles.selectedText}
-          selectedTextStyle={styles.selectedText}
-        />
-        <TouchableOpacity onPress={() => navigation.navigate("PostWriting")}>
-          <Image
-            style={styles.postWriteLogo}
-            source={require("../icon/post_write.png")}
-          />
-        </TouchableOpacity>
-      </View>
+      {/* <StatusBar backgroundColor={"#D3EEFF"} translucent={false} /> */}
+      <Header navigation={navigation} />
       <View style={styles.body}>
+        <View style={styles.search}>
+          <Dropdown
+            style={styles.dropdown}
+            containerStyle={styles.shadow}
+            data={ageItems}
+            labelField="label"
+            valueField="value"
+            label="Dropdown"
+            placeholder="연령"
+            value={selectedAge}
+            onChange={(item) => {
+              setSelectedAge(item.value);
+              console.log("selected", item);
+            }}
+            autoScroll
+            renderItem={(item) => _renderItem(item)}
+            textError="Error"
+            placeholderStyle={styles.selectedText}
+            selectedTextStyle={styles.selectedText}
+          />
+          <Dropdown
+            style={styles.dropdown}
+            containerStyle={styles.shadow}
+            data={genderItems}
+            labelField="label"
+            valueField="value"
+            label="Dropdown"
+            placeholder="성별"
+            value={selectedGender}
+            onChange={(item) => {
+              setSelectedGender(item.value);
+              console.log("selected", item);
+            }}
+            renderItem={(item) => _renderItem(item)}
+            textError="Error"
+            placeholderStyle={styles.selectedText}
+            selectedTextStyle={styles.selectedText}
+          />
+          <Dropdown
+            style={styles.dropdown}
+            containerStyle={styles.shadow}
+            data={skillItems}
+            labelField="label"
+            valueField="value"
+            label="Dropdown"
+            placeholder="능력"
+            value={selectedSkill}
+            onChange={(item) => {
+              setSelectedSkill(item.value);
+              console.log("selected", item);
+            }}
+            renderItem={(item) => _renderItem(item)}
+            textError="Error"
+            placeholderStyle={styles.selectedText}
+            selectedTextStyle={styles.selectedText}
+          />
+          <Dropdown
+            style={styles.dropdown}
+            containerStyle={styles.shadow}
+            data={exerItems}
+            labelField="label"
+            valueField="value"
+            label="Dropdown"
+            placeholder="운동"
+            value={selectedExercise}
+            autoScroll
+            onChange={(item) => {
+              setSelectedExercise(item.value);
+              console.log("selected", item);
+            }}
+            renderItem={(item) => _renderItem(item)}
+            textError="Error"
+            placeholderStyle={styles.selectedText}
+            selectedTextStyle={styles.selectedText}
+          />
+          <TouchableOpacity onPress={() => navigation.navigate("PostWriting")}>
+            <Image
+              style={styles.postWriteLogo}
+              source={require("../icon/post_write.png")}
+            />
+          </TouchableOpacity>
+        </View>
         <View style={styles.postContainer}>
           <ScrollView style={styles.scrollView} persistentScrollbar={true}>
             {postCheck ? (
               postData.map((post, index) => (
-                <View style={styles.scrollChild}>
-                  <View style={styles.postIdDate}>
-                    <Text key={post["post_date"]}>{post["post_id"]}</Text>
-                    <Text key={index * post["post_id"] + 2}>
-                      {post["post_date"].split(" ")[0]}
-                    </Text>
-                  </View>
-                  <View style={styles.postTitleNumber}>
-                    <Text key={index * post["post_id"] + 3}>
-                      {post["title"]}
-                    </Text>
-                    <View>
-                      <Text key={index * post["post_id"] + 4}>신청완료</Text>
-                      <Text key={index * post["post_id"] + 5}>
-                        {post["required_number"]}
+                <TouchableOpacity onPress={() => navigation.navigate("Post")}>
+                  <View style={styles.scrollChild}>
+                    <View style={styles.postIdDate}>
+                      <Text key={post["post_date"]} style={styles.postId}>
+                        {post["post_id"]}
+                      </Text>
+                      <Text
+                        key={post["post_date"] + "1"}
+                        style={styles.postDate}
+                      >
+                        {post["post_date"].split(" ")[0]}
                       </Text>
                     </View>
+                    <View style={styles.postTitleNumber}>
+                      <Text
+                        key={post["post_date"] + "2"}
+                        style={styles.postTitle}
+                      >
+                        {post["title"]}
+                      </Text>
+                      <View style={styles.postApplyNumber}>
+                        {post["isApply"] ? (
+                          <Text
+                            key={post["post_date"] + "3"}
+                            style={styles.applyStyle}
+                          >
+                            신청완료
+                          </Text>
+                        ) : (
+                          <Text key={post["post_date"] + "4"}></Text>
+                        )}
+                        <Text
+                          key={post["post_date"] + "5"}
+                          style={styles.applicantsNum}
+                        >
+                          {post["applicantsNum"] +
+                            "/" +
+                            post["required_number"]}
+                        </Text>
+                      </View>
+                    </View>
                   </View>
-                </View>
+                </TouchableOpacity>
               ))
             ) : (
               <></>
@@ -251,9 +275,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F3F3F3",
   },
-  body: {
-    flex: 0.87,
-  },
+  body: { flex: 0.87 },
   search: {
     width: SCREEN_WIDTH * 0.9,
     height: SCREEN_HEIGHT * 0.05,
@@ -321,6 +343,30 @@ const styles = StyleSheet.create({
     borderBottomColor: "#dcdcdc",
     borderBottomWidth: 1,
   },
-  postIdDate: {},
-  postTitleNumber: {},
+  /* 불러온 게시글 */
+  postIdDate: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    fontSize: 13,
+  },
+  postId: { color: "#898989", fontSize: 13 },
+  postDate: { color: "#898989", fontSize: 13 },
+  postTitleNumber: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingLeft: 10,
+    paddingRight: 10,
+    alignContent: "center",
+    alignItems: "center",
+    paddingTop: 10,
+  },
+  postTitle: { fontWeight: "500" },
+  postApplyNumber: {
+    alignItems: "center",
+  },
+  applyStyle: { color: "red", fontSize: 12, paddingBottom: 5 },
+  applicantsNum: { color: "#0500FF", fontSize: 12, paddingBottom: 10 },
 });
