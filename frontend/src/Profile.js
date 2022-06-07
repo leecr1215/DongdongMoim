@@ -20,6 +20,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function Profile({ navigation }) {
+  const [userId,setUserId] = useState(0);
 
   AsyncStorage.getItem('@id').then((userid) =>
   setUserId(userid.slice(1, -1))
@@ -56,7 +57,7 @@ export default function Profile({ navigation }) {
         console.log(error);
         throw error;
       }
-    
+  }
 
     return (
       <View style={styles.container}>
@@ -229,7 +230,7 @@ export default function Profile({ navigation }) {
       </View>
     );
   }
-}
+
 
   const styles = StyleSheet.create({
     container: {
