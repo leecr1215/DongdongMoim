@@ -243,7 +243,9 @@ export default function Home({ navigation }) {
               postData.map((post, index) => (
                 <TouchableOpacity
                   key={post["post_date"]}
-                  onPress={() => navigation.navigate("Post")}
+                  onPress={() =>
+                    navigation.navigate("Post", { postId: post["post_id"] })
+                  }
                 >
                   <View style={styles.scrollChild}>
                     <View style={styles.postIdDate}>
