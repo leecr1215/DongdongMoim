@@ -8,17 +8,16 @@ import {
   ScrollView,
   StatusBar,
   Platform,
+  Image,
 } from "react-native";
-import { Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import Header from "../contents/Header";
 import axios from "axios";
-//import DropDownPicker from "react-native-dropdown-picker";
-import { Picker } from "@react-native-picker/picker";
 import { Dropdown } from "react-native-element-dropdown";
 import Constants from "expo-constants";
 import { useIsFocused } from "@react-navigation/native";
+import * as Location from "expo-location";
 
 const { manifest } = Constants;
 
@@ -28,6 +27,8 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 export default function Home({ navigation }) {
   const [username, setUsername] = useState();
   const [idNum, setIdNum] = useState();
+  const [city, setCity] = useState("Loading...");
+  const [permission, setPermission] = useState(true);
 
   const [selectedAge, setSelectedAge] = useState(null);
   const [selectedGender, setSelectedGender] = useState(null);
@@ -39,6 +40,25 @@ export default function Home({ navigation }) {
 
   const focus = useIsFocused();
 
+  // 사용자 위치 가져오는 부분
+  const getLocation = async () => {
+    const { granted } = await Location.requestForegroundPermissionsAsync();
+    if (!granted) {
+      setPermission(false);
+    }
+    const {
+      coords: { latitude, longitude },
+    } = await Location.getCurrentPositionAsync({ accuracy: 5 });
+
+    const location = await Location.reverseGeocodeAsync(
+      { latitude, longitude },
+      { useGoogleMaps: false }
+    );
+
+    setCity(location[0].region);
+    console.log(location[0]);
+  };
+
   const setData = async (data) => {
     try {
       await setPostData(data);
@@ -47,6 +67,7 @@ export default function Home({ navigation }) {
       console.log(e);
     }
   };
+
   useEffect(() => {
     async function getData() {
       try {
@@ -81,6 +102,7 @@ export default function Home({ navigation }) {
       }
     }
     getData();
+    getLocation();
   }, [setPostData, focus]);
 
   const storage1 = AsyncStorage.getItem("@username").then((name) =>
@@ -219,41 +241,26 @@ export default function Home({ navigation }) {
           <ScrollView style={styles.scrollView} persistentScrollbar={true}>
             {postCheck ? (
               postData.map((post, index) => (
-                <TouchableOpacity onPress={() => navigation.navigate("Post")}>
+                <TouchableOpacity
+                  key={post["post_date"]}
+                  onPress={() => navigation.navigate("Post")}
+                >
                   <View style={styles.scrollChild}>
                     <View style={styles.postIdDate}>
-                      <Text key={post["post_date"]} style={styles.postId}>
-                        {post["post_id"]}
-                      </Text>
-                      <Text
-                        key={post["post_date"] + "1"}
-                        style={styles.postDate}
-                      >
+                      <Text style={styles.postId}>{post["post_id"]}</Text>
+                      <Text style={styles.postDate}>
                         {post["post_date"].split(" ")[0]}
                       </Text>
                     </View>
                     <View style={styles.postTitleNumber}>
-                      <Text
-                        key={post["post_date"] + "2"}
-                        style={styles.postTitle}
-                      >
-                        {post["title"]}
-                      </Text>
+                      <Text style={styles.postTitle}>{post["title"]}</Text>
                       <View style={styles.postApplyNumber}>
                         {post["isApply"] ? (
-                          <Text
-                            key={post["post_date"] + "3"}
-                            style={styles.applyStyle}
-                          >
-                            신청완료
-                          </Text>
+                          <Text style={styles.applyStyle}>신청완료</Text>
                         ) : (
-                          <Text key={post["post_date"] + "4"}></Text>
+                          <Text></Text>
                         )}
-                        <Text
-                          key={post["post_date"] + "5"}
-                          style={styles.applicantsNum}
-                        >
+                        <Text style={styles.applicantsNum}>
                           {post["applicantsNum"] +
                             "/" +
                             post["required_number"]}
@@ -264,9 +271,12 @@ export default function Home({ navigation }) {
                 </TouchableOpacity>
               ))
             ) : (
-              <></>
+              <Text>포스트 가져오는 중...</Text>
             )}
           </ScrollView>
+        </View>
+        <View>
+          <Text>{city}</Text>
         </View>
       </View>
     </View>
