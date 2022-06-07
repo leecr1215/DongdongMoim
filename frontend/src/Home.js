@@ -219,41 +219,26 @@ export default function Home({ navigation }) {
           <ScrollView style={styles.scrollView} persistentScrollbar={true}>
             {postCheck ? (
               postData.map((post, index) => (
-                <TouchableOpacity onPress={() => navigation.navigate("Post")}>
+                <TouchableOpacity
+                  key={post["post_date"]}
+                  onPress={() => navigation.navigate("Post")}
+                >
                   <View style={styles.scrollChild}>
                     <View style={styles.postIdDate}>
-                      <Text key={post["post_date"]} style={styles.postId}>
-                        {post["post_id"]}
-                      </Text>
-                      <Text
-                        key={post["post_date"] + "1"}
-                        style={styles.postDate}
-                      >
+                      <Text style={styles.postId}>{post["post_id"]}</Text>
+                      <Text style={styles.postDate}>
                         {post["post_date"].split(" ")[0]}
                       </Text>
                     </View>
                     <View style={styles.postTitleNumber}>
-                      <Text
-                        key={post["post_date"] + "2"}
-                        style={styles.postTitle}
-                      >
-                        {post["title"]}
-                      </Text>
+                      <Text style={styles.postTitle}>{post["title"]}</Text>
                       <View style={styles.postApplyNumber}>
                         {post["isApply"] ? (
-                          <Text
-                            key={post["post_date"] + "3"}
-                            style={styles.applyStyle}
-                          >
-                            신청완료
-                          </Text>
+                          <Text style={styles.applyStyle}>신청완료</Text>
                         ) : (
-                          <Text key={post["post_date"] + "4"}></Text>
+                          <Text></Text>
                         )}
-                        <Text
-                          key={post["post_date"] + "5"}
-                          style={styles.applicantsNum}
-                        >
+                        <Text style={styles.applicantsNum}>
                           {post["applicantsNum"] +
                             "/" +
                             post["required_number"]}
