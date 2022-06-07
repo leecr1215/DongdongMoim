@@ -20,6 +20,8 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function Profile({ navigation }) {
+  const [userId, setUserId] = useState(0);
+
   AsyncStorage.getItem("@id").then((userid) => setUserId(userid.slice(1, -1)));
 
   const opPressCreateFriend = async () => {
