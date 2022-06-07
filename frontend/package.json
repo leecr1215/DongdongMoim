@@ -39,7 +39,8 @@
     "react-native-web": "0.17.7",
     "react-navigation": "^4.4.4",
     "styled": "^1.0.0",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "expo-location": "~14.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
