@@ -9,6 +9,7 @@ import {
   StatusBar,
   Platform,
   Image,
+  SafeAreaView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
@@ -82,8 +83,8 @@ export default function Home({ navigation }) {
               const data = response.data["data"];
               setData(data);
 
-              console.log("난 data");
-              console.log(data);
+              // console.log("난 data");
+              // console.log(data);
 
               //console.log(response.data["data"]);
               //console.log(postData);
@@ -151,9 +152,11 @@ export default function Home({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      {/* <StatusBar backgroundColor={"#D3EEFF"} translucent={false} /> */}
+    <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
+
+      {/* <StatusBar backgroundColor={"#D3EEFF"} translucent={false} /> */}
+
       <View style={styles.body}>
         <View style={styles.search}>
           <Dropdown
@@ -230,12 +233,16 @@ export default function Home({ navigation }) {
             placeholderStyle={styles.selectedText}
             selectedTextStyle={styles.selectedText}
           />
-          <TouchableOpacity onPress={() => navigation.navigate("PostWriting")}>
-            <Image
-              style={styles.postWriteLogo}
-              source={require("../icon/post_write.png")}
-            />
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("PostWriting")}
+            >
+              <Image
+                style={styles.postWriteLogo}
+                source={require("../icon/post_write.png")}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.postContainer}>
           <ScrollView style={styles.scrollView} persistentScrollbar={true}>
@@ -277,11 +284,11 @@ export default function Home({ navigation }) {
             )}
           </ScrollView>
         </View>
-        <View>
+        {/* <View>
           <Text>{city}</Text>
-        </View>
+        </View> */}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -339,11 +346,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   /*드롭다운 css 끝*/
-  postWriteLogo: { resizeMode: "contain", width: SCREEN_WIDTH * 0.06 },
+  postWriteLogo: {
+    resizeMode: "contain",
+    width: SCREEN_WIDTH * 0.06,
+    height: SCREEN_WIDTH * 0.08,
+  },
   postContainer: {
     backgroundColor: "white",
     width: SCREEN_WIDTH * 0.9,
-    height: SCREEN_HEIGHT * 0.74,
+    height: SCREEN_HEIGHT * 0.7,
     //borderRadius: 20,
     marginBottom: "auto",
     marginTop: "auto",
