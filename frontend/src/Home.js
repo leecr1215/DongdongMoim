@@ -18,6 +18,7 @@ import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
 import { Dropdown } from "react-native-element-dropdown";
 import Constants from "expo-constants";
+import { useIsFocused } from "@react-navigation/native";
 
 const { manifest } = Constants;
 
@@ -35,7 +36,9 @@ export default function Home({ navigation }) {
 
   const [postData, setPostData] = useState(null);
   const [postCheck, setPostCheck] = useState(false);
-  const [dropdown, setDropdown] = useState(null);
+
+  const focus = useIsFocused();
+
   const setData = async (data) => {
     try {
       await setPostData(data);
@@ -78,7 +81,7 @@ export default function Home({ navigation }) {
       }
     }
     getData();
-  }, [setPostData, StatusBar]);
+  }, [setPostData, focus]);
 
   const storage1 = AsyncStorage.getItem("@username").then((name) =>
     setUsername(name.slice(1, -1))
