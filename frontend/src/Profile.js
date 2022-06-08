@@ -74,10 +74,10 @@ export default function Profile({ navigation }) {
           <Text style={styles.username}>님의 프로필</Text>
 
           <View style={styles.sideProfile}>
-            <TouchableOpacity onPress={() => navigation.navigate("???")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Userinfo")}>
               <Text style={styles.sideProfileText}>회원정보보기</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("???")}>
+            <TouchableOpacity onPress={() => navigation.navigate("MyPage")}>
               <Text style={styles.sideProfileText}>활동내역확인</Text>
             </TouchableOpacity>
           </View>

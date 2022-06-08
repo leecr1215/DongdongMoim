@@ -23,7 +23,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function Userinfo({ navigation }) {
-  const [id, setId] = useState();
+  const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [gender, setGender] = useState([]);
   const [phoneNum, setPhoneNum] = useState([]);
@@ -31,27 +31,82 @@ export default function Userinfo({ navigation }) {
   const [soccer, setSoccer] = useState(1);
   const [baseball, setBaseball] = useState(1);
   const [basketball, setBasketball] = useState(1);
+  const [isSoccerSelect, setSoccerSelect] = useState([
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [isBaseballSelect, setBaseballSelect] = useState([
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [isBasketballSelect, setBasketballSelect] = useState([
+    false,
+    false,
+    false,
+    false,
+  ]);
 
-  AsyncStorage.getItem("@id").then((userid) => setId(userid.slice(1, -1)));
+  function getSoccerSkill(idx) {
+    if (idx == 1) {
+      setSoccerSelect([true, false, false, false]);
+    } else if (idx == 2) {
+      setSoccerSelect([false, true, false, false]);
+    } else if (idx == 3) {
+      setSoccerSelect([false, false, true, false]);
+    } else if (idx == 4) {
+      setSoccerSelect([false, false, false, true]);
+    }
+  }
+  function getBaseballSkill(idx) {
+    if (idx == 1) {
+      setBaseballSelect([true, false, false, false]);
+    } else if (idx == 2) {
+      setBaseballSelect([false, true, false, false]);
+    } else if (idx == 3) {
+      setBaseballSelect([false, false, true, false]);
+    } else if (idx == 4) {
+      setBaseballSelect([false, false, false, true]);
+    }
+  }
 
-  AsyncStorage.getItem("@username").then((name) => setName(name.slice(1, -1)));
+  function getBasketballSkill(idx) {
+    if (idx == 1) {
+      setBasketballSelect([true, false, false, false]);
+    } else if (idx == 2) {
+      setBasketballSelect([false, true, false, false]);
+    } else if (idx == 3) {
+      setBasketballSelect([false, false, true, false]);
+    } else if (idx == 4) {
+      setBasketballSelect([false, false, false, true]);
+    }
+  }
+
   useEffect(() => {
-    async function getUserInfo() {
+    async function getUserInfo(id) {
+      await AsyncStorage.getItem("@username").then((name) =>
+        setName(name.slice(1, -1))
+      );
+      await AsyncStorage.getItem("@id").then((userid) =>
+        setId(userid.slice(1, -1))
+      );
       try {
         const response = await axios
           .get(
             `http://${manifest.debuggerHost
               .split(":")
-              .shift()}:8080/api/v1/users/2`
+              .shift()}:8080/api/v1/users/${id}`
           )
           .then((response) => {
             console.log(response.data);
             if (response.data["success"] == true) {
-              alert("회원 정보 조회됨");
               setName(response.data["result"]["username"]);
               setAge(response.data["result"]["age"]);
               setGender(response.data["result"]["gender"]);
-              setPhoneNum(response.data["result"]["phone_num"]);
+              setPhoneNum(response.data["result"]["phone_number"]);
               setSoccer(response.data["result"]["soccer_skill"]);
               setBaseball(response.data["result"]["baseball_skill"]);
               setBasketball(response.data["result"]["basketball_skill"]);
@@ -68,7 +123,11 @@ export default function Userinfo({ navigation }) {
         //throw error;
       }
     }
-    getUserInfo();
+
+    getUserInfo(id);
+    getSoccerSkill(soccer);
+    getBaseballSkill(baseball);
+    getBasketballSkill(basketball);
   }, []);
 
   return (
@@ -120,36 +179,28 @@ export default function Userinfo({ navigation }) {
             <View style={styles.exercises}>
               <Text style={styles.soccer}>축구</Text>
               <View style={styles.imageStyle}>
-                <TouchableOpacity onPress={() => onPressSoccer("sole")}>
-                  <Image
-                    style={styles.logo}
-                    source={require("../icon/sole.png")}
-                  />
-                </TouchableOpacity>
+                <Image
+                  style={isSoccerSelect[0] ? styles.pressBtn : styles.logo}
+                  source={require("../icon/sole.png")}
+                />
               </View>
               <View style={styles.imageStyle}>
-                <TouchableOpacity onPress={() => onPressSoccer("sock")}>
-                  <Image
-                    style={styles.logo}
-                    source={require("../icon/sock.png")}
-                  />
-                </TouchableOpacity>
+                <Image
+                  style={isSoccerSelect[1] ? styles.pressBtn : styles.logo}
+                  source={require("../icon/sock.png")}
+                />
               </View>
               <View style={styles.imageStyle}>
-                <TouchableOpacity onPress={() => onPressSoccer("slipper")}>
-                  <Image
-                    style={styles.logo}
-                    source={require("../icon/slipper.png")}
-                  />
-                </TouchableOpacity>
+                <Image
+                  style={isSoccerSelect[2] ? styles.pressBtn : styles.logo}
+                  source={require("../icon/slipper.png")}
+                />
               </View>
               <View style={styles.imageStyle}>
-                <TouchableOpacity onPress={() => onPressSoccer("sneaker")}>
-                  <Image
-                    style={styles.logo}
-                    source={require("../icon/sneaker.png")}
-                  />
-                </TouchableOpacity>
+                <Image
+                  style={isSoccerSelect[3] ? styles.pressBtn : styles.logo}
+                  source={require("../icon/sneaker.png")}
+                />
               </View>
             </View>
             {/* 야구 부분 */}
@@ -157,25 +208,25 @@ export default function Userinfo({ navigation }) {
               <Text style={styles.baseball}>야구</Text>
               <View style={styles.imageStyle}>
                 <Image
-                  style={styles.logo}
+                  style={isBaseballSelect[0] ? styles.pressBtn : styles.logo}
                   source={require("../icon/sole.png")}
                 />
               </View>
               <View style={styles.imageStyle}>
                 <Image
-                  style={styles.logo}
+                  style={isBaseballSelect[1] ? styles.pressBtn : styles.logo}
                   source={require("../icon/sock.png")}
                 />
               </View>
               <View style={styles.imageStyle}>
                 <Image
-                  style={styles.logo}
+                  style={isBaseballSelect[2] ? styles.pressBtn : styles.logo}
                   source={require("../icon/slipper.png")}
                 />
               </View>
               <View style={styles.imageStyle}>
                 <Image
-                  style={styles.logo}
+                  style={isBaseballSelect[3] ? styles.pressBtn : styles.logo}
                   source={require("../icon/sneaker.png")}
                 />
               </View>
@@ -186,25 +237,25 @@ export default function Userinfo({ navigation }) {
               <Text style={styles.basketball}>농구</Text>
               <View style={styles.imageStyle}>
                 <Image
-                  style={styles.logo}
+                  style={isBasketballSelect[0] ? styles.pressBtn : styles.logo}
                   source={require("../icon/sole.png")}
                 />
               </View>
               <View style={styles.imageStyle}>
                 <Image
-                  style={styles.logo}
+                  style={isBasketballSelect[1] ? styles.pressBtn : styles.logo}
                   source={require("../icon/sock.png")}
                 />
               </View>
               <View style={styles.imageStyle}>
                 <Image
-                  style={styles.logo}
+                  style={isBasketballSelect[2] ? styles.pressBtn : styles.logo}
                   source={require("../icon/slipper.png")}
                 />
               </View>
               <View style={styles.imageStyle}>
                 <Image
-                  style={styles.logo}
+                  style={isBasketballSelect[3] ? styles.pressBtn : styles.logo}
                   source={require("../icon/sneaker.png")}
                 />
               </View>
@@ -371,6 +422,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignContent: "center",
     marginLeft: SCREEN_WIDTH * 0.01,
+  },
+  pressBtn: {
+    resizeMode: "contain",
+    height: SCREEN_HEIGHT * 0.025,
+    width: SCREEN_WIDTH * 0.08,
+    alignContent: "center",
+    borderColor: "#ffd700",
+    borderWidth: 1.6,
   },
   logo: {
     resizeMode: "contain",
