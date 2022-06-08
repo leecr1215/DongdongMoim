@@ -109,7 +109,8 @@ AsyncStorage.getItem('@id').then((userid) =>
           .then(function async(response) {
             if (response.data["success"] == true) {
               alert("게시물이 등록되었습니다.");
-              navigation.navigate("Post");
+              const postIdData = response.data["data"]["post_id"];
+              navigation.navigate("Post",{"postId":postIdData});
             }
           })
           .catch(function (error) {

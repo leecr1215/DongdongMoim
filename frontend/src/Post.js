@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -16,14 +16,60 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "../contents/Header";
+import Constants from "expo-constants";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-export default function Post({ route, navigation }) {
+const { manifest } = Constants;
+
+export default function Post({route,  navigation }) {
   const [comments, setComments] = useState("");
   const { postId } = route.params;
-  console.log("!!!!!!!!!!!!"+postId);
+  const [postData, setPostData] = useState("");
+
+  console.log("post id : "+postId);
+
+  const setData = async (data) => {
+    try {
+      await setPostData(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const response = await axios
+          .get(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/posts/${postId}`
+          )
+          .then((response) => {
+            if (response.data["success"] == true) {
+              const data = response.data["data"];
+              setData(data);
+
+              console.log("난 data");
+              console.log(data);
+            }
+          })
+          .catch(function (error) {
+            alert("게시물을 가져오지 못 했습니다.");
+            console.log(error);
+            throw error;
+          });
+      } catch (error) {
+        alert("게시물을 가져오지 못 했습니다.");
+        console.log(error);
+        throw error;
+      }
+    }
+    getData();
+  }, [setPostData]);
+
   return (
     <View style={styles.container}>
       <Header navigation={navigation}></Header>
@@ -34,49 +80,50 @@ export default function Post({ route, navigation }) {
           </TouchableOpacity>
           <Text style={styles.backText}>게시물</Text>
         </View>
+        <ScrollView style={styles.scrollView}>
         <View style={styles.info}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>배드민턴 같이 치실분 구해요</Text>
+            <Text style={styles.title}>{postData["title"]}</Text>
             <View style={styles.peopleContainer}>
               <Image
                 style={styles.post_peopleLogo}
                 source={require("../icon/post_people.png")}
               />
-              <Text style={styles.peopleText}>1/5</Text>
+              <Text style={styles.peopleText}>{postData["applicantsNum"]}/5</Text>
             </View>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.subject}>운동</Text>
-            <Text style={styles.content}>배드민턴</Text>
+            <Text style={styles.content}>{postData["exercise"]}</Text>
           </View>
           <View style={styles.smallLine}></View>
           <View style={styles.contentContainer}>
             <Text style={styles.subject}>능력</Text>
-            <Text style={styles.content}>능력무관</Text>
+            <Text style={styles.content}>{postData["exercise_skill"]}</Text>
           </View>
           <View style={styles.smallLine}></View>
           <View style={styles.contentContainer}>
             <Text style={styles.subject}> 성별 </Text>
-            <Text style={styles.content}> 여자 </Text>
+            <Text style={styles.content}> {postData["gender"]} </Text>
           </View>
           <View style={styles.smallLine}></View>
           <View style={styles.contentContainer}>
             <Text style={styles.subject}> 장소 </Text>
-            <Text style={styles.content}> 대전광역시 유성구 </Text>
+            <Text style={styles.content}> {postData["location"]}</Text>
           </View>
           <View style={styles.smallLine}></View>
           <View style={styles.contentContainer}>
             <Text style={styles.subject}> 일시 </Text>
-            <Text style={styles.content}> 2022/04/15 18:00:00 </Text>
+            <Text style={styles.content}> {postData["meeting_date"]}</Text>
           </View>
           <View style={styles.smallLine}></View>
           <View style={styles.writing}>
             <Text style={styles.content}>
-              {" "}
-              같이 배드민턴 쳐주실 분 구해요! 배드민턴 못치셔도 괜찮아요!{" "}
+            {postData["content"]}
             </Text>
           </View>
         </View>
+        </ScrollView>
         <View style={styles.applyBtn}>
           <Text style={styles.btnText}>신청</Text>
         </View>

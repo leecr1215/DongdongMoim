@@ -8,6 +8,7 @@ import {
   Dimensions,
   Image,
   StatusBar,
+  SafeAreaView,
 } from "react-native";
 import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
@@ -19,8 +20,9 @@ const Header = ({ navigation }) => {
   const [isReady, setIsReady] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.head}>
+        <StatusBar backgroundColor={"#D3EEFF"} translucent={false} />
         <View style={styles.homeIcons}>
           <TouchableOpacity onPress={() => navigation.navigate("Home")}>
             <Image
@@ -34,21 +36,25 @@ const Header = ({ navigation }) => {
           <Text style={styles.title}> 동동모임 </Text>
         </View>
         <View style={styles.icons}>
-          <TouchableOpacity onPress={() => navigation.navigate("AlarmPage")}>
-            <Image
-              style={styles.bellLogo}
-              source={require("../icon/bell.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-            <Image
-              style={styles.myPageLogo}
-              source={require("../icon/mypage.png")}
-            />
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity onPress={() => navigation.navigate("AlarmPage")}>
+              <Image
+                style={styles.bellLogo}
+                source={require("../icon/bell.png")}
+              />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <Image
+                style={styles.myPageLogo}
+                source={require("../icon/mypage.png")}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -69,13 +75,13 @@ const styles = StyleSheet.create({
   },
   homeIcons: {
     flexDirection: "row",
-    marginTop: SCREEN_HEIGHT * 0.04,
+    //marginTop: SCREEN_HEIGHT * 0.04,
     marginRight: 10,
   },
   title: {
     fontSize: 28,
     fontFamily: "Nanum",
-    marginTop: SCREEN_HEIGHT * 0.04,
+    //marginTop: SCREEN_HEIGHT * 0.04,
     alignContent: "center",
     marginLeft: SCREEN_WIDTH * 0.05,
     marginRight: SCREEN_WIDTH * 0.05,
@@ -98,7 +104,7 @@ const styles = StyleSheet.create({
   },
   icons: {
     flexDirection: "row",
-    marginTop: SCREEN_HEIGHT * 0.04,
+    //marginTop: SCREEN_HEIGHT * 0.04,
   },
   myPageLogo: {
     resizeMode: "contain",
