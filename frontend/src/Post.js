@@ -242,11 +242,11 @@ export default function Post({route,  navigation }) {
         (
         <View style={styles.commentsListContainer}>
         {/* {console.log(comment)} */}
-        {commentData.map((comment)=>(
+        {commentData.map((comment,index)=>(
           <View                   
-          key={comment["created_date"]}
+          key={index}
           style={styles.commentsContainer}>
-            <Text style={styles.commentsName}>닉네임</Text>
+            <Text style={styles.commentsName}>{comment["username"]}</Text>
             <Text style={styles.commentsContent}>{comment["text"]}</Text>
             <View style={styles.smallLine}></View>
           </View>
