@@ -461,14 +461,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
   },
-  head: {
-    flex: 0.13,
-    justifyContent: "space-around",
-    alignItems: "center",
-    backgroundColor: "#D3EEFF",
-    width: SCREEN_WIDTH,
-    flexDirection: "row",
-  },
   homeIcons: {
     justifyContent: "flex",
     flexDirection: "row",
@@ -509,7 +501,7 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT * 0.13,
   },
   body: {
-    flex: 0.87,
+    flex: 0.9,
     alignItems: "center",
     backgroundColor: "#E5E5E5",
     width: SCREEN_WIDTH,

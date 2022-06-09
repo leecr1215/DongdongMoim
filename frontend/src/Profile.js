@@ -24,6 +24,27 @@ export default function Profile({ navigation }) {
 
   AsyncStorage.getItem("@id").then((userid) => setUserId(userid.slice(1, -1)));
 
+  const [isSoccerSelect, setSoccerSelect] = useState([
+    true,
+    false,
+    false,
+    false,
+  ]);
+
+  const [isBaseballSelect, setBaseballSelect] = useState([
+    true,
+    false,
+    false,
+    false,
+  ]);
+
+  const [isBasketballSelect, setBasketballSelect] = useState([
+    true,
+    false,
+    false,
+    false,
+  ]);
+
   const opPressCreateFriend = async () => {
     var data = {
       user1_id: userId,
@@ -61,7 +82,7 @@ export default function Profile({ navigation }) {
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
         <View style={styles.back}>
-          <AntDesign name="left" size={20} color="black" />
+          <AntDesign name="left" size={18} color="black" />
           <Text style={styles.backText}>프로필</Text>
         </View>
         <View style={styles.introContainer}>
@@ -71,15 +92,16 @@ export default function Profile({ navigation }) {
               source={require("../icon/red_logo.png")}
             />
           </View>
-          <Text style={styles.username}>님의 프로필</Text>
-
-          <View style={styles.sideProfile}>
-            <TouchableOpacity onPress={() => navigation.navigate("Userinfo")}>
-              <Text style={styles.sideProfileText}>회원정보보기</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("MyPage")}>
-              <Text style={styles.sideProfileText}>활동내역확인</Text>
-            </TouchableOpacity>
+          <View style={styles.idSideProfile}>
+            <Text style={styles.username}>님의 프로필</Text>
+            <View style={styles.sideProfile}>
+              <TouchableOpacity onPress={() => navigation.navigate("Userinfo")}>
+                <Text style={styles.sideProfileText}>회원정보보기</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("MyPage")}>
+                <Text style={styles.sideProfileText}>활동내역확인</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
@@ -104,6 +126,7 @@ export default function Profile({ navigation }) {
         </View>
         <View style={styles.bigLine}></View>
         {/* 운동 능력 부분 */}
+
         <View style={styles.exerciseContainer}>
           <View style={styles.exerciseTextContainer}>
             <Text style={styles.subject}>운동능력</Text>
@@ -112,114 +135,90 @@ export default function Profile({ navigation }) {
           <View style={styles.exercises}>
             <Text style={styles.soccer}>축구</Text>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("sole")}>
-                <Image
-                  style={styles.logo}
-                  source={require("../icon/sole.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.pressBtn}>
-              <TouchableOpacity onPress={() => onPressSoccer("sock")}>
-                <Image
-                  style={styles.logo}
-                  source={require("../icon/sock.png")}
-                />
-              </TouchableOpacity>
+              <Image
+                style={isSoccerSelect[0] ? styles.pressBtn : styles.logo}
+                source={require("../icon/sole.png")}
+              />
             </View>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("slipper")}>
-                <Image
-                  style={styles.logo}
-                  source={require("../icon/slipper.png")}
-                />
-              </TouchableOpacity>
+              <Image
+                style={isSoccerSelect[1] ? styles.pressBtn : styles.logo}
+                source={require("../icon/sock.png")}
+              />
             </View>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("sneaker")}>
-                <Image
-                  style={styles.logo}
-                  source={require("../icon/sneaker.png")}
-                />
-              </TouchableOpacity>
+              <Image
+                style={isSoccerSelect[2] ? styles.pressBtn : styles.logo}
+                source={require("../icon/slipper.png")}
+              />
+            </View>
+            <View style={styles.imageStyle}>
+              <Image
+                style={isSoccerSelect[3] ? styles.pressBtn : styles.logo}
+                source={require("../icon/sneaker.png")}
+              />
             </View>
           </View>
           {/* 야구 부분 */}
           <View style={styles.exercises}>
             <Text style={styles.baseball}>야구</Text>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("sole")}>
-                <Image
-                  style={styles.logo}
-                  source={require("../icon/sole.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.pressBtn}>
-              <TouchableOpacity onPress={() => onPressSoccer("sock")}>
-                <Image
-                  style={styles.logo}
-                  source={require("../icon/sock.png")}
-                />
-              </TouchableOpacity>
+              <Image
+                style={isBaseballSelect[0] ? styles.pressBtn : styles.logo}
+                source={require("../icon/sole.png")}
+              />
             </View>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("slipper")}>
-                <Image
-                  style={styles.logo}
-                  source={require("../icon/slipper.png")}
-                />
-              </TouchableOpacity>
+              <Image
+                style={isBaseballSelect[1] ? styles.pressBtn : styles.logo}
+                source={require("../icon/sock.png")}
+              />
             </View>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("sneaker")}>
-                <Image
-                  style={styles.logo}
-                  source={require("../icon/sneaker.png")}
-                />
-              </TouchableOpacity>
+              <Image
+                style={isBaseballSelect[2] ? styles.pressBtn : styles.logo}
+                source={require("../icon/slipper.png")}
+              />
+            </View>
+            <View style={styles.imageStyle}>
+              <Image
+                style={isBaseballSelect[3] ? styles.pressBtn : styles.logo}
+                source={require("../icon/sneaker.png")}
+              />
             </View>
           </View>
-          {/* 농구 부분 */}
+          {/* 배드민턴 부분 */}
           <View style={styles.exercises}>
             <Text style={styles.basketball}>농구</Text>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("sole")}>
-                <Image
-                  style={styles.logo}
-                  source={require("../icon/sole.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.pressBtn}>
-              <TouchableOpacity onPress={() => onPressSoccer("sock")}>
-                <Image
-                  style={styles.logo}
-                  source={require("../icon/sock.png")}
-                />
-              </TouchableOpacity>
+              <Image
+                style={isBasketballSelect[0] ? styles.pressBtn : styles.logo}
+                source={require("../icon/sole.png")}
+              />
             </View>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("slipper")}>
-                <Image
-                  style={styles.logo}
-                  source={require("../icon/slipper.png")}
-                />
-              </TouchableOpacity>
+              <Image
+                style={isBasketballSelect[1] ? styles.pressBtn : styles.logo}
+                source={require("../icon/sock.png")}
+              />
             </View>
             <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("sneaker")}>
-                <Image
-                  style={styles.logo}
-                  source={require("../icon/sneaker.png")}
-                />
-              </TouchableOpacity>
+              <Image
+                style={isBasketballSelect[2] ? styles.pressBtn : styles.logo}
+                source={require("../icon/slipper.png")}
+              />
+            </View>
+            <View style={styles.imageStyle}>
+              <Image
+                style={isBasketballSelect[3] ? styles.pressBtn : styles.logo}
+                source={require("../icon/sneaker.png")}
+              />
             </View>
           </View>
         </View>
         <View style={styles.friendIcon}>
           <Image
-            style={styles.logo}
+            style={styles.friendLogo}
             source={require("../icon/friends.png")}
             width={40}
             height={40}
@@ -237,27 +236,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   body: {
-    flex: 0.87,
+    flex: 0.9,
     alignItems: "center",
   },
   back: {
     flexDirection: "row",
     marginRight: SCREEN_WIDTH * 0.7,
-    marginTop: SCREEN_HEIGHT * 0.01,
+    marginTop: SCREEN_HEIGHT * 0.03,
+    alignItems: "center",
   },
   backText: {
-    fontSize: 20,
+    fontSize: 18,
   },
+  /* 프로필 친구 신청 버튼 윗부분 시작 */
   introContainer: {
     width: SCREEN_WIDTH * 0.8,
     flexDirection: "row",
-    alignItems: "center",
+    justifyContent: "space-between",
+    alignContent: "center",
+    marginTop: SCREEN_HEIGHT * 0.03,
   },
   circle: {
-    width: SCREEN_WIDTH * 0.3,
-    height: SCREEN_WIDTH * 0.3,
-    marginTop: 10,
-    borderRadius: (SCREEN_WIDTH * 0.3) / 2,
+    width: SCREEN_WIDTH * 0.25,
+    height: SCREEN_WIDTH * 0.25,
+    borderRadius: (SCREEN_WIDTH * 0.25) / 2,
     borderColor: "black",
     borderWidth: 2,
     alignItems: "center",
@@ -266,30 +268,34 @@ const styles = StyleSheet.create({
   },
   profileImage: {
     resizeMode: "contain",
-    width: SCREEN_WIDTH * 0.2,
-    height: SCREEN_HEIGHT * 0.13,
+    width: SCREEN_WIDTH * 0.17,
+    height: SCREEN_HEIGHT * 0.14,
+  },
+  idSideProfile: {
+    width: SCREEN_WIDTH * 0.45,
+    justifyContent: "space-around",
   },
   username: {
-    left: SCREEN_WIDTH * 0.33,
     fontSize: 18,
-    marginTop: 30,
-    bottom: SCREEN_HEIGHT / 40,
+    alignSelf: "flex-end",
   },
   sideProfile: {
-    marginTop: 30,
-    marginRight: SCREEN_WIDTH * 0.45,
-    justifyContent: "flex-end",
+    justifyContent: "space-evenly",
     flexDirection: "row",
   },
   sideProfileText: {
     textDecorationLine: "underline",
-    marginRight: 15,
-    marginTop: 10,
+    textDecorationColor: "black",
+    fontSize: 12,
+    fontWeight: "600",
   },
+  /* 프로필 친구 신청 버튼 윗부분 끝 */
   friendBtn: {
-    marginTop: 50,
+    marginTop: SCREEN_HEIGHT * 0.03,
+    marginBottom: SCREEN_HEIGHT * 0.03,
     backgroundColor: "#D3EEFF",
-    fontSize: 17,
+    fontSize: 15,
+    fontWeight: "600",
     textAlign: "center",
     alignItems: "center",
     paddingBottom: 8,
@@ -300,83 +306,76 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: { width: 2, height: 2 },
     elevation: 3,
-    marginBottom: SCREEN_HEIGHT * 0.05,
   },
   subject: {
-    fontSize: 20,
+    fontSize: 18,
     marginRight: SCREEN_WIDTH / 20,
-    lineHeight: 70,
     fontWeight: "700",
     width: 80,
   },
   genderContainer: {
     width: SCREEN_WIDTH * 0.66,
-    //justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
+    marginTop: SCREEN_HEIGHT * 0.03,
+    marginBottom: SCREEN_HEIGHT * 0.03,
   },
   genderText: {
-    fontSize: 20,
-    lineHeight: 70,
+    fontSize: 18,
   },
   ageContainer: {
     width: SCREEN_WIDTH * 0.66,
-    //justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
+    marginTop: SCREEN_HEIGHT * 0.03,
+    marginBottom: SCREEN_HEIGHT * 0.03,
   },
   ageText: {
-    fontSize: 20,
-    lineHeight: 70,
+    fontSize: 18,
   },
   exerciseContainer: {
     width: SCREEN_WIDTH * 0.66,
+    marginTop: SCREEN_HEIGHT * 0.03,
   },
   exerciseTextContainer: {
     flexDirection: "row",
     fontWeight: "700",
     justifyContent: "space-between",
-  },
-  exerciseText: {
-    fontSize: 20,
-    marginRight: SCREEN_WIDTH / 6,
-    marginTop: SCREEN_HEIGHT * 0.03,
-    marginBottom: SCREEN_HEIGHT * 0.05,
-  },
 
+    marginBottom: SCREEN_HEIGHT * 0.03,
+  },
   skillContainer: {
     justifyContent: "flex-end",
     flexDirection: "row",
     width: SCREEN_WIDTH * 0.5,
   },
-  skillText: {
-    fontSize: 20,
-    marginRight: SCREEN_WIDTH / 3,
-    lineHeight: 70,
-  },
   imageStyle: {
-    borderColor: "#898989",
-    borderWidth: 1,
     alignContent: "center",
-    marginLeft: SCREEN_WIDTH * 0.01,
+    justifyContent: "space-between",
+    width: SCREEN_WIDTH * 0.1,
   },
   logo: {
     resizeMode: "contain",
     height: SCREEN_HEIGHT * 0.025,
     width: SCREEN_WIDTH * 0.08,
     alignContent: "center",
+    borderColor: "#898989",
+    borderWidth: 1,
   },
   pressBtn: {
-    borderColor: "#FBE573",
-    borderWidth: 1,
-    height: SCREEN_HEIGHT * 0.03,
+    resizeMode: "contain",
+    height: SCREEN_HEIGHT * 0.025,
     width: SCREEN_WIDTH * 0.08,
-    marginLeft: SCREEN_WIDTH * 0.01,
+    alignContent: "center",
+    borderColor: "#ffd700",
+    borderWidth: 1.6,
   },
   exercises: {
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: SCREEN_WIDTH * 0.1,
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginBottom: 10,
   },
   soccer: {
     fontSize: 13,
@@ -394,9 +393,9 @@ const styles = StyleSheet.create({
     marginRight: SCREEN_WIDTH * 0.09,
   },
   friendIcon: {
-    marginTop: SCREEN_HEIGHT * 0.03,
+    marginTop: SCREEN_HEIGHT * 0.01,
     marginBottom: SCREEN_HEIGHT * 0.03,
-    marginLeft: SCREEN_WIDTH * 0.65,
+    marginLeft: SCREEN_WIDTH * 0.7,
     width: 70,
     height: 70,
     borderRadius: 50,
@@ -406,9 +405,15 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
   },
+  friendLogo: {
+    resizeMode: "contain",
+    height: SCREEN_HEIGHT * 0.025,
+    width: SCREEN_WIDTH * 0.08,
+    alignContent: "center",
+  },
   bigLine: {
     width: SCREEN_WIDTH,
-    height: 6,
+    height: 5,
     backgroundColor: "#E5E5E5",
   },
 });
