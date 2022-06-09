@@ -10,6 +10,8 @@ import {
   StatusBar,
   SafeAreaView,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import * as Font from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -17,7 +19,21 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const Header = ({ navigation }) => {
-  const [isReady, setIsReady] = useState(false);
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    async function getUserId() {
+      try {
+        const storage1 = await AsyncStorage.getItem("@id").then((id) =>
+          setUserId(id.slice(1, -1))
+        );
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    }
+    getUserId();
+  }, [userId]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -45,7 +61,9 @@ const Header = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Profile", { userId: userId })}
+            >
               <Image
                 style={styles.myPageLogo}
                 source={require("../icon/mypage.png")}

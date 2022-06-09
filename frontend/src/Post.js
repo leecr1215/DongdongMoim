@@ -32,6 +32,7 @@ export default function Post({route,  navigation }) {
   const [commentData, setCommentData] = useState("");
   const [createdDate,setCreatedDate] = useState(new Date());
   const [commentCheck, setCommentCheck] = useState(false);
+  const [isApply, setIsApply] = useState(false);
 
   const focus = useIsFocused();
 
@@ -112,7 +113,46 @@ export default function Post({route,  navigation }) {
     getData();
   }, [setCommentData, focus]);
 
+  // 신청 여부 조회 
+  useEffect(() => {
+    async function getData() {
+      try {
+        const response = await axios
+          .get(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/posts/${postId}/applicants/${userId}`
+          )
+          .then((response) => {
+            if (response.data["success"] == true) {
+            const data = response.data["result"];
+            console.log("난 신청 data");
+            console.log(data);
 
+              // 이미 신청 
+              if (data["application"] == true) {
+                setIsApply(true);
+                }
+              else {
+                setIsApply(false);
+                }
+            }
+          })
+          .catch(function (error) {
+            alert("신청 여부 조회에 실패하였습니다.");
+            console.log(error);
+            throw error;
+          });
+      } catch (error) {
+        alert("신청 여부 조회에 실패하였습니다.");
+        console.log(error);
+        throw error;
+      }
+    }
+    getData();
+  }, [focus]);
+
+  // 댓글 작성 버튼 누른 경우 
   const opPressCreateComment = async () => {
     if (comment == "") {
       alert("빈칸을 채워주세요!");
@@ -151,19 +191,67 @@ export default function Post({route,  navigation }) {
         throw error;
       }
     }
-
-    function timestamp(){
-      var source = new Date();
-      var date = source.getFullYear() + "-" + ((source.getMonth() + 1) > 9 ? (source.getMonth() + 1).toString() : "0" + (source.getMonth() + 1)) + "-" + (source.getDate() > 9 ? source.getDate().toString() : "0" + source.getDate().toString());
-  
-      var hours = ('0' + source.getHours()).slice(-2); 
-      var minutes = ('0' + source.getMinutes()).slice(-2);
-  
-      var time = hours + ':' + minutes
-  
-      return date+" "+time;
-      }
   }
+
+  // 신청 버튼 누른 경우 
+  const opPressCreateApplication = async () => {
+    try {
+      const response = await axios
+        .post(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:8080/api/v1/posts/${postId}/applicants/${userId}`
+        )
+        .then(function async(response) {
+          if (response.data["success"] == true) {
+            alert("신청이 완료되었습니다.");
+            navigation.navigate("Home");
+          }
+        })
+        .catch(function (error) {
+          alert("신청 오류입니다.");
+          console.log(error);
+          throw error;
+        });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+  
+  // 신청 취소 버튼 누를 경우 
+  const opPressDeleteApplication = async () => {
+    try {
+      const response = await axios
+        .delete(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:8080/api/v1/posts/${postId}/applicants/${userId}`
+        )
+        .then(function async(response) {
+          alert("신청이 취소되었습니다.")
+        })
+        .catch(function (error) {
+          alert("취소 오류입니다.");
+          throw error;
+        });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  function timestamp(){
+    var source = new Date();
+    var date = source.getFullYear() + "-" + ((source.getMonth() + 1) > 9 ? (source.getMonth() + 1).toString() : "0" + (source.getMonth() + 1)) + "-" + (source.getDate() > 9 ? source.getDate().toString() : "0" + source.getDate().toString());
+
+    var hours = ('0' + source.getHours()).slice(-2); 
+    var minutes = ('0' + source.getMinutes()).slice(-2);
+
+    var time = hours + ':' + minutes
+
+    return date+" "+time;
+    }
 
   return (
     <View style={styles.container}>
@@ -219,10 +307,27 @@ export default function Post({route,  navigation }) {
           </View>
         </View>
         </ScrollView>
+        
+        {
+        isApply ? 
+        (<TouchableOpacity onPress={() => {
+          opPressDeleteApplication();
+        }} underlayColor="white">
+          <View style={styles.applyBtn}> 
+            <Text style={styles.btnText}>신청 취소</Text>
+          </View></TouchableOpacity>
+        ) : 
+        (<TouchableOpacity onPress={() => {
+          opPressCreateApplication();
+        }} underlayColor="white">
+          <View style={styles.applyBtn}> 
+            <Text style={styles.btnText}>신청</Text>
+          </View>
+        </TouchableOpacity>
+        )     
+      } 
 
-        <View style={styles.applyBtn}>
-          <Text style={styles.btnText}>신청</Text>
-        </View>
+
         <View style={styles.bigLine}></View>
         <View style={styles.inputContainer}>
           <TextInput

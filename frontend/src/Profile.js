@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,15 +14,26 @@ import { Image } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
+import Constants from "expo-constants";
 import Header from "../contents/Header";
+
+const { manifest } = Constants;
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-export default function Profile({ navigation }) {
+export default function Profile({ route, navigation }) {
   const [userId, setUserId] = useState(0);
+  const [userName, setUserName] = useState("...");
+  const profileUserId = route["params"]["userId"];
+  const [userData, setUserData] = useState("");
+  const [gender, setGender] = useState("...");
+  const [age, setAge] = useState("...");
 
   AsyncStorage.getItem("@id").then((userid) => setUserId(userid.slice(1, -1)));
+  AsyncStorage.getItem("@username").then((username) =>
+    setUserName(username.slice(1, -1))
+  );
 
   const [isSoccerSelect, setSoccerSelect] = useState([
     true,
@@ -45,10 +56,76 @@ export default function Profile({ navigation }) {
     false,
   ]);
 
-  const opPressCreateFriend = async () => {
+  function getSoccerSkill(idx) {
+    if (idx == 1) {
+      setSoccerSelect([true, false, false, false]);
+    } else if (idx == 2) {
+      setSoccerSelect([false, true, false, false]);
+    } else if (idx == 3) {
+      setSoccerSelect([false, false, true, false]);
+    } else if (idx == 4) {
+      setSoccerSelect([false, false, false, true]);
+    }
+  }
+  function getBaseballSkill(idx) {
+    if (idx == 1) {
+      setBaseballSelect([true, false, false, false]);
+    } else if (idx == 2) {
+      setBaseballSelect([false, true, false, false]);
+    } else if (idx == 3) {
+      setBaseballSelect([false, false, true, false]);
+    } else if (idx == 4) {
+      setBaseballSelect([false, false, false, true]);
+    }
+  }
+
+  function getBasketballSkill(idx) {
+    if (idx == 1) {
+      setBasketballSelect([true, false, false, false]);
+    } else if (idx == 2) {
+      setBasketballSelect([false, true, false, false]);
+    } else if (idx == 3) {
+      setBasketballSelect([false, false, true, false]);
+    } else if (idx == 4) {
+      setBasketballSelect([false, false, false, true]);
+    }
+  }
+
+  useEffect(() => {
+    async function getUserinfo() {
+      try {
+        const response = await axios
+          .get(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/users/${profileUserId}`
+          )
+          .then((response) => {
+            if (response.data["success"] == true) {
+              const data = response.data["result"];
+              //console.log("나이 " + response.data["result"]["age"]);
+              //setUserData(data);
+              setGender(data["gender"]);
+              setAge(data["age"]);
+              getSoccerSkill(data["soccer_skill"]);
+              getBaseballSkill(data["baseball_skill"]);
+              getBasketballSkill(data["basketball_skill"]);
+            }
+          })
+          .catch(function (error) {
+            throw error;
+          });
+      } catch (e) {
+        throw e;
+      }
+    }
+    getUserinfo();
+  }, []);
+
+  const onPressCreateFriend = async () => {
     var data = {
       user1_id: userId,
-      user2_id: title,
+      user2_id: profileUserId,
     };
     try {
       console.log(data);
@@ -82,7 +159,9 @@ export default function Profile({ navigation }) {
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
         <View style={styles.back}>
-          <AntDesign name="left" size={18} color="black" />
+          <TouchableOpacity>
+            <AntDesign name="left" size={18} color="black" />
+          </TouchableOpacity>
           <Text style={styles.backText}>프로필</Text>
         </View>
         <View style={styles.introContainer}>
@@ -93,7 +172,7 @@ export default function Profile({ navigation }) {
             />
           </View>
           <View style={styles.idSideProfile}>
-            <Text style={styles.username}>님의 프로필</Text>
+            <Text style={styles.username}>{`${userName} 님의 프로필`}</Text>
             <View style={styles.sideProfile}>
               <TouchableOpacity onPress={() => navigation.navigate("Userinfo")}>
                 <Text style={styles.sideProfileText}>회원정보보기</Text>
@@ -104,10 +183,23 @@ export default function Profile({ navigation }) {
             </View>
           </View>
         </View>
+        {/* {profileUserId == userId ? (
+          <Text style={{marginBottom: SCREEN_HEIGHT*0.03}}>이거 나임</Text>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              onPressCreateFriend();
+            }}
+          >
+            <View style={styles.friendBtn}>
+              <Text> 친구 신청 </Text>
+            </View>
+          </TouchableOpacity>
+        )} */}
 
         <TouchableOpacity
-          oonPress={() => {
-            opPressCreateFriend();
+          onPress={() => {
+            onPressCreateFriend();
           }}
         >
           <View style={styles.friendBtn}>
@@ -117,12 +209,14 @@ export default function Profile({ navigation }) {
         <View style={styles.bigLine}></View>
         <View style={styles.genderContainer}>
           <Text style={styles.subject}> 성별 </Text>
-          <Text style={styles.genderText}> 여자 </Text>
+          <Text style={styles.genderText}>
+            {gender == "..." ? "..." : gender == "M" ? "남자" : "여자"}
+          </Text>
         </View>
         <View style={styles.bigLine}></View>
         <View style={styles.ageContainer}>
           <Text style={styles.subject}> 나이 </Text>
-          <Text style={styles.ageText}> 23 </Text>
+          <Text style={styles.ageText}>{age}</Text>
         </View>
         <View style={styles.bigLine}></View>
         {/* 운동 능력 부분 */}
