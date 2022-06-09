@@ -170,7 +170,8 @@
 [DELETE] `localhost:8080/api/v1/friends/{my_id}/{your_id}`   
 
 3) 나의 친구목록 조회   
-[GET] `localhost:8080/api/v2/friends/{my_id}` 
+[GET] `localhost:8080/api/v2/friends/{my_id}`    
++) (friend_username,phone_number} object의 리스트 형태    
 
 4) 친구 수락    
 [PUT] `localhost:8080/api/v1/friends/{my_id}/{your_id}`   
