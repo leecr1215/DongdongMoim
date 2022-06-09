@@ -13,10 +13,9 @@ class CommentList(APIView):
         post_id = Post.objects.get(pk=pk).post_id
         comments = Comment.objects.filter(post_id=post_id).order_by('-created_date').all()
         queryset = comments.select_related("user_id").values("user_id__username")
-        # serializer = CommentSerializer(instance=comment, many=True)
         queryset = queryset.values(username=F("user_id__username"))
 
-        return Response(Util.response(True,queryset.values("post_id","username","text"),200),status=status.HTTP_200_OK)
+        return Response(Util.response(True,queryset.values("post_id","username","text","created_date"),200),status=status.HTTP_200_OK)
 
     # 댓글 작성 
     def post(self,request): #user_id,text 
