@@ -122,12 +122,13 @@
 1) 댓글 작성      
 [POST] `localhost:8080/api/v1/comments`   
 [RequestBody]     
-    ```shell
+    ```shell   
     {
-        "user_id":1,
-        "post_id":1,
-        "text":"댓글 테스트입니다."
-    }
+      "user_id":1,
+      "post_id":1,
+      "text":"hihi",
+      "created_date":"2022-02-11 12:11"
+    }   
     ```  
 2) 게시물 별 댓글 조회   
 [GET] `localhost:8080/api/v1/posts/{post_id}/comments`   
