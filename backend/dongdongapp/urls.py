@@ -25,6 +25,7 @@ urlpatterns = [
     path('v1/posts/all', post_views.PostList.as_view()),
     path('v1/posts', post_views.CreatePost.as_view()),
     path('v1/posts/<int:pk>', post_views.PostDetail.as_view()),
+    path('v2/posts/<int:pk>', post_views.PostList.as_view()),
 
     # 댓글
     path('v1/comments', comment_views.CommentList.as_view()),
