@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "../contents/Header";
 import Constants from "expo-constants";
+import { useIsFocused } from '@react-navigation/native';
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -32,7 +33,7 @@ export default function Post({route,  navigation }) {
   const [createdDate,setCreatedDate] = useState(new Date());
   const [commentCheck, setCommentCheck] = useState(false);
 
-  console.log("post id : "+postId);
+  const focus = useIsFocused();
 
   AsyncStorage.getItem('@id').then((userid) =>
     setUserId(userid.slice(1, -1))
@@ -76,7 +77,7 @@ export default function Post({route,  navigation }) {
       }
     }
     getData();
-  }, [setPostData]);
+  }, [setPostData,focus]);
 
   // 댓글 조회 
   useEffect(() => {
@@ -109,7 +110,7 @@ export default function Post({route,  navigation }) {
       }
     }
     getData();
-  }, [setCommentData]);
+  }, [setCommentData, focus]);
 
 
   const opPressCreateComment = async () => {
@@ -218,6 +219,7 @@ export default function Post({route,  navigation }) {
           </View>
         </View>
         </ScrollView>
+
         <View style={styles.applyBtn}>
           <Text style={styles.btnText}>신청</Text>
         </View>
@@ -237,25 +239,27 @@ export default function Post({route,  navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-        <ScrollView style={styles.scrollView}>
         {commentCheck ? 
         (
         <View style={styles.commentsListContainer}>
+        <ScrollView style={styles.scrollView}>
+
         {/* {console.log(comment)} */}
         {commentData.map((comment,index)=>(
           <View                   
           key={index}
           style={styles.commentsContainer}>
             <Text style={styles.commentsName}>{comment["username"]}</Text>
+            <Text style={styles.commentDate}>{comment["created_date"].split("T")[0]} | {comment["created_date"].split("T")[1].split("Z")[0]}</Text>
             <Text style={styles.commentsContent}>{comment["text"]}</Text>
             <View style={styles.smallLine}></View>
           </View>
         ))}
+        </ScrollView>
       </View>
         )
         : (<Text>댓글 가져오는 중...</Text>)
         }
-        </ScrollView>
       </View>
     </View>
   );
@@ -395,26 +399,36 @@ const styles = StyleSheet.create({
     //borderWidth: 3,
     //borderColor: "#DFDFDF",
     backgroundColor: "white",
-    //height: SCREEN_HEIGHT * 0.18,
     alignItems: "center",
+    height: SCREEN_HEIGHT*0.2
   },
   commentsContainer: {
     flexDirection: "column",
     width: SCREEN_WIDTH * 0.88,
     marginTop: SCREEN_HEIGHT * 0.01,
+    
   },
   commentsName: {
     fontSize: 13,
     fontWeight: "700",
     color: "#ABA8A8",
+    width :SCREEN_WIDTH,
+
   },
   commentsContent: {
     fontSize: 15,
     fontWeight: "500",
+    width :SCREEN_WIDTH ,
+
+  },
+  commentDate: {
+    fontSize: 12,
+    marginLeft: SCREEN_WIDTH * 0.5,
+    color: "#ABA8A8",
   },
   scrollView: {
     backgroundColor: "#FFFFFF",
     marginVertical: 20,
-    width :SCREEN_WIDTH * 0.88,
+    
   },
 });
