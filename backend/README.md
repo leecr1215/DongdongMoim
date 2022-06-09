@@ -139,13 +139,16 @@
 
 
 ### PostApplication    
-1) 게시물 별 지원자 조회      
+1) 전체 지원자 조회      
+[GET] `localhost:8080/api/v1/posts/applicants`   
+  
+2) 게시물 별 지원자 조회      
 [GET] `localhost:8080/api/v1/posts/{post_id}/applicants`   
 
-2) 사용자의 게시물 신청 여부 조회    
+3) 사용자의 게시물 신청 여부 조회    
 [GET] `localhost:8080/api/v1/posts/{post_id}/applicants/{user_id}`  
 
-3) 사용자의 게시물 신청    
+4) 사용자의 게시물 신청    
 [POST] `localhost:8080/api/v1/posts/{post_id}/applicants/{user_id}`  
 [RequestBody]    
     ```shell  
