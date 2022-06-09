@@ -243,7 +243,9 @@ export default function Post({route,  navigation }) {
         <View style={styles.commentsListContainer}>
         {/* {console.log(comment)} */}
         {commentData.map((comment)=>(
-          <View style={styles.commentsContainer}>
+          <View                   
+          key={comment["created_date"]}
+          style={styles.commentsContainer}>
             <Text style={styles.commentsName}>닉네임</Text>
             <Text style={styles.commentsContent}>{comment["text"]}</Text>
             <View style={styles.smallLine}></View>
