@@ -104,7 +104,7 @@ export default function Home({ navigation }) {
     }
     getData();
     getLocation();
-  }, [setPostData, focus]);
+  }, [setPostData, focus, city]);
 
   const storage1 = AsyncStorage.getItem("@username").then((name) =>
     setUsername(name.slice(1, -1))
@@ -154,9 +154,7 @@ export default function Home({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
-
-      {/* <StatusBar backgroundColor={"#D3EEFF"} translucent={false} /> */}
-
+      <StatusBar backgroundColor={"#D3EEFF"} translucent={false} />
       <View style={styles.body}>
         <View style={styles.search}>
           <Dropdown
@@ -284,9 +282,9 @@ export default function Home({ navigation }) {
             )}
           </ScrollView>
         </View>
-        {/* <View>
+        <View>
           <Text>{city}</Text>
-        </View> */}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -297,7 +295,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F3F3F3",
   },
-  body: { flex: 0.87 },
+  body: { flex: 0.9 },
   search: {
     width: SCREEN_WIDTH * 0.9,
     height: SCREEN_HEIGHT * 0.05,

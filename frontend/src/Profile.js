@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   body: {
-    flex: 0.87,
+    flex: 0.9,
     alignItems: "center",
   },
   back: {

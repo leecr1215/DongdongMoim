@@ -60,7 +60,7 @@ const Header = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.13,
+    flex: 0.1,
     backgroundColor: "white",
     alignItems: "center",
     alignContent: "center",
