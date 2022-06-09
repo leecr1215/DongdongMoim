@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,18 +14,68 @@ import {
 import { Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "../contents/Header";
+import Constants from "expo-constants";
+import { useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const { manifest } = Constants;
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function Profile({ navigation }) {
+  const isFocused = useIsFocused();
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [postData, setPostData] = useState(null);
+  useEffect(() => {
+    try {
+      async function getUsers() {
+        await AsyncStorage.getItem("@id").then((userid) => {
+          setId(userid.slice(1, -1));
+        });
+        await AsyncStorage.getItem("@username").then((username) => {
+          setName(username.slice(1, -1));
+        });
+      }
+      getUsers();
+    } catch (e) {
+      throw e;
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    try{
+      const response = await axios
+          .get(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/posts/all`
+          )
+          .then((response) => {
+            if (response.data["success"] == true) {
+              const data = response.data["data"];
+              setData(data);
+            }
+          })
+          .catch(function (error) {
+            alert("게시물을 가져오지 못 했습니다.");
+            console.log(error);
+            throw error;
+          });
+    } catch (error) {
+      throw error;
+    }
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
         <View style={styles.back}>
-          <AntDesign name="left" size={20} color="black" />
-          <TouchableOpacity onPress={() => navigation.navigate("???")}>
+          <TouchableOpacity onPress={() => navigation.pop()}>
+            <AntDesign name="left" size={18} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.pop()}>
             <Text style={styles.backText}>활동 내역 확인</Text>
           </TouchableOpacity>
         </View>
@@ -36,7 +86,7 @@ export default function Profile({ navigation }) {
               source={require("../icon/red_logo.png")}
             />
           </View>
-          <Text style={styles.username}>님 안녕하세요</Text>
+          <Text style={styles.username}>{name}님 안녕하세요</Text>
         </View>
         <View style={styles.bigLine}></View>
         <View style={styles.contentContainer}>
@@ -156,28 +206,37 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: SCREEN_WIDTH,
   },
+  back: {
+    flexDirection: "row",
+    marginRight: SCREEN_WIDTH * 0.7,
+    marginTop: SCREEN_HEIGHT * 0.03,
+    alignItems: "center",
+  },
+  backText: {
+    fontSize: 18,
+  },
   introContainer: {
     width: SCREEN_WIDTH * 0.8,
-    justifyContent: "space-between",
     flexDirection: "row",
-    marginTop: SCREEN_HEIGHT * 0.02,
-    marginBottom: SCREEN_HEIGHT * 0.02,
+    justifyContent: "space-between",
+    alignContent: "center",
+    marginTop: SCREEN_HEIGHT * 0.03,
+    marginBottom: SCREEN_WIDTH * 0.03,
   },
   circle: {
-    //position: "relative",
-    width: SCREEN_WIDTH * 0.3,
-    borderRadius: 60,
+    width: SCREEN_WIDTH * 0.25,
+    height: SCREEN_WIDTH * 0.25,
+    borderRadius: (SCREEN_WIDTH * 0.25) / 2,
     borderColor: "black",
     borderWidth: 2,
     alignItems: "center",
     alignContent: "center",
-    //left: -SCREEN_WIDTH * 0.23,
-    //top: SCREEN_HEIGHT * 0.06,
+    justifyContent: "center",
   },
   profileImage: {
     resizeMode: "contain",
-    width: SCREEN_WIDTH * 0.2,
-    height: SCREEN_HEIGHT * 0.13,
+    width: SCREEN_WIDTH * 0.17,
+    height: SCREEN_HEIGHT * 0.14,
   },
   username: {
     //left: SCREEN_WIDTH * 0.33,
@@ -196,14 +255,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     display: "flex",
     justifyContent: "center",
-  },
-  back: {
-    flexDirection: "row",
-    marginRight: SCREEN_WIDTH * 0.6,
-    marginTop: SCREEN_HEIGHT * 0.02,
-  },
-  backText: {
-    fontSize: 20,
   },
   bigLine: {
     width: SCREEN_WIDTH * 0.9,
