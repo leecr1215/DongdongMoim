@@ -17,13 +17,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "../contents/Header";
 import Constants from "expo-constants";
+import { useIsFocused } from "@react-navigation/native";
 
 const { manifest } = Constants;
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function WriteUserinfo({ navigation }) {
+  const isFocused = useIsFocused();
   const [id, setId] = useState("");
+  const [username, setUsername] = useState("");
   const [gender, setGender] = useState("M");
   const [phoneNum, setPhoneNum] = useState("");
   const [age, setAge] = useState("");
@@ -52,16 +55,17 @@ export default function WriteUserinfo({ navigation }) {
     false,
   ]);
 
-  const [userData, setUserData] = useState("");
+  // const [userData, setUserData] = useState("");
 
-  const setData = async (data) => {
-    try {
-      await setUserData(data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const setData = async (data) => {
+  //   try {
+  //     await setUserData(data);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
+  // 사용자 운동 능력 가져오기
   function getSoccerSkill(idx) {
     if (idx == 1) {
       setSoccerSelect([true, false, false, false]);
@@ -97,6 +101,7 @@ export default function WriteUserinfo({ navigation }) {
     }
   }
 
+  // 사용자 성별 가져오기
   function getGender(gender) {
     if (gender == "M") {
       setGenderSelect([true, false]);
@@ -105,6 +110,7 @@ export default function WriteUserinfo({ navigation }) {
     }
   }
 
+  // 성별 변경 시 css
   const onPressGender = async (gender) => {
     if (gender === "남") {
       setGender("M");
@@ -115,6 +121,7 @@ export default function WriteUserinfo({ navigation }) {
     }
   };
 
+  //운동 능력 변경 시 css
   const onPressSoccer = async (name) => {
     if (name === "sole") {
       setSoccer(1);
@@ -163,6 +170,48 @@ export default function WriteUserinfo({ navigation }) {
     }
   };
 
+  const onPress = async () => {
+    //navigation.navigate("Home");
+    if (username == "" || phoneNum == "" || age == "") {
+      alert("빈칸없이 다 입력해주세요😊");
+    } else {
+      const data = {
+        username: username, // 아이디
+        gender: gender,
+        phone_number: phoneNum,
+        age: age,
+        soccer_skill: soccer,
+        baseball_skill: baseball,
+        basketball_skill: basketball,
+      };
+
+      try {
+        const response = await axios
+          .put(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/users/${id}`,
+            data
+          )
+          .then(function (response) {
+            if (response.data["success"] == true) {
+              alert("회원정보가 변경되었습니다.");
+              navigation.navigate("Userinfo");
+            } else {
+              alert("회원정보 변경에 실패했습니다.");
+            }
+          })
+          .catch(function (error) {
+            //alert(error.response.data);
+            console.log(error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  // 사용자 id 가져오기
   useEffect(() => {
     try {
       async function getUsers() {
@@ -176,6 +225,7 @@ export default function WriteUserinfo({ navigation }) {
     }
   }, []);
 
+  // 사용자 정보 가져오기
   useEffect(() => {
     async function getUserinfo() {
       try {
@@ -189,7 +239,12 @@ export default function WriteUserinfo({ navigation }) {
             console.log(response.data);
             if (response.data["success"] == true) {
               const data = response.data["result"];
-              setData(data);
+              // setData(data);
+              setUsername(data["username"]);
+              setAge(String(data["age"]));
+              setGender(data["gender"]);
+              setPhoneNum(String(data["phone_number"]));
+              // user 정보 불러오기
               getSoccerSkill(data["soccer_skill"]);
               getBaseballSkill(data["baseball_skill"]);
               getBasketballSkill(data["basketball_skill"]);
@@ -217,9 +272,7 @@ export default function WriteUserinfo({ navigation }) {
           <Text style={styles.backText}>회원정보 수정</Text>
         </View>
         <View style={styles.introContainer}>
-          <Text style={styles.username}>
-            {userData["username"]}님의 회원정보
-          </Text>
+          <Text style={styles.username}>{username}님의 회원정보</Text>
         </View>
         <View style={styles.info}>
           <View>
@@ -251,7 +304,7 @@ export default function WriteUserinfo({ navigation }) {
               style={styles.ageInput}
               onChangeText={setAge}
               value={age}
-              placeholder={String(userData["age"])}
+              placeholder={age}
               keyboardType="numeric"
               maxLength={3}
             />
@@ -264,7 +317,7 @@ export default function WriteUserinfo({ navigation }) {
               style={styles.phoneInput}
               onChangeText={setPhoneNum}
               value={phoneNum}
-              placeholder={String(userData["phone_number"])}
+              placeholder={phoneNum}
               maxLength={13}
             />
           </View>
@@ -395,7 +448,7 @@ export default function WriteUserinfo({ navigation }) {
           </View>
         </View>
         <TouchableOpacity onPress={() => onPress()} underlayColor="white">
-          <Text style={styles.signUpBtn}>확인</Text>
+          <Text style={styles.saveBtn}>확인</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -613,7 +666,7 @@ const styles = StyleSheet.create({
     //marginLeft: SCREEN_WIDTH * 0.01,
   },
 
-  signUpBtn: {
+  saveBtn: {
     backgroundColor: "#D3EEFF",
     fontSize: 17,
     alignItems: "center",
