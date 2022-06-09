@@ -124,10 +124,11 @@ export default function Userinfo({ navigation }) {
             }
           })
           .catch(function (error) {
-            alert("회원정보 조회 오류입니다.");
             throw error;
           });
-      } catch (e) {}
+      } catch (e) {
+        // throw e;
+      }
     }
     getUserinfo();
   }, [id]);
