@@ -76,7 +76,8 @@
 
 2) 게시글 필터링 조회  
 [GET] `localhost:8080/api/v1/posts/all?id={user_id}age={age}&gender={gender}&skil={skill}`  
-
+    
+  
 3) 게시글 작성   
 [POST] `localhost:8080/api/v1/posts`   
 [RequestBody]    
@@ -97,8 +98,11 @@
 
 4) 게시글 조회   
 [GET] `localhost:8080/api/v1/posts/{post_id}`   
-    
-5) 게시글 수정   
+  
+5) 사용자별 작성한 게시글 조회  
+[GET] `localhost:8080/api/v2/posts/{user_id}`  
+  
+6) 게시글 수정   
 [PUT] `localhost:8080/api/v1/posts/{post_id}`   
 [RequestBody]    
     ```shell
