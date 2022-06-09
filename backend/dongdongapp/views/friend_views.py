@@ -94,11 +94,14 @@ class FriendDetail2(APIView):
     # 나의 친구리스트 조회 ver.2
     def get(self,request,user1):
         friends = Friend.objects.filter(my_id=user1,status="CONNECTING").all()
-        queryset = friends.select_related("your_id").values("friend_id", "my_id", "your_id", "your_id__username")
-        queryset = queryset.values(friend_username=F("your_id__username"))
+        queryset = friends.select_related("your_id").values("friend_id", "my_id", "your_id", "your_id__username","your_id__phone_number")
+        
+        queryset = queryset.values(friend_username=F("your_id__username"),phone_number=F("your_id__phone_number"))
+        # queryset = queryset.values(phone_number=F("your_id__phone_number"))
+
         print(str(queryset))
      
-        return Response(Util.response(True,queryset.values("friend_username"),204),status=status.HTTP_204_NO_CONTENT)
+        return Response(Util.response(True,queryset.values("friend_username","phone_number"),204),status=status.HTTP_204_NO_CONTENT)
 
 ### 친구 여부 조회 CONNECTING, NONE, REQUEST, REQUESTED
 class FriendDetail3(APIView):
