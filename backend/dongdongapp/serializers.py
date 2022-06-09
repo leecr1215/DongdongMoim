@@ -86,7 +86,7 @@ class FriendSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Friend
-        fields = ('user1_id', 'user2_id', 'status')
+        fields = ('my_id', 'your_id', 'status')
 
     # def get_username(self,obj):
     #     return obj.user.username
