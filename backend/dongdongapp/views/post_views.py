@@ -77,6 +77,10 @@ class PostList(APIView):
             posts.append(data)
         return Response(Util.response(True, posts, 200), status=status.HTTP_200_OK)
 
+
+class UsersPostList(APIView):
+    permission_classes = [permissions.AllowAny]
+
     def get(self, request, pk):
         queryset = Post.objects.filter(user_id=pk)
         serializer = PostSerializer(queryset, many=True)

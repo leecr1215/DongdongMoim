@@ -17,6 +17,7 @@ import Header from "../contents/Header";
 import Constants from "expo-constants";
 import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const { manifest } = Constants;
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -27,6 +28,17 @@ export default function Profile({ navigation }) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [postData, setPostData] = useState(null);
+  const [postCheck, setPostCheck] = useState(false);
+
+  const setData = async (data) => {
+    try {
+      await setPostData(data);
+      await setPostCheck(true);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     try {
       async function getUsers() {
@@ -44,28 +56,31 @@ export default function Profile({ navigation }) {
   }, [isFocused]);
 
   useEffect(() => {
-    try{
-      const response = await axios
+    async function getPost() {
+      try {
+        const response = await axios
           .get(
             `http://${manifest.debuggerHost
               .split(":")
-              .shift()}:8080/api/v1/posts/all`
+              .shift()}:8080/api/v2/posts/${id}`
           )
           .then((response) => {
             if (response.data["success"] == true) {
               const data = response.data["data"];
               setData(data);
+              console.log(data);
             }
           })
           .catch(function (error) {
             alert("게시물을 가져오지 못 했습니다.");
-            console.log(error);
             throw error;
           });
-    } catch (error) {
-      throw error;
+      } catch (error) {
+        throw error;
+      }
     }
-  }, []);
+    getPost();
+  }, [id]);
 
   return (
     <View style={styles.container}>
@@ -100,29 +115,27 @@ export default function Profile({ navigation }) {
             <View style={styles.smallLine}></View>
             <ScrollView style={styles.scrollView}>
               <View style={styles.uploadPostList}>
-                <View style={styles.post}>
-                  <Text>349</Text>
-                  <Text>배드민턴어쩌구</Text>
-                  <Text>1/5</Text>
-                </View>
-                <View style={styles.smallLine}></View>
-                <View style={styles.post}>
-                  <Text>350</Text>
-                  <Text>어쩌구</Text>
-                  <Text>1/5</Text>
-                </View>
-                <View style={styles.smallLine}></View>
-                <View style={styles.post}>
-                  <Text>351</Text>
-                  <Text>어쩌구</Text>
-                  <Text>1/5</Text>
-                </View>
-                <View style={styles.smallLine}></View>
-                <View style={styles.post}>
-                  <Text>352</Text>
-                  <Text>어쩌구</Text>
-                  <Text>1/5</Text>
-                </View>
+                {postCheck ? (
+                  postData.map((post, index) => {
+                    <TouchableOpacity
+                      key={post["post_id"]}
+                      onPress={() =>
+                        navigation.navigate("Post", { postId: post["post_id"] })
+                      }
+                    >
+                      <View style={styles.post}>
+                        <Text>{post["post_id"]}</Text>
+                        <Text>{post["title"]}</Text>
+                        <Text>
+                          {post["applicantsNum"]}/{post["required_number"]}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>;
+                  })
+                ) : (
+                  <Text>포스트 가져오는 중...</Text>
+                )}
+
                 <View style={styles.smallLine}></View>
               </View>
             </ScrollView>
