@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "../contents/Header";
 import Constants from "expo-constants";
+import { useIsFocused } from "@react-navigation/native";
 
 const { manifest } = Constants;
 
@@ -23,6 +24,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function Userinfo({ navigation }) {
+  const isFocused = useIsFocused();
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [soccer, setSoccer] = useState(1);
@@ -102,7 +104,7 @@ export default function Userinfo({ navigation }) {
     } catch (e) {
       throw e;
     }
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     async function getUserinfo() {
@@ -124,13 +126,14 @@ export default function Userinfo({ navigation }) {
             }
           })
           .catch(function (error) {
-            alert("회원정보 조회 오류입니다.");
             throw error;
           });
-      } catch (e) {}
+      } catch (e) {
+        // throw e;
+      }
     }
     getUserinfo();
-  }, [id]);
+  }, [id, isFocused]);
 
   return (
     <View style={styles.container}>
