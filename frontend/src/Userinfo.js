@@ -25,9 +25,6 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 export default function Userinfo({ navigation }) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
-  const [gender, setGender] = useState([]);
-  const [phoneNum, setPhoneNum] = useState([]);
-  const [age, setAge] = useState([]);
   const [soccer, setSoccer] = useState(1);
   const [baseball, setBaseball] = useState(1);
   const [basketball, setBasketball] = useState(1);
@@ -49,6 +46,15 @@ export default function Userinfo({ navigation }) {
     false,
     false,
   ]);
+  const [userData, setUserData] = useState("");
+
+  const setData = async (data) => {
+    try {
+      await setUserData(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   function getSoccerSkill(idx) {
     if (idx == 1) {
@@ -86,13 +92,20 @@ export default function Userinfo({ navigation }) {
   }
 
   useEffect(() => {
-    async function getUserInfo(id) {
-      await AsyncStorage.getItem("@username").then((name) =>
-        setName(name.slice(1, -1))
-      );
-      await AsyncStorage.getItem("@id").then((userid) =>
-        setId(userid.slice(1, -1))
-      );
+    try {
+      async function getUsers() {
+        await AsyncStorage.getItem("@id").then((userid) => {
+          setId(userid.slice(1, -1));
+        });
+      }
+      getUsers();
+    } catch (e) {
+      throw e;
+    }
+  }, []);
+
+  useEffect(() => {
+    async function getUserinfo() {
       try {
         const response = await axios
           .get(
@@ -103,45 +116,36 @@ export default function Userinfo({ navigation }) {
           .then((response) => {
             console.log(response.data);
             if (response.data["success"] == true) {
-              setName(response.data["result"]["username"]);
-              setAge(response.data["result"]["age"]);
-              setGender(response.data["result"]["gender"]);
-              setPhoneNum(response.data["result"]["phone_number"]);
-              setSoccer(response.data["result"]["soccer_skill"]);
-              setBaseball(response.data["result"]["baseball_skill"]);
-              setBasketball(response.data["result"]["basketball_skill"]);
+              const data = response.data["result"];
+              setData(data);
+              getSoccerSkill(data["soccer_skill"]);
+              getBaseballSkill(data["baseball_skill"]);
+              getBasketballSkill(data["basketball_skill"]);
             }
           })
           .catch(function (error) {
             alert("회원정보 조회 오류입니다.");
-            //console.log(error.response.data);
-            //console.log(error);
             throw error;
           });
-      } catch (error) {
-        console.log(error);
-        //throw error;
-      }
+      } catch (e) {}
     }
-
-    getUserInfo(id);
-    getSoccerSkill(soccer);
-    getBaseballSkill(baseball);
-    getBasketballSkill(basketball);
-  }, []);
+    getUserinfo();
+  }, [id]);
 
   return (
     <View style={styles.container}>
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
         <View style={styles.back}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
             <AntDesign name="left" size={20} color="black" />
           </TouchableOpacity>
           <Text style={styles.backText}>회원정보 보기</Text>
         </View>
         <View style={styles.introContainer}>
-          <Text style={styles.username}>{name}님의 회원정보</Text>
+          <Text style={styles.username}>
+            {userData["username"]}님의 회원정보
+          </Text>
           <View style={styles.modifyinfo}>
             <Image
               style={styles.pencil}
@@ -157,17 +161,20 @@ export default function Userinfo({ navigation }) {
         <View style={styles.info}>
           <View style={styles.genderContainer}>
             <Text style={styles.subject}> 성별 </Text>
-            <Text style={styles.genderText}> {gender} </Text>
+            <Text style={styles.genderText}> {userData["gender"]} </Text>
           </View>
 
           <View style={styles.ageContainer}>
             <Text style={styles.subject}> 나이 </Text>
-            <Text style={styles.ageText}> {age} </Text>
+            <Text style={styles.ageText}> {userData["age"]} </Text>
           </View>
 
           <View style={styles.phoneNumContainer}>
             <Text style={styles.subject}> 전화번호 </Text>
-            <Text style={styles.phoneNumText}> {phoneNum} </Text>
+            <Text style={styles.phoneNumText}>
+              {" "}
+              {userData["phone_number"]}{" "}
+            </Text>
           </View>
 
           {/* 운동 능력 부분 */}
@@ -273,55 +280,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
   },
-  head: {
-    flex: 0.13,
-    justifyContent: "space-around",
-    alignItems: "center",
-    backgroundColor: "#D3EEFF",
-    width: SCREEN_WIDTH,
-    flexDirection: "row",
-  },
-  homeIcons: {
-    justifyContent: "flex",
-    flexDirection: "row",
-    marginTop: SCREEN_HEIGHT * 0.04,
-    marginRight: 10,
-  },
-  title: {
-    fontSize: 20,
-    marginTop: SCREEN_HEIGHT * 0.04,
-    alignContent: "center",
-    marginLeft: SCREEN_WIDTH * 0.05,
-    marginRight: SCREEN_WIDTH * 0.05,
-  },
-  homeLogo: {
-    resizeMode: "contain",
-    width: SCREEN_WIDTH * 0.07,
-    height: SCREEN_HEIGHT * 0.13,
-  },
-  homeLogo2: {
-    resizeMode: "contain",
-    width: SCREEN_WIDTH * 0.07,
-    height: SCREEN_HEIGHT * 0.13,
-  },
-  bellLogo: {
-    resizeMode: "contain",
-    width: SCREEN_WIDTH * 0.07,
-    height: SCREEN_HEIGHT * 0.13,
-    marginRight: 10,
-  },
-  icons: {
-    justifyContent: "flex",
-    flexDirection: "row",
-    marginTop: SCREEN_HEIGHT * 0.04,
-  },
-  myPageLogo: {
-    resizeMode: "contain",
-    width: SCREEN_WIDTH * 0.07,
-    height: SCREEN_HEIGHT * 0.13,
-  },
   body: {
-    flex: 0.87,
+    flex: 0.9,
     alignItems: "center",
     backgroundColor: "#E5E5E5",
     width: SCREEN_WIDTH,
