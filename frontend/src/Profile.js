@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import Header from "../contents/Header";
+import FriendModal from "../contents/FriendModal";
 
 const { manifest } = Constants;
 
@@ -25,6 +26,8 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 export default function Profile({ route, navigation }) {
   const [userId, setUserId] = useState(0);
   const [userName, setUserName] = useState("...");
+  const [isModalClick, setModalClick] = useState(false);
+
   const profileUserId = route["params"]["userId"];
   const [userData, setUserData] = useState("");
   const [gender, setGender] = useState("...");
@@ -91,6 +94,14 @@ export default function Profile({ route, navigation }) {
     }
   }
 
+  const onPressShowFriend = async () => {
+    setModalClick(true);
+  };
+
+  const onPressModalClose = async () => {
+    setModalClick(false);
+  };
+
   useEffect(() => {
     async function getUserinfo() {
       try {
@@ -156,6 +167,7 @@ export default function Profile({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <FriendModal isVisible={isModalClick} isClose={onPressModalClose} />
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
         <View style={styles.back}>
@@ -310,14 +322,20 @@ export default function Profile({ route, navigation }) {
             </View>
           </View>
         </View>
-        <View style={styles.friendIcon}>
-          <Image
-            style={styles.friendLogo}
-            source={require("../icon/friends.png")}
-            width={40}
-            height={40}
-          />
-        </View>
+        <TouchableOpacity
+          onPress={() => {
+            onPressShowFriend();
+          }}
+        >
+          <View style={styles.friendIcon}>
+            <Image
+              style={styles.friendLogo}
+              source={require("../icon/friends.png")}
+              width={40}
+              height={40}
+            />
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -21,10 +21,7 @@ const FriendModal = ({ isVisible, isClose }) => {
         <View style={styles.modal}>
           <View style={styles.modalcon}>
             <View style={styles.head}>
-              <TouchableOpacity>
-                <AntDesign name="close" size={20} color="#D3EEFF" />
-              </TouchableOpacity>
-              <Text style={styles.headText}>운동 능력</Text>
+              <Text style={styles.headText}>내 친구들</Text>
               <TouchableOpacity onPress={isClose}>
                 <AntDesign
                   style={styles.icon}
@@ -35,42 +32,9 @@ const FriendModal = ({ isVisible, isClose }) => {
               </TouchableOpacity>
             </View>
             <View style={styles.content}>
-              {/* 왼쪽 그림과 이름 */}
-              <View style={styles.left}>
-                <View style={styles.exercise}>
-                  <Image
-                    style={styles.img}
-                    source={require("../icon/sole.png")}
-                  />
-                  <Text style={styles.exerText}>발바닥</Text>
-                </View>
-                <View style={styles.exercise}>
-                  <Image
-                    style={styles.img}
-                    source={require("../icon/sock.png")}
-                  />
-                  <Text style={styles.exerText}>양말</Text>
-                </View>
-                <View style={styles.exercise}>
-                  <Image
-                    style={styles.img}
-                    source={require("../icon/slipper.png")}
-                  />
-                  <Text style={styles.exerText}>슬리퍼</Text>
-                </View>
-                <View style={styles.exercise}>
-                  <Image
-                    style={styles.img}
-                    source={require("../icon/sneaker.png")}
-                  />
-                  <Text style={styles.exerText}>운동화</Text>
-                </View>
-              </View>
-              <View style={styles.right}>
-                <Text style={styles.explain}>해당 운동을 처음해본다.</Text>
-                <Text style={styles.explain}>운동 경험이 있다.</Text>
-                <Text style={styles.explain}>1인분을 해낼 수 있다.</Text>
-                <Text style={styles.explain}>1.5인분을 해낼 수 있다.</Text>
+              <View style={styles.friend}>
+                <Text style={styles.name}>마라</Text>
+                <Text style={styles.phoneNum}>010-0000-0000</Text>
               </View>
             </View>
           </View>
@@ -82,54 +46,54 @@ const FriendModal = ({ isVisible, isClose }) => {
 
 const styles = StyleSheet.create({
   container: {
-    //height: SCREEN_HEIGHT,
-    // flex: 1,
-    // backgroundColor: "black",
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
+    //justifyContent: "center",
+    //alignContent: "center",
+    //alignItems: "center",
   },
   modal: {
     height: SCREEN_HEIGHT,
     width: SCREEN_WIDTH,
-    marginLeft: 0,
-    //marginRight: 300,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
+    //backgroundColor: "white",
+    justifyContent: "flex-end",
+    // alignContent: "center",
+    // alignItems: "flex-start",
   },
   modalcon: {
-    backgroundColor: "#fff",
-    width: SCREEN_WIDTH * 0.75,
+    backgroundColor: "#F3F3F3",
+    width: SCREEN_WIDTH * 0.7,
+    height: SCREEN_HEIGHT * 0.7,
+    maxHeight: SCREEN_HEIGHT * 0.4,
+    alignItems: "center",
   },
-
   head: {
-    backgroundColor: "#D3EEFF",
     flexDirection: "row",
     alignItems: "center",
     alignContent: "center",
-    justifyContent: "space-around",
-    height: SCREEN_HEIGHT * 0.06,
-    marginBottom: SCREEN_HEIGHT * 0.03,
+    justifyContent: "space-between",
+    width: SCREEN_WIDTH * 0.6,
+    height: SCREEN_HEIGHT * 0.05,
+    borderColor: "black",
+    borderWidth: 1,
   },
   headText: {
+    fontSize: 17,
+    fontWeight: "700",
+  },
+  content: { width: SCREEN_WIDTH * 0.6 },
+  friend: {
+    backgroundColor: "white",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    //marginLeft: SCREEN_WIDTH * 0.05,
+    borderRadius: 20,
+    width: SCREEN_WIDTH * 0.6,
+  },
+  name: { fontSize: 15, width: SCREEN_WIDTH * 0.2 },
+  phoneNum: {
     fontSize: 15,
-    fontWeight: "700",
+    width: SCREEN_WIDTH * 0.4,
   },
-  content: { flexDirection: "row", justifyContent: "space-around" },
-  exercise: { flexDirection: "row" },
-  exerText: {
-    fontSize: 13,
-    fontWeight: "700",
-    marginBottom: SCREEN_HEIGHT * 0.03,
-  },
-  img: {
-    resizeMode: "contain",
-    height: SCREEN_HEIGHT * 0.025,
-    width: SCREEN_WIDTH * 0.08,
-  },
-  explain: { fontSize: 13, marginBottom: SCREEN_HEIGHT * 0.03 },
 });
 
 export default FriendModal;
