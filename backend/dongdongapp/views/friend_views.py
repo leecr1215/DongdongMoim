@@ -98,6 +98,13 @@ class FriendDetail2(APIView):
      
         return Response(Util.response(True,queryset.values("friend_username"),204),status=status.HTTP_204_NO_CONTENT)
 
+class FriendDetail3(APIView):
+    def get(self,request,user1,user2):
+        user1_id = self.kwargs['user1']
+        user2_id = self.kwargs['user2']
+        friend = Friend.objects.filter(Q(user1_id=user1_id,user2_id=user2_id)|Q(user1_id=user2_id,user2_id=user1_id))
+        return Response(Util.response(True,friend.values(),204),status=status.HTTP_204_NO_CONTENT)
+
 class Util():
     def response(success,data,status):
         return {

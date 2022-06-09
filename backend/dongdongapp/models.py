@@ -57,14 +57,11 @@ class PostApplication(models.Model):
     post_id = models.ForeignKey(
         Post, on_delete=models.CASCADE, db_column="post_id")
 
-
 class Friend(models.Model):
     friend_id = models.AutoField(primary_key=True, db_column="friend_id")
-    user1_id = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, db_column="user1_id", related_name="me")
-    user2_id = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, db_column="user2_id", related_name="you")
+    my_id = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, db_column="my_id", related_name="me")
+    your_id = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, db_column="your_id", related_name="you")
     status = models.CharField(
-        max_length=10, default='WAITING')  # WAITING, CONNECTING
-    post_id = models.ForeignKey(
-        Post, on_delete=models.CASCADE, db_column="post_id")
+        max_length=10, default='NONE')  # NONE, CONNECTING, REQUEST, REQUESTED  
