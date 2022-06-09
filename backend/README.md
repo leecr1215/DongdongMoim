@@ -176,8 +176,9 @@
 [PUT] `localhost:8080/api/v1/friends/{my_id}/{your_id}`   
 
 5) 친구 관계 여부   
-[GET] `localhost:8080/api/v1/friends/connection/{my_id}/{your_id}`
- 
+[GET] `localhost:8080/api/v1/friends/connection/{my_id}/{your_id}`   
++) result의 status : **NONE, REQUEST, REQUESTED, CONNECTING**
+
 ### [Response Body]   
   ```shell
     {
