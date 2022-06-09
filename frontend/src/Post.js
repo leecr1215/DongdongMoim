@@ -24,11 +24,19 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 const { manifest } = Constants;
 
 export default function Post({route,  navigation }) {
-  const [comments, setComments] = useState("");
+  const [userId,setUserId] = useState(0);
   const { postId } = route.params;
   const [postData, setPostData] = useState("");
+  const [comment, setComment] = useState("");
+  const [commentData, setCommentData] = useState("");
+  const [createdDate,setCreatedDate] = useState(new Date());
+  const [commentCheck, setCommentCheck] = useState(false);
 
   console.log("post id : "+postId);
+
+  AsyncStorage.getItem('@id').then((userid) =>
+    setUserId(userid.slice(1, -1))
+    );
 
   const setData = async (data) => {
     try {
@@ -38,6 +46,7 @@ export default function Post({route,  navigation }) {
     }
   };
 
+  //게시물 조회 
   useEffect(() => {
     async function getData() {
       try {
@@ -51,7 +60,6 @@ export default function Post({route,  navigation }) {
             if (response.data["success"] == true) {
               const data = response.data["data"];
               setData(data);
-
               console.log("난 data");
               console.log(data);
             }
@@ -69,6 +77,92 @@ export default function Post({route,  navigation }) {
     }
     getData();
   }, [setPostData]);
+
+  // 댓글 조회 
+  useEffect(() => {
+    async function getData() {
+      try {
+        const response = await axios
+          .get(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/posts/${postId}/comments`
+          )
+          .then((response) => {
+            if (response.data["success"] == true) {
+              const data = response.data["result"];
+              setCommentData(data);
+              setCommentCheck(true);
+              console.log("난 댓글 data");
+              console.log(data);
+            }
+          })
+          .catch(function (error) {
+            alert("댓글을 가져오지 못 했습니다.");
+            console.log(error);
+            throw error;
+          });
+      } catch (error) {
+        alert("댓글을 가져오지 못 했습니다.");
+        console.log(error);
+        throw error;
+      }
+    }
+    getData();
+  }, [setCommentData]);
+
+
+  const opPressCreateComment = async () => {
+    if (comment == "") {
+      alert("빈칸을 채워주세요!");
+    }
+    else {
+      var data = {
+        "user_id":userId,
+        "post_id":postId,
+        "text":comment,
+        "created_date":timestamp(createdDate)
+    };
+      try {
+        console.log(data);
+        const response = await axios
+          .post(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/comments`,
+            data
+          )
+          .then(function async(response) {
+            if (response.data["success"] == true) {
+              alert("댓글이 등록되었습니다.");
+              // const commentData = response.data["result"];
+              navigation.navigate("Post",{"postId":postId});
+            }
+          })
+          .catch(function (error) {
+            alert("댓글 작성 오류입니다.");
+            //console.log(error.response.data);
+            console.log(error);
+            throw error;
+          });
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    }
+
+    function timestamp(){
+      var source = new Date();
+      var date = source.getFullYear() + "-" + ((source.getMonth() + 1) > 9 ? (source.getMonth() + 1).toString() : "0" + (source.getMonth() + 1)) + "-" + (source.getDate() > 9 ? source.getDate().toString() : "0" + source.getDate().toString());
+  
+      var hours = ('0' + source.getHours()).slice(-2); 
+      var minutes = ('0' + source.getMinutes()).slice(-2);
+  
+      var time = hours + ':' + minutes
+  
+      return date+" "+time;
+      }
+  }
 
   return (
     <View style={styles.container}>
@@ -131,32 +225,36 @@ export default function Post({route,  navigation }) {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            onChangeText={setComments}
-            value={comments}
+            onChangeText={setComment}
+            value={comment}
             placeholder="댓글을 입력하세요"
           />
-          <View style={styles.confirmBtn}>
-            <Text style={styles.confirmBtnText}>등록</Text>
-          </View>
+          <TouchableOpacity onPress={() => {
+              opPressCreateComment();
+            }} underlayColor="white">           
+            <View style={styles.confirmBtn}>
+              <Text style={styles.confirmBtnText}>등록</Text>
+            </View>
+          </TouchableOpacity>
         </View>
         <ScrollView style={styles.scrollView}>
-          <View style={styles.commentsListContainer}>
-            <View style={styles.commentsContainer}>
-              <Text style={styles.commentsName}>song2</Text>
-              <Text style={styles.commentsContent}>같이 치고싶어요~</Text>
-              <View style={styles.smallLine}></View>
-            </View>
-            <View style={styles.commentsContainer}>
-              <Text style={styles.commentsName}>chem</Text>
-              <Text style={styles.commentsContent}>저두요</Text>
-              <View style={styles.smallLine}></View>
-            </View>
-            <View style={styles.commentsContainer}>
-              <Text style={styles.commentsName}>future</Text>
-              <Text style={styles.commentsContent}>저두요</Text>
-              <View style={styles.smallLine}></View>
-            </View>
+        {commentCheck ? 
+        (
+        <View style={styles.commentsListContainer}>
+        {/* {console.log(comment)} */}
+        {commentData.map((comment,index)=>(
+          <View                   
+          key={index}
+          style={styles.commentsContainer}>
+            <Text style={styles.commentsName}>{comment["username"]}</Text>
+            <Text style={styles.commentsContent}>{comment["text"]}</Text>
+            <View style={styles.smallLine}></View>
           </View>
+        ))}
+      </View>
+        )
+        : (<Text>댓글 가져오는 중...</Text>)
+        }
         </ScrollView>
       </View>
     </View>
@@ -170,7 +268,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   body: {
-    flex: 0.87,
+    flex: 0.9,
     alignItems: "center",
     backgroundColor: "#E5E5E5",
     width: SCREEN_WIDTH,
@@ -317,5 +415,6 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: "#FFFFFF",
     marginVertical: 20,
+    width :SCREEN_WIDTH * 0.88,
   },
 });
