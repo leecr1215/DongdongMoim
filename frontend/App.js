@@ -9,6 +9,9 @@ import ProfileScreen from "./src/Profile";
 import UserinfoScreen from "./src/Userinfo";
 import MyPageScreen from "./src/MyPage";
 import WriteUserinfoScreen from "./src/WriteUserinfo";
+import AlarmPageScreen from "./src/AlarmPage";
+import PostScreen from "./src/Post";
+import PostWritingScreen from "./src/PostWriting";
 
 const Stack = createStackNavigator();
 
@@ -56,6 +59,21 @@ export default function App() {
           options={{ headerShown: false }}
           name="WriteUserinfo"
           component={WriteUserinfoScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="AlarmPage"
+          component={AlarmPageScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Post"
+          component={PostScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="PostWriting"
+          component={PostWritingScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -21,7 +21,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 export default function Login({ navigation }) {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
-  const [idNum, setIdNum] = useState(0);
+  const [exist, setExist] = useState(false);
 
   const storeData = async (username, idNum) => {
     try {
@@ -32,14 +32,6 @@ export default function Login({ navigation }) {
     }
   };
 
-  // const storeID = async (idNum) => {
-  //   try {
-  //     await AsyncStorage.setItem("@id", JSON.stringify(idNum));
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
   const onPressLogin = async () => {
     if (id == "" || pw == "") {
       alert("아이디와 비밀번호를 입력해 주세요");
@@ -49,20 +41,24 @@ export default function Login({ navigation }) {
         password: pw,
       };
       console.log(data);
+      console.log(manifest.debuggerHost.split(":").shift());
 
       try {
         const response = await axios
-          .post(`http://${manifest.debuggerHost.split(':').shift()}:8080/api/v1/token`, data)
+          .post(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/token`,
+            data
+          )
           .then(function async(response) {
             if (response.data["success"] == true) {
-              setIdNum(response.data["id"]);
               alert("로그인되었습니다.");
-              storeData(id, idNum);
-              //const store2 = await storeID(idNum);
+              console.log("id는 " + response.data["id"].toString());
+              storeData(id, response.data["id"].toString());
               navigation.navigate("Home");
               setId("");
               setPw("");
-              console.log(AsyncStorage.getItem("@id"));
             }
           })
           .catch(function (error) {
@@ -79,7 +75,7 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.head}>
         <Image style={styles.logo} source={require("../icon/red_logo.png")} />
@@ -91,6 +87,7 @@ export default function Login({ navigation }) {
           value={id}
           onChangeText={setId}
           placeholder="아이디(닉네임)"
+          placeholderTextColor="#898989"
         />
         <TextInput
           style={styles.input}
@@ -98,20 +95,23 @@ export default function Login({ navigation }) {
           onChangeText={setPw}
           secureTextEntry={true}
           placeholder="비밀번호"
+          placeholderTextColor="#898989"
         />
-        <TouchableOpacity
-          onPress={() => {
-            onPressLogin();
-          }}
-        >
-          <Text style={styles.loginBtn}>로그인</Text>
-        </TouchableOpacity>
+        <View style={styles.loginBtn}>
+          <TouchableOpacity
+            onPress={() => {
+              onPressLogin();
+            }}
+          >
+            <Text style={styles.loginText}>로그인</Text>
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
           <Text style={styles.signupBtn}>회원가입</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -155,7 +155,6 @@ const styles = StyleSheet.create({
   },
   loginBtn: {
     backgroundColor: "#D3EEFF",
-    fontSize: 17,
     alignItems: "center",
     textAlign: "center",
     paddingBottom: 8,
@@ -168,6 +167,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     marginBottom: SCREEN_HEIGHT * 0.08,
   },
+  loginText: { fontSize: 17 },
   signupBtn: {
     borderBottomWidth: 1,
     alignItems: "center",

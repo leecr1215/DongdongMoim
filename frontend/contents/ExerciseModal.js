@@ -82,14 +82,18 @@ const ExerciseModal = ({ isVisible, isClose }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "black",
+    //height: SCREEN_HEIGHT,
+    // flex: 1,
+    // backgroundColor: "black",
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
   },
   modal: {
-    flex: 1,
+    height: SCREEN_HEIGHT,
+    width: SCREEN_WIDTH,
+    marginLeft: 0,
+    //marginRight: 300,
     backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "center",
     alignContent: "center",

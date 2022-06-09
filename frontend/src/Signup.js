@@ -77,7 +77,12 @@ export default function Home({ navigation }) {
 
       try {
         const response = await axios
-          .post(`http://${manifest.debuggerHost.split(':').shift()}:8080/api/v1/users`, data)
+          .post(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/users`,
+            data
+          )
           .then(function (response) {
             if (response.data["success"] == true) {
               alert("회원가입되었습니다.");
@@ -176,6 +181,7 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <ExerciseModal isVisible={isModalClick} isClose={onPressModalClose} />
       <StatusBar style="auto" />
       <View style={styles.head}>
         <Text style={styles.appText}>회원가입</Text>
@@ -188,6 +194,7 @@ export default function Home({ navigation }) {
             onChangeText={setId}
             value={id}
             placeholder="아이디(닉네임)"
+            placeholderTextColor="#898989"
           />
           <TextInput
             style={styles.input}
@@ -195,6 +202,7 @@ export default function Home({ navigation }) {
             value={pw}
             secureTextEntry={true}
             placeholder="비밀번호"
+            placeholderTextColor="#898989"
           />
         </View>
 
@@ -230,6 +238,7 @@ export default function Home({ navigation }) {
             placeholder="00"
             keyboardType="numeric"
             maxLength={3}
+            placeholderTextColor="#898989"
           />
           <Text>세</Text>
         </View>
@@ -242,6 +251,7 @@ export default function Home({ navigation }) {
             value={phoneNum}
             placeholder="010-0000-0000"
             maxLength={13}
+            placeholderTextColor="#898989"
           />
         </View>
 
@@ -368,7 +378,6 @@ export default function Home({ navigation }) {
           <Text style={styles.signUpBtn}>확인</Text>
         </TouchableOpacity>
       </View>
-      <ExerciseModal isVisible={isModalClick} isClose={onPressModalClose} />
     </View>
   );
 }
@@ -382,6 +391,7 @@ const styles = StyleSheet.create({
   },
   head: {
     flex: 1.7,
+    //height: SCREEN_HEIGHT * 0.15,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#D3EEFF",
@@ -392,7 +402,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   signUp: {
-    flex: 8,
+    height: SCREEN_HEIGHT * 0.85,
     width: SCREEN_WIDTH,
     alignItems: "center",
     justifyContent: "center",

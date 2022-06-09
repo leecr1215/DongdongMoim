@@ -5,6 +5,22 @@
 ./manage.py createsuperuser    
 ./manage.py runserver 8080   
 ```
+## Database reset  
+  
+1) db.sqlite3 삭제
+```shell
+    cd backend  
+    rm db.sqlite3  
+```  
+  
+2) migrations 삭제
+```shell
+    cd migrations  
+    rm 000*  
+    rm -rf __pycache__  
+```  
+  
+  
 ## API Documentation 
 
 ### USER
@@ -21,7 +37,7 @@
         "age":23,
         "soccer_skill":1,
         "baseball_skill":1,
-        "badminton_skill":1
+        "basketball_skill":1
     }
     ```
        
@@ -49,7 +65,7 @@
         "age":23,
         "soccer_skill":2,
         "baseball_skill":1,
-        "badminton_skill":4
+        "basketball_skill":4
     }
     ```
 
@@ -59,14 +75,13 @@
 [GET] `localhost:8080/api/v1/posts/all`   
 
 2) 게시글 필터링 조회  
-[GET] `localhost:8080/api/v1/posts/all?age={age}&gender={gender}&skil={skil}`  
+[GET] `localhost:8080/api/v1/posts/all?id={user_id}age={age}&gender={gender}&skil={skill}`  
 
 3) 게시글 작성   
 [POST] `localhost:8080/api/v1/posts`   
 [RequestBody]    
     ```shell
     {
-            "post_id": 4,
             "user_id": 3,
             "title": "hello there",
             "content": "hellooooo",
@@ -76,8 +91,8 @@
             "required_number": 5,
             "age": 23,
             "gender": "F",
-            "exercise": "badminton",
-            "exercise_skil": 2
+            "exercise": "basketball",
+            "exercise_skill": 2
     }
 
 4) 게시글 조회   
@@ -98,8 +113,8 @@
             "required_number": 5,
             "age": 23,
             "gender": "F",
-            "exercise": "badminton",
-            "exercise_skil": 2
+            "exercise": "basketball",
+            "exercise_skill": 2
     }
     ```
 
@@ -107,12 +122,13 @@
 1) 댓글 작성      
 [POST] `localhost:8080/api/v1/comments`   
 [RequestBody]     
-    ```shell
+    ```shell   
     {
-        "user_id":1,
-        "post_id":1,
-        "text":"댓글 테스트입니다."
-    }
+      "user_id":1,
+      "post_id":1,
+      "text":"hihi",
+      "created_date":"2022-02-11 12:11"
+    }   
     ```  
 2) 게시물 별 댓글 조회   
 [GET] `localhost:8080/api/v1/posts/{post_id}/comments`   
