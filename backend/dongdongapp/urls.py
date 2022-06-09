@@ -25,7 +25,7 @@ urlpatterns = [
     path('v1/posts/all', post_views.PostList.as_view()),
     path('v1/posts', post_views.CreatePost.as_view()),
     path('v1/posts/<int:pk>', post_views.PostDetail.as_view()),
-    path('v2/posts/<int:pk>', post_views.PostList.as_view()),
+    path('v2/posts/<int:pk>', post_views.UserPostList.as_view()),
 
     # 댓글
     path('v1/comments', comment_views.CommentList.as_view()),
@@ -37,8 +37,10 @@ urlpatterns = [
     path('v1/friends', friend_views.FriendList.as_view()),
     path('v1/friends/<int:user1>', friend_views.FriendDetail.as_view()),
     path('v2/friends/<int:user1>', friend_views.FriendDetail2.as_view()),
-    path('v1/friends/<int:user1>/<int:user2>',friend_views.FriendDetail.as_view()),
-    path('v1/friends/connection/<int:user1>/<int:user2>',friend_views.FriendDetail3.as_view()),
+    path('v1/friends/<int:user1>/<int:user2>',
+         friend_views.FriendDetail.as_view()),
+    path('v1/friends/connection/<int:user1>/<int:user2>',
+         friend_views.FriendDetail3.as_view()),
 
 
     # 게시글 신청

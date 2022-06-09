@@ -78,7 +78,7 @@ class PostList(APIView):
         return Response(Util.response(True, posts, 200), status=status.HTTP_200_OK)
 
 
-class UsersPostList(APIView):
+class UserPostList(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, pk):
