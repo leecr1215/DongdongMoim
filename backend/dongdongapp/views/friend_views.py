@@ -25,11 +25,12 @@ class FriendList(APIView):
         return Response(Util.response(True,serializer.data,200),status=status.HTTP_200_OK)
 
     # 친구 신청
-    def post(self,request): #자신의 id(user1), 친구 신청할 id(user2)
+    def post(self,request): #자신의 id(my), 친구 신청할 id(your), status(request)
         serializer = FriendSerializer(data=request.data)
-        user1_id = request.data["user1_id"]
-        user2_id = request.data["user2_id"]
-        friend = Friend.objects.filter(Q(user1_id=user1_id,user2_id=user2_id)|Q(user1_id=user2_id,user2_id=user1_id))
+        my_id = request.data["my_id"]
+        your_id = request.data["your_id"]
+
+        friend = Friend.objects.filter(Q(my_id=my_id,your_id=your_id,status="CONNECTING")|Q(my_id=your_id,your_id=my_id,status="CONNECTING"))
         
         # 이미 친구인 경우 
         if friend:
@@ -38,8 +39,9 @@ class FriendList(APIView):
         if serializer.is_valid():
             serializer.save()
         request2_data = {
-            "user1_id": request.data["user2_id"],
-            "user2_id": request.data["user1_id"]
+            "my_id": request.data["your_id"],
+            "your_id": request.data["my_id"],
+            "status": "REQUESTED"
         }
         serializer = FriendSerializer(data=request2_data)
         if serializer.is_valid():
@@ -59,11 +61,11 @@ class FriendDetail(APIView):
         
     # 나의 친구리스트 조회 
     def get(self,request,user1):
-        get_friends = Friend.objects.filter(user1_id=user1,status="CONNECTING").all()
+        get_friends = Friend.objects.filter(my_id=user1,status="CONNECTING").all()
         test = []
         for k in get_friends.values():
-            user2_id = k["user2_id_id"]
-            username = CustomUser.objects.get(pk=user2_id).username
+            your_id = k["your_id_id"]
+            username = CustomUser.objects.get(pk=your_id).username
             k["username"] = username
             test.append(k)
 
@@ -71,17 +73,17 @@ class FriendDetail(APIView):
     
     # 친구 요청 수락 
     def put(self,request,user1,user2):
-        user1_id = self.kwargs['user1']
-        user2_id = self.kwargs['user2']
-        Friend.objects.filter(Q(user1_id=user1_id,user2_id=user2_id)|Q(user1_id=user2_id,user2_id=user1_id)).update(status = "CONNECTING")
+        my_id = self.kwargs['user1']
+        your_id = self.kwargs['user2']
+        Friend.objects.filter(Q(my_id=my_id,your_id=your_id)|Q(my_id=your_id,your_id=my_id)).update(status = "CONNECTING")
         return Response(Util.response(True,"친구 수락에 성공하였습니다.",204),status=status.HTTP_204_NO_CONTENT)
       
     # 친구 연결 끊기 
-    # 자신의 id(user1),친구 끊을 id(user2)
+    # 자신의 id(my),친구 끊을 id(your)
     def delete(self,request,user1,user2):
-        user1_id = self.kwargs['user1']
-        user2_id = self.kwargs['user2']
-        friend = Friend.objects.filter(Q(user1_id=user1_id,user2_id=user2_id)|Q(user1_id=user2_id,user2_id=user1_id))
+        my_id = self.kwargs['user1']
+        your_id = self.kwargs['user2']
+        friend = Friend.objects.filter(Q(my_id=my_id,your_id=your_id)|Q(my_id=your_id,your_id=my_id))
         serializer = FriendSerializer(instance=friend,many=True)
         friend.delete()
         
@@ -91,19 +93,39 @@ class FriendDetail2(APIView):
     permission_classes = [permissions.AllowAny]
     # 나의 친구리스트 조회 ver.2
     def get(self,request,user1):
-        friends = Friend.objects.filter(user1_id=user1,status="CONNECTING").all()
-        queryset = friends.select_related("user2_id").values("friend_id", "user1_id", "user2_id", "user2_id__username")
-        queryset = queryset.values(friend_username=F("user2_id__username"))
+        friends = Friend.objects.filter(my_id=user1,status="CONNECTING").all()
+        queryset = friends.select_related("your_id").values("friend_id", "my_id", "your_id", "your_id__username","your_id__phone_number")
+        
+        queryset = queryset.values(friend_username=F("your_id__username"),phone_number=F("your_id__phone_number"))
+        # queryset = queryset.values(phone_number=F("your_id__phone_number"))
+
         print(str(queryset))
      
+        return Response(Util.response(True,queryset.values("friend_username","phone_number"),204),status=status.HTTP_204_NO_CONTENT)
+
+### 친구 여부 조회 CONNECTING, NONE, REQUEST, REQUESTED
+class FriendDetail3(APIView):
+    permission_classes = [permissions.AllowAny]
+    def get(self,request,user1,user2):
+        my_id = self.kwargs['user1']
+        your_id = self.kwargs['user2']
+        friend = Friend.objects.filter(Q(my_id=my_id,your_id=your_id)).only()
+        if not friend:
+            result = {}
+            result["status"] = "None"
+            return Response(Util.response(True,result,204),status=status.HTTP_204_NO_CONTENT)
+        return Response(Util.response(True,friend.values("status")[0],204),status=status.HTTP_204_NO_CONTENT)
+
+class FriendDetail4(APIView):
+    permission_classes = [permissions.AllowAny]
+    def get(self,request,user1):
+        my_id = self.kwargs['user1']
+        friends = Friend.objects.filter(Q(my_id=my_id)&Q(status='REQUESTED'))
+        queryset = friends.select_related("your_id").values("your_id__username")
+        queryset = queryset.values(friend_username=F("your_id__username"))
+
         return Response(Util.response(True,queryset.values("friend_username"),204),status=status.HTTP_204_NO_CONTENT)
 
-class FriendDetail3(APIView):
-    def get(self,request,user1,user2):
-        user1_id = self.kwargs['user1']
-        user2_id = self.kwargs['user2']
-        friend = Friend.objects.filter(Q(user1_id=user1_id,user2_id=user2_id)|Q(user1_id=user2_id,user2_id=user1_id))
-        return Response(Util.response(True,friend.values(),204),status=status.HTTP_204_NO_CONTENT)
 
 class Util():
     def response(success,data,status):
