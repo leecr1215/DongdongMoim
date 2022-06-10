@@ -43,22 +43,15 @@ export default function Profile({ navigation }) {
             .shift()}:8080/api/v1/posts/${post_id}/applicants/${id}`
         )
         .then((response) => {
-          console.log(response);
-          alert("okok");
-          // if (response.data["success"] == true) {
-          //   alert("신청취소되었습니다.");
-          //   navigation.replace("MyPage");
-          // } else {
-          //   alert("신청 취소 안됨");
-          // }
+          if (response.data["success"] == true) {
+            alert("신청취소되었습니다.");
+            navigation.replace("MyPage");
+          } else {
+            alert("신청 취소 안됨");
+          }
         })
         .catch(function (error) {
-          //throw error;
-        })
-        .finally(() => {
-          alert("신청취소");
-          //navigation.reset({ routes: [{name: "MyPage" }]});
-          navigation.replace("MyPage");
+          throw error;
         });
     } catch (error) {
       throw error;
@@ -74,7 +67,6 @@ export default function Profile({ navigation }) {
             .shift()}:8080/api/v1/friends/${id}/${your_id}`
         )
         .then(function (response) {
-          alert("lego");
           if (response.data["success"] == true) {
             alert("친구가 되었습니다.");
             navigation.replace("MyPage");
@@ -83,11 +75,35 @@ export default function Profile({ navigation }) {
           }
         })
         .catch(function (error) {
-          //alert(error.response.data);
-          console.log(error);
+          throw error;
         });
     } catch (error) {
-      console.log(error);
+      throw error;
+    }
+  };
+
+  const onPressDeleteBtn = async (your_id) => {
+    try {
+      const response = await axios
+        .delete(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:8080/api/v1/friends/${id}/${your_id}`
+        )
+        .then(function (response) {
+          alert("lego");
+          if (response.data["success"] == true) {
+            alert("친구가 삭제되었습니다.");
+            navigation.replace("MyPage");
+          } else {
+            alert("친구 삭제 실패");
+          }
+        })
+        .catch(function (error) {
+          throw error;
+        });
+    } catch (error) {
+      throw error;
     }
   };
 
@@ -125,7 +141,7 @@ export default function Profile({ navigation }) {
           })
           .catch(function (error) {
             //alert("게시물을 가져오지 못 했습니다.");
-            throw error;
+            //throw error;
           });
       } catch (error) {
         throw error;
@@ -153,7 +169,7 @@ export default function Profile({ navigation }) {
           })
           .catch(function (error) {
             //alert("게시물을 가져오지 못 했습니다.");
-            throw error;
+            //throw error;
           });
       } catch (error) {
         throw error;
@@ -181,7 +197,7 @@ export default function Profile({ navigation }) {
           })
           .catch(function (error) {
             //alert("게시물을 가져오지 못 했습니다.");
-            throw error;
+            //throw error;
           });
       } catch (error) {
         throw error;
@@ -311,14 +327,24 @@ export default function Profile({ navigation }) {
                     <View>
                       <View style={styles.post}>
                         <Text>{friend["friend_username"]}</Text>
-                        <TouchableOpacity
-                          key={friend["your_id"]}
-                          onPress={() => onPressConfirmBtn(friend["your_id"])}
-                        >
-                          <View style={styles.btn}>
-                            <Text>수락</Text>
-                          </View>
-                        </TouchableOpacity>
+                        <View style={styles.btnContainer}>
+                          <TouchableOpacity
+                            key={friend["your_id"] + "ok"}
+                            onPress={() => onPressConfirmBtn(friend["your_id"])}
+                          >
+                            <View style={styles.btn}>
+                              <Text>수락</Text>
+                            </View>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            key={friend["your_id"] + "no"}
+                            onPress={() => onPressDeleteBtn(friend["your_id"])}
+                          >
+                            <View style={styles.btn}>
+                              <Text>취소</Text>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                       <View style={styles.smallLine}></View>
                     </View>
@@ -461,5 +487,10 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: "#FFFFFF",
     marginVertical: 2,
+  },
+  btnContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: SCREEN_WIDTH * 0.2,
   },
 });
