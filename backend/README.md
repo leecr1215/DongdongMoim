@@ -139,13 +139,16 @@
 
 
 ### PostApplication    
-1) 게시물 별 지원자 조회      
+1) 전체 지원자 조회      
+[GET] `localhost:8080/api/v1/posts/applicants`   
+  
+2) 게시물 별 지원자 조회      
 [GET] `localhost:8080/api/v1/posts/{post_id}/applicants`   
 
-2) 사용자의 게시물 신청 여부 조회    
+3) 사용자의 게시물 신청 여부 조회    
 [GET] `localhost:8080/api/v1/posts/{post_id}/applicants/{user_id}`  
 
-3) 사용자의 게시물 신청    
+4) 사용자의 게시물 신청    
 [POST] `localhost:8080/api/v1/posts/{post_id}/applicants/{user_id}`  
 [RequestBody]    
     ```shell  
@@ -161,18 +164,24 @@
 [RequestBody]   
     ```shell
     {
-        "user1_id":1, // 요청한 사람 
-        "user2_id":2  // 요청받은 사람 
+      "my_id":1,
+      "your_id":2,
+      "status":"REQUEST" //필수 
     }
     ```
 2) 친구 취소    
-[DELETE] `localhost:8080/api/v1/friends/{user1_id}/{user2_id}`   
+[DELETE] `localhost:8080/api/v1/friends/{my_id}/{your_id}`   
 
 3) 나의 친구목록 조회   
-[GET] `localhost:8080/api/v2/friends/{user_id}` 
+[GET] `localhost:8080/api/v2/friends/{my_id}`    
++) (friend_username,phone_number} object의 리스트 형태    
 
 4) 친구 수락    
-[PUT] `localhost:8080/api/v1/friends/{user1_id}/{user2_id}`   
+[PUT] `localhost:8080/api/v1/friends/{my_id}/{your_id}`   
+
+5) 친구 관계 여부   
+[GET] `localhost:8080/api/v1/friends/connection/{my_id}/{your_id}`   
++) result의 status : **NONE, REQUEST, REQUESTED, CONNECTING**
 
 ### [Response Body]   
   ```shell
