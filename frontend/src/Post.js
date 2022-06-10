@@ -273,7 +273,7 @@ export default function Post({route,  navigation }) {
                 style={styles.post_peopleLogo}
                 source={require("../icon/post_people.png")}
               />
-              <Text style={styles.peopleText}>{postData["applicantsNum"]}/5</Text>
+              <Text style={styles.peopleText}>{postData["applicantsNum"]}/{postData["required_number"]}</Text>
             </View>
           </View>
           <View style={styles.contentContainer}>
