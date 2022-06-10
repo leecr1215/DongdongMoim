@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -29,13 +29,65 @@ export default function Profile({ navigation }) {
   const [name, setName] = useState("");
   const [postData, setPostData] = useState(null);
   const [postCheck, setPostCheck] = useState(false);
+  const [exerciseData, setExerciseData] = useState(null);
+  const [exerciseCheck, setExerciseCheck] = useState(false);
+  const [friendsData, setFriendsData] = useState(null);
+  const [friendsCheck, setFriendsCheck] = useState(false);
 
-  const setData = async (data) => {
+  const onPressCancelBtn = async (post_id) => {
     try {
-      await setPostData(data);
-      await setPostCheck(true);
-    } catch (e) {
-      console.log(e);
+      const response = await axios
+        .delete(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:8080/api/v1/posts/${post_id}/applicants/${id}`
+        )
+        .then((response) => {
+          console.log(response);
+          alert("okok");
+          // if (response.data["success"] == true) {
+          //   alert("신청취소되었습니다.");
+          //   navigation.replace("MyPage");
+          // } else {
+          //   alert("신청 취소 안됨");
+          // }
+        })
+        .catch(function (error) {
+          //throw error;
+        })
+        .finally(() => {
+          alert("신청취소");
+          //navigation.reset({ routes: [{name: "MyPage" }]});
+          navigation.replace("MyPage");
+        });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const onPressConfirmBtn = async (your_id) => {
+    try {
+      const response = await axios
+        .put(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:8080/api/v1/friends/${id}/${your_id}`
+        )
+        .then(function (response) {
+          alert("lego");
+          if (response.data["success"] == true) {
+            alert("친구가 되었습니다.");
+            navigation.replace("MyPage");
+          } else {
+            alert("친구 실패");
+          }
+        })
+        .catch(function (error) {
+          //alert(error.response.data);
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -53,7 +105,7 @@ export default function Profile({ navigation }) {
     } catch (e) {
       throw e;
     }
-  }, [isFocused]);
+  }, []);
 
   useEffect(() => {
     async function getPost() {
@@ -67,12 +119,12 @@ export default function Profile({ navigation }) {
           .then((response) => {
             if (response.data["success"] == true) {
               const data = response.data["data"];
-              setData(data);
-              console.log(data);
+              setPostData(data);
+              setPostCheck(true);
             }
           })
           .catch(function (error) {
-            alert("게시물을 가져오지 못 했습니다.");
+            //alert("게시물을 가져오지 못 했습니다.");
             throw error;
           });
       } catch (error) {
@@ -80,7 +132,63 @@ export default function Profile({ navigation }) {
       }
     }
     getPost();
-  }, [id]);
+  }, [id, setPostData]);
+
+  useEffect(() => {
+    async function getExercise() {
+      try {
+        const response = await axios
+          .get(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/posts/applicants/${id}`
+          )
+          .then((response) => {
+            if (response.data["success"] == true) {
+              const data = response.data["result"];
+              console.log(data);
+              setExerciseData(data);
+              setExerciseCheck(true);
+            }
+          })
+          .catch(function (error) {
+            //alert("게시물을 가져오지 못 했습니다.");
+            throw error;
+          });
+      } catch (error) {
+        throw error;
+      }
+    }
+    getExercise();
+  }, [id, setExerciseData]);
+
+  useEffect(() => {
+    async function getFriends() {
+      try {
+        const response = await axios
+          .get(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/friends/application/${id}`
+          )
+          .then((response) => {
+            if (response.data["success"] == true) {
+              const data = response.data["result"];
+              console.log(data);
+              setFriendsData(data);
+              setFriendsCheck(true);
+            }
+          })
+          .catch(function (error) {
+            //alert("게시물을 가져오지 못 했습니다.");
+            throw error;
+          });
+      } catch (error) {
+        throw error;
+      }
+    }
+    getFriends();
+  }, [id, setFriendsData]);
 
   return (
     <View style={styles.container}>
@@ -113,10 +221,10 @@ export default function Profile({ navigation }) {
               <Text>신청인원</Text>
             </View>
             <View style={styles.smallLine}></View>
-            <ScrollView style={styles.scrollView}>
+            <ScrollView style={styles.scrollView} persistentScrollbar={true}>
               <View style={styles.uploadPostList}>
                 {postCheck ? (
-                  postData.map((post, index) => {
+                  postData.map((post, index) => (
                     <TouchableOpacity
                       key={post["post_id"]}
                       onPress={() =>
@@ -127,16 +235,17 @@ export default function Profile({ navigation }) {
                         <Text>{post["post_id"]}</Text>
                         <Text>{post["title"]}</Text>
                         <Text>
-                          {post["applicantsNum"]}/{post["required_number"]}
+                          {post["applicantsNum"] +
+                            "/" +
+                            post["required_number"]}
                         </Text>
                       </View>
-                    </TouchableOpacity>;
-                  })
+                      <View style={styles.smallLine}></View>
+                    </TouchableOpacity>
+                  ))
                 ) : (
                   <Text>포스트 가져오는 중...</Text>
                 )}
-
-                <View style={styles.smallLine}></View>
               </View>
             </ScrollView>
           </View>
@@ -153,22 +262,36 @@ export default function Profile({ navigation }) {
             <View style={styles.smallLine}></View>
             <ScrollView style={styles.scrollView}>
               <View style={styles.applyExerciseList}>
-                <View style={styles.post}>
-                  <Text>349</Text>
-                  <Text>배드민턴 어쩌구</Text>
-                  <View style={styles.btn}>
-                    <Text>취소</Text>
-                  </View>
-                </View>
-                <View style={styles.smallLine}></View>
-                <View style={styles.post}>
-                  <Text>350</Text>
-                  <Text>농구 어쩌구</Text>
-                  <View style={styles.btn}>
-                    <Text>취소</Text>
-                  </View>
-                </View>
-                <View style={styles.smallLine}></View>
+                {exerciseCheck ? (
+                  exerciseData.map((post, index) => (
+                    <View>
+                      <View style={styles.post}>
+                        <Text>{post["post_id"]}</Text>
+                        <TouchableOpacity
+                          key={post["post_id"]}
+                          onPress={() =>
+                            navigation.navigate("Post", {
+                              postId: post["post_id"],
+                            })
+                          }
+                        >
+                          <Text>{post["title"]}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          key={post["post_id"] + "btn"}
+                          onPress={() => onPressCancelBtn(post["post_id"])}
+                        >
+                          <View style={styles.btn}>
+                            <Text>취소</Text>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                      <View style={styles.smallLine}></View>
+                    </View>
+                  ))
+                ) : (
+                  <Text>포스트 가져오는 중...</Text>
+                )}
               </View>
             </ScrollView>
           </View>
@@ -183,20 +306,26 @@ export default function Profile({ navigation }) {
             <View style={styles.smallLine}></View>
             <ScrollView style={styles.scrollView}>
               <View style={styles.friendsList}>
-                <View style={styles.post}>
-                  <Text>jupyter</Text>
-                  <View style={styles.btn}>
-                    <Text>수락</Text>
-                  </View>
-                </View>
-                <View style={styles.smallLine}></View>
-                <View style={styles.post}>
-                  <Text>hub</Text>
-                  <View style={styles.btn}>
-                    <Text>수락</Text>
-                  </View>
-                </View>
-                <View style={styles.smallLine}></View>
+                {friendsCheck ? (
+                  friendsData.map((friend, index) => (
+                    <View>
+                      <View style={styles.post}>
+                        <Text>{friend["friend_username"]}</Text>
+                        <TouchableOpacity
+                          key={friend["your_id"]}
+                          onPress={() => onPressConfirmBtn(friend["your_id"])}
+                        >
+                          <View style={styles.btn}>
+                            <Text>수락</Text>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                      <View style={styles.smallLine}></View>
+                    </View>
+                  ))
+                ) : (
+                  <Text>친구들 가져오는 중...</Text>
+                )}
               </View>
             </ScrollView>
           </View>
@@ -221,7 +350,7 @@ const styles = StyleSheet.create({
   },
   back: {
     flexDirection: "row",
-    marginRight: SCREEN_WIDTH * 0.7,
+    marginRight: SCREEN_WIDTH * 0.6,
     marginTop: SCREEN_HEIGHT * 0.03,
     alignItems: "center",
   },
