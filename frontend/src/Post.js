@@ -177,7 +177,7 @@ export default function Post({route,  navigation }) {
             if (response.data["success"] == true) {
               alert("댓글이 등록되었습니다.");
               // const commentData = response.data["result"];
-              navigation.navigate("Post",{"postId":postId});
+              navigation.replace("Post",{"postId":postId});
             }
           })
           .catch(function (error) {
