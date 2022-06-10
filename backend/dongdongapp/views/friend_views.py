@@ -124,7 +124,11 @@ class FriendDetail4(APIView):
         queryset = friends.select_related("your_id").values("your_id__username")
         queryset = queryset.values(friend_username=F("your_id__username"))
 
+<<<<<<< HEAD
         return Response(Util.response(True,queryset.values("friend_username"),204),status=status.HTTP_204_NO_CONTENT)
+=======
+        return Response(Util.response(True,queryset.values("your_id","friend_username"),204),status=status.HTTP_204_NO_CONTENT)
+>>>>>>> cee50d78ba91d05a6ba9dbb9484b22df36de73fc
 
 
 class Util():
