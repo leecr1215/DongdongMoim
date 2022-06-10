@@ -59,6 +59,8 @@ export default function Post({route,  navigation }) {
               .shift()}:8080/api/v1/posts/${postId}`
           )
           .then((response) => {
+            console.log("난 게시물 data");
+            console.log(response)
             if (response.data["success"] == true) {
               const data = response.data["data"];
               setData(data);
@@ -177,6 +179,7 @@ export default function Post({route,  navigation }) {
             if (response.data["success"] == true) {
               alert("댓글이 등록되었습니다.");
               // const commentData = response.data["result"];
+              // navigation.navigate("Post",{"postId":postId});
               navigation.replace("Post",{"postId":postId});
             }
           })

@@ -22,7 +22,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const FriendModal = ({ isVisible, isClose, userId }) => {
   //const [userId, setUserId] = useState("");
-  const [friends, setFriends] = useState(null);
+  const [friends, setFriends] = useState();
   //   const s = AsyncStorage.getItem("@id").then((userid) =>
   //     setUserId(userid.slice(1, -1))
   //   );
@@ -66,13 +66,9 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
           .get(
             `http://${manifest.debuggerHost
               .split(":")
-              .shift()}:8080/api/v2/friends/2`
+              .shift()}:8080/api/v2/friends/1`
           )
           .then((response) => {
-            // // const data = response.data["result"];
-            //   setData(response.data);
-              console.log("난 친구 리스트 데이터" + response.data);
-              console.log(response)
             if (response.data["success"] == true) {
               const data = response.data["result"];
               setData(data);
