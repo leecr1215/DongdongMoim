@@ -162,37 +162,33 @@ export default function Profile({ navigation }) {
     getExercise();
   }, [id, isFocused, setExerciseData]);
 
-  // useEffect(() => {ㄴ
-  //   async function getFriends() {
-  //     try {
-  //       const data = {
-  //         my_id: id,
-  //       };
-  //       const response = await axios
-  //         .post(
-  //           `http://${manifest.debuggerHost
-  //             .split(":")
-  //             .shift()}:8080/api/v1/friends`,
-  //           data
-  //         )
-  //         .then((response) => {
-  //           if (response.data["success"] == true) {
-  //             const data = response.data["result"];
-  //             console.log(data);
-  //             setFriendsData(data);
-  //             setFriendsCheck(true);
-  //           }
-  //         })
-  //         .catch(function (error) {
-  //           //alert("게시물을 가져오지 못 했습니다.");
-  //           throw error;
-  //         });
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   }
-  //   getFriends();
-  // }, [id, isFocused, setFriendsData]);
+  useEffect(() => {
+    async function getFriends() {
+      try {
+        const response = await axios
+          .post(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/friends/application/${id}`
+          )
+          .then((response) => {
+            if (response.data["success"] == true) {
+              const data = response.data["result"];
+              console.log(data);
+              setFriendsData(data);
+              setFriendsCheck(true);
+            }
+          })
+          .catch(function (error) {
+            //alert("게시물을 가져오지 못 했습니다.");
+            throw error;
+          });
+      } catch (error) {
+        throw error;
+      }
+    }
+    getFriends();
+  }, [id, isFocused, setFriendsData]);
 
   return (
     <View style={styles.container}>
@@ -309,12 +305,12 @@ export default function Profile({ navigation }) {
             </View>
             <View style={styles.smallLine}></View>
             <ScrollView style={styles.scrollView}>
-              {/* <View style={styles.friendsList}>
+              <View style={styles.friendsList}>
                 {friendsCheck ? (
                   friendsData.map((friend, index) => (
                     <View>
                       <View style={styles.post}>
-                        <Text>{friend["your_name"]}</Text>
+                        <Text>{friend["friend_username"]}</Text>
                         <TouchableOpacity
                           key={friend["post_id"] + "btn"}
                           onPress={() => onPressConfirmBtn(friend["your_id"])}
@@ -330,7 +326,7 @@ export default function Profile({ navigation }) {
                 ) : (
                   <Text>친구들 가져오는 중...</Text>
                 )}
-              </View> */}
+              </View>
             </ScrollView>
           </View>
         </View>
