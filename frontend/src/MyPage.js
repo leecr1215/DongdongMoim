@@ -65,31 +65,31 @@ export default function Profile({ navigation }) {
     }
   };
 
-  // const onPressConfirmBtn = async (your_id) => {
-  //   try {
-  //     const response = await axios
-  //       .put(
-  //         `http://${manifest.debuggerHost
-  //           .split(":")
-  //           .shift()}:8080/api/v1/friends/${id}/${your_id}`
-  //       )
-  //       .then(function (response) {
-  //         alert("lego");
-  //         if (response.data["success"] == true) {
-  //           alert("친구가 되었습니다.");
-  //           navigation.replace("MyPage");
-  //         } else {
-  //           alert("친구 실패");
-  //         }
-  //       })
-  //       .catch(function (error) {
-  //         //alert(error.response.data);
-  //         console.log(error);
-  //       });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const onPressConfirmBtn = async (your_id) => {
+    try {
+      const response = await axios
+        .put(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:8080/api/v1/friends/${id}/${your_id}`
+        )
+        .then(function (response) {
+          alert("lego");
+          if (response.data["success"] == true) {
+            alert("친구가 되었습니다.");
+            navigation.replace("MyPage");
+          } else {
+            alert("친구 실패");
+          }
+        })
+        .catch(function (error) {
+          //alert(error.response.data);
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     try {
@@ -105,7 +105,7 @@ export default function Profile({ navigation }) {
     } catch (e) {
       throw e;
     }
-  }, [isFocused]);
+  }, []);
 
   useEffect(() => {
     async function getPost() {
@@ -132,7 +132,7 @@ export default function Profile({ navigation }) {
       }
     }
     getPost();
-  }, [id, isFocused, setPostData]);
+  }, [id, setPostData]);
 
   useEffect(() => {
     async function getExercise() {
@@ -160,13 +160,13 @@ export default function Profile({ navigation }) {
       }
     }
     getExercise();
-  }, [id, isFocused, setExerciseData]);
+  }, [id, setExerciseData]);
 
   useEffect(() => {
     async function getFriends() {
       try {
         const response = await axios
-          .post(
+          .get(
             `http://${manifest.debuggerHost
               .split(":")
               .shift()}:8080/api/v1/friends/application/${id}`
@@ -188,7 +188,7 @@ export default function Profile({ navigation }) {
       }
     }
     getFriends();
-  }, [id, isFocused, setFriendsData]);
+  }, [id, setFriendsData]);
 
   return (
     <View style={styles.container}>
@@ -312,7 +312,7 @@ export default function Profile({ navigation }) {
                       <View style={styles.post}>
                         <Text>{friend["friend_username"]}</Text>
                         <TouchableOpacity
-                          key={friend["post_id"] + "btn"}
+                          key={friend["your_id"]}
                           onPress={() => onPressConfirmBtn(friend["your_id"])}
                         >
                           <View style={styles.btn}>

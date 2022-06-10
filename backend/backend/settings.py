@@ -34,6 +34,7 @@ APPEND_SLASH = False
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,24 +44,30 @@ INSTALLED_APPS = [
     'dongdongapp',
     'rest_framework',
     'rest_framework_simplejwt',
-    'django_filters',
-    'corsheaders'
+    'django_filters'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
-
-CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+# CORS_ORIGIN_WHITELIST = (
+#     '',
+# )
+
+# CORS_ORIGIN_REGEX_WHITELIST = (
+#     '',
+# )
+# CORS_ALLOWED_ORIGINS = ['http://192.168.0.4']
 
 ROOT_URLCONF = 'backend.urls'
 
