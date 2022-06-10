@@ -78,7 +78,7 @@ export default function Post({route,  navigation }) {
       }
     }
     getData();
-  }, [setPostData,focus]);
+  }, [setPostData,focus,userId]);
 
   // 댓글 조회 
   useEffect(() => {
@@ -111,7 +111,7 @@ export default function Post({route,  navigation }) {
       }
     }
     getData();
-  }, [setCommentData, focus]);
+  }, [setCommentData, focus,userId]);
 
   // 신청 여부 조회 
   useEffect(() => {
@@ -150,7 +150,7 @@ export default function Post({route,  navigation }) {
       }
     }
     getData();
-  }, [focus]);
+  }, [focus,userId]);
 
   // 댓글 작성 버튼 누른 경우 
   const opPressCreateComment = async () => {
@@ -230,6 +230,7 @@ export default function Post({route,  navigation }) {
         )
         .then(function async(response) {
           alert("신청이 취소되었습니다.")
+          navigation.navigate("Home");
         })
         .catch(function (error) {
           alert("취소 오류입니다.");
