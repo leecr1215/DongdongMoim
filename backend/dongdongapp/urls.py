@@ -41,7 +41,7 @@ urlpatterns = [
          friend_views.FriendDetail.as_view()),
     path('v1/friends/connection/<int:user1>/<int:user2>',
          friend_views.FriendDetail3.as_view()),
-
+    path('v1/friends/application/<int:user1>',friend_views.FriendDetail4.as_view()),
 
     # 게시글 신청
     path('v1/posts/applicants', postApplication_views.PostApplicantsList.as_view()),
