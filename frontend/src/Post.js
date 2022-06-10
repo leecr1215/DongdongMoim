@@ -17,28 +17,26 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "../contents/Header";
 import Constants from "expo-constants";
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const { manifest } = Constants;
 
-export default function Post({route,  navigation }) {
-  const [userId,setUserId] = useState(0);
+export default function Post({ route, navigation }) {
+  const [userId, setUserId] = useState(0);
   const { postId } = route.params;
   const [postData, setPostData] = useState("");
   const [comment, setComment] = useState("");
   const [commentData, setCommentData] = useState("");
-  const [createdDate,setCreatedDate] = useState(new Date());
+  const [createdDate, setCreatedDate] = useState(new Date());
   const [commentCheck, setCommentCheck] = useState(false);
   const [isApply, setIsApply] = useState(false);
 
   const focus = useIsFocused();
 
-  AsyncStorage.getItem('@id').then((userid) =>
-    setUserId(userid.slice(1, -1))
-    );
+  AsyncStorage.getItem("@id").then((userid) => setUserId(userid.slice(1, -1)));
 
   const setData = async (data) => {
     try {
@@ -48,7 +46,7 @@ export default function Post({route,  navigation }) {
     }
   };
 
-  //게시물 조회 
+  //게시물 조회
   useEffect(() => {
     async function getData() {
       try {
@@ -60,7 +58,7 @@ export default function Post({route,  navigation }) {
           )
           .then((response) => {
             console.log("난 게시물 data");
-            console.log(response)
+            console.log(response);
             if (response.data["success"] == true) {
               const data = response.data["data"];
               setData(data);
@@ -80,9 +78,9 @@ export default function Post({route,  navigation }) {
       }
     }
     getData();
-  }, [setPostData,focus,userId]);
+  }, [setPostData, focus, userId]);
 
-  // 댓글 조회 
+  // 댓글 조회
   useEffect(() => {
     async function getData() {
       try {
@@ -113,9 +111,9 @@ export default function Post({route,  navigation }) {
       }
     }
     getData();
-  }, [setCommentData, focus,userId]);
+  }, [setCommentData, focus, userId]);
 
-  // 신청 여부 조회 
+  // 신청 여부 조회
   useEffect(() => {
     async function getData() {
       try {
@@ -127,17 +125,16 @@ export default function Post({route,  navigation }) {
           )
           .then((response) => {
             if (response.data["success"] == true) {
-            const data = response.data["result"];
-            console.log("난 신청 data");
-            console.log(data);
+              const data = response.data["result"];
+              console.log("난 신청 data");
+              console.log(data);
 
-              // 이미 신청 
+              // 이미 신청
               if (data["application"] == true) {
                 setIsApply(true);
-                }
-              else {
+              } else {
                 setIsApply(false);
-                }
+              }
             }
           })
           .catch(function (error) {
@@ -152,20 +149,19 @@ export default function Post({route,  navigation }) {
       }
     }
     getData();
-  }, [focus,userId]);
+  }, [focus, userId]);
 
-  // 댓글 작성 버튼 누른 경우 
+  // 댓글 작성 버튼 누른 경우
   const opPressCreateComment = async () => {
     if (comment == "") {
       alert("빈칸을 채워주세요!");
-    }
-    else {
+    } else {
       var data = {
-        "user_id":userId,
-        "post_id":postId,
-        "text":comment,
-        "created_date":timestamp(createdDate)
-    };
+        user_id: userId,
+        post_id: postId,
+        text: comment,
+        created_date: timestamp(createdDate),
+      };
       try {
         console.log(data);
         const response = await axios
@@ -180,7 +176,7 @@ export default function Post({route,  navigation }) {
               alert("댓글이 등록되었습니다.");
               // const commentData = response.data["result"];
               // navigation.navigate("Post",{"postId":postId});
-              navigation.replace("Post",{"postId":postId});
+              navigation.replace("Post", { postId: postId });
             }
           })
           .catch(function (error) {
@@ -194,9 +190,9 @@ export default function Post({route,  navigation }) {
         throw error;
       }
     }
-  }
+  };
 
-  // 신청 버튼 누른 경우 
+  // 신청 버튼 누른 경우
   const opPressCreateApplication = async () => {
     try {
       const response = await axios
@@ -220,9 +216,9 @@ export default function Post({route,  navigation }) {
       console.log(error);
       throw error;
     }
-  }
-  
-  // 신청 취소 버튼 누를 경우 
+  };
+
+  // 신청 취소 버튼 누를 경우
   const opPressDeleteApplication = async () => {
     try {
       const response = await axios
@@ -232,7 +228,7 @@ export default function Post({route,  navigation }) {
             .shift()}:8080/api/v1/posts/${postId}/applicants/${userId}`
         )
         .then(function async(response) {
-          alert("신청이 취소되었습니다.")
+          alert("신청이 취소되었습니다.");
           navigation.navigate("Home");
         })
         .catch(function (error) {
@@ -243,94 +239,109 @@ export default function Post({route,  navigation }) {
       console.log(error);
       throw error;
     }
-  }
+  };
 
-  function timestamp(){
+  function timestamp() {
     var source = new Date();
-    var date = source.getFullYear() + "-" + ((source.getMonth() + 1) > 9 ? (source.getMonth() + 1).toString() : "0" + (source.getMonth() + 1)) + "-" + (source.getDate() > 9 ? source.getDate().toString() : "0" + source.getDate().toString());
+    var date =
+      source.getFullYear() +
+      "-" +
+      (source.getMonth() + 1 > 9
+        ? (source.getMonth() + 1).toString()
+        : "0" + (source.getMonth() + 1)) +
+      "-" +
+      (source.getDate() > 9
+        ? source.getDate().toString()
+        : "0" + source.getDate().toString());
 
-    var hours = ('0' + source.getHours()).slice(-2); 
-    var minutes = ('0' + source.getMinutes()).slice(-2);
+    var hours = ("0" + source.getHours()).slice(-2);
+    var minutes = ("0" + source.getMinutes()).slice(-2);
 
-    var time = hours + ':' + minutes
+    var time = hours + ":" + minutes;
 
-    return date+" "+time;
-    }
+    return date + " " + time;
+  }
 
   return (
     <View style={styles.container}>
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
         <View style={styles.back}>
-          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-            <AntDesign name="left" size={20} color="black" />
+          <TouchableOpacity onPress={() => navigation.pop()}>
+            <AntDesign name="left" size={18} color="black" />
           </TouchableOpacity>
-          <Text style={styles.backText}>게시물</Text>
+          <TouchableOpacity onPress={() => navigation.pop()}>
+            <Text style={styles.backText}>게시물</Text>
+          </TouchableOpacity>
         </View>
         <ScrollView style={styles.scrollView}>
-        <View style={styles.info}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>{postData["title"]}</Text>
-            <View style={styles.peopleContainer}>
-              <Image
-                style={styles.post_peopleLogo}
-                source={require("../icon/post_people.png")}
-              />
-              <Text style={styles.peopleText}>{postData["applicantsNum"]}/{postData["required_number"]}</Text>
+          <View style={styles.info}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{postData["title"]}</Text>
+              <View style={styles.peopleContainer}>
+                <Image
+                  style={styles.post_peopleLogo}
+                  source={require("../icon/post_people.png")}
+                />
+                <Text style={styles.peopleText}>
+                  {postData["applicantsNum"]}/{postData["required_number"]}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.subject}>운동</Text>
+              <Text style={styles.content}>{postData["exercise"]}</Text>
+            </View>
+            <View style={styles.smallLine}></View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.subject}>능력</Text>
+              <Text style={styles.content}>{postData["exercise_skill"]}</Text>
+            </View>
+            <View style={styles.smallLine}></View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.subject}> 성별 </Text>
+              <Text style={styles.content}> {postData["gender"]} </Text>
+            </View>
+            <View style={styles.smallLine}></View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.subject}> 장소 </Text>
+              <Text style={styles.content}> {postData["location"]}</Text>
+            </View>
+            <View style={styles.smallLine}></View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.subject}> 일시 </Text>
+              <Text style={styles.content}> {postData["meeting_date"]}</Text>
+            </View>
+            <View style={styles.smallLine}></View>
+            <View style={styles.writing}>
+              <Text style={styles.content}>{postData["content"]}</Text>
             </View>
           </View>
-          <View style={styles.contentContainer}>
-            <Text style={styles.subject}>운동</Text>
-            <Text style={styles.content}>{postData["exercise"]}</Text>
-          </View>
-          <View style={styles.smallLine}></View>
-          <View style={styles.contentContainer}>
-            <Text style={styles.subject}>능력</Text>
-            <Text style={styles.content}>{postData["exercise_skill"]}</Text>
-          </View>
-          <View style={styles.smallLine}></View>
-          <View style={styles.contentContainer}>
-            <Text style={styles.subject}> 성별 </Text>
-            <Text style={styles.content}> {postData["gender"]} </Text>
-          </View>
-          <View style={styles.smallLine}></View>
-          <View style={styles.contentContainer}>
-            <Text style={styles.subject}> 장소 </Text>
-            <Text style={styles.content}> {postData["location"]}</Text>
-          </View>
-          <View style={styles.smallLine}></View>
-          <View style={styles.contentContainer}>
-            <Text style={styles.subject}> 일시 </Text>
-            <Text style={styles.content}> {postData["meeting_date"]}</Text>
-          </View>
-          <View style={styles.smallLine}></View>
-          <View style={styles.writing}>
-            <Text style={styles.content}>
-            {postData["content"]}
-            </Text>
-          </View>
-        </View>
         </ScrollView>
-        
-        {
-        isApply ? 
-        (<TouchableOpacity onPress={() => {
-          opPressDeleteApplication();
-        }} underlayColor="white">
-          <View style={styles.applyBtn}> 
-            <Text style={styles.btnText}>신청 취소</Text>
-          </View></TouchableOpacity>
-        ) : 
-        (<TouchableOpacity onPress={() => {
-          opPressCreateApplication();
-        }} underlayColor="white">
-          <View style={styles.applyBtn}> 
-            <Text style={styles.btnText}>신청</Text>
-          </View>
-        </TouchableOpacity>
-        )     
-      } 
 
+        {isApply ? (
+          <TouchableOpacity
+            onPress={() => {
+              opPressDeleteApplication();
+            }}
+            underlayColor="white"
+          >
+            <View style={styles.applyBtn}>
+              <Text style={styles.btnText}>신청 취소</Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              opPressCreateApplication();
+            }}
+            underlayColor="white"
+          >
+            <View style={styles.applyBtn}>
+              <Text style={styles.btnText}>신청</Text>
+            </View>
+          </TouchableOpacity>
+        )}
 
         <View style={styles.bigLine}></View>
         <View style={styles.inputContainer}>
@@ -340,35 +351,37 @@ export default function Post({route,  navigation }) {
             value={comment}
             placeholder="댓글을 입력하세요"
           />
-          <TouchableOpacity onPress={() => {
+          <TouchableOpacity
+            onPress={() => {
               opPressCreateComment();
-            }} underlayColor="white">           
+            }}
+            underlayColor="white"
+          >
             <View style={styles.confirmBtn}>
               <Text style={styles.confirmBtnText}>등록</Text>
             </View>
           </TouchableOpacity>
         </View>
-        {commentCheck ? 
-        (
-        <View style={styles.commentsListContainer}>
-        <ScrollView style={styles.scrollView}>
-
-        {/* {console.log(comment)} */}
-        {commentData.map((comment,index)=>(
-          <View                   
-          key={index}
-          style={styles.commentsContainer}>
-            <Text style={styles.commentsName}>{comment["username"]}</Text>
-            <Text style={styles.commentDate}>{comment["created_date"].split("T")[0]} | {comment["created_date"].split("T")[1].split("Z")[0]}</Text>
-            <Text style={styles.commentsContent}>{comment["text"]}</Text>
-            <View style={styles.smallLine}></View>
+        {commentCheck ? (
+          <View style={styles.commentsListContainer}>
+            <ScrollView style={styles.scrollView}>
+              {/* {console.log(comment)} */}
+              {commentData.map((comment, index) => (
+                <View key={index} style={styles.commentsContainer}>
+                  <Text style={styles.commentsName}>{comment["username"]}</Text>
+                  <Text style={styles.commentDate}>
+                    {comment["created_date"].split("T")[0]} |{" "}
+                    {comment["created_date"].split("T")[1].split("Z")[0]}
+                  </Text>
+                  <Text style={styles.commentsContent}>{comment["text"]}</Text>
+                  <View style={styles.smallLine}></View>
+                </View>
+              ))}
+            </ScrollView>
           </View>
-        ))}
-        </ScrollView>
-      </View>
-        )
-        : (<Text>댓글 가져오는 중...</Text>)
-        }
+        ) : (
+          <Text>댓글 가져오는 중...</Text>
+        )}
       </View>
     </View>
   );
@@ -389,6 +402,8 @@ const styles = StyleSheet.create({
   back: {
     flexDirection: "row",
     marginRight: SCREEN_WIDTH * 0.7,
+    marginTop: SCREEN_HEIGHT * 0.01,
+    alignItems: "center",
   },
   backText: {
     fontSize: 18,
@@ -509,26 +524,23 @@ const styles = StyleSheet.create({
     //borderColor: "#DFDFDF",
     backgroundColor: "white",
     alignItems: "center",
-    height: SCREEN_HEIGHT*0.2
+    height: SCREEN_HEIGHT * 0.2,
   },
   commentsContainer: {
     flexDirection: "column",
     width: SCREEN_WIDTH * 0.88,
     marginTop: SCREEN_HEIGHT * 0.01,
-    
   },
   commentsName: {
     fontSize: 13,
     fontWeight: "700",
     color: "#ABA8A8",
-    width :SCREEN_WIDTH,
-
+    width: SCREEN_WIDTH,
   },
   commentsContent: {
     fontSize: 15,
     fontWeight: "500",
-    width :SCREEN_WIDTH ,
-
+    width: SCREEN_WIDTH,
   },
   commentDate: {
     fontSize: 12,
@@ -538,6 +550,5 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: "#FFFFFF",
     marginVertical: 20,
-    
   },
 });
