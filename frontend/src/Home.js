@@ -104,7 +104,7 @@ export default function Home({ navigation }) {
     }
     getData();
     getLocation();
-  }, [setPostData, focus]);
+  }, [focus]);
 
   const storage1 = AsyncStorage.getItem("@username").then((name) =>
     setUsername(name.slice(1, -1))
