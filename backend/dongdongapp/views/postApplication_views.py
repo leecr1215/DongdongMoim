@@ -21,6 +21,25 @@ class PostApplicantsList(APIView):
         return Response(Util.response(True, serializers.data, 200), status=status.HTTP_200_OK)
 
 
+class UserApplicantsList(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, pk):
+        queryset = PostApplication.objects.filter(user_id=pk)
+        serializer = PostApplicationSerializer(queryset, many=True)
+        lists = []
+        for item in serializer.data:
+            title = Post.objects.get(post_id=item["post_id"]).title
+            data = {
+                "postApplication_id": item["postApplication_id"],
+                "post_id": item["post_id"],
+                "user_id": item["user_id"],
+                "title": title
+            }
+            lists.append(data)
+        return Response(Util.response(True, lists, 200), status=status.HTTP_200_OK)
+
+
 class PostApplicants(APIView):
     permission_classes = [permissions.AllowAny]
 

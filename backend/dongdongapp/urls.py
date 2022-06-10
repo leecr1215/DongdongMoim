@@ -45,6 +45,8 @@ urlpatterns = [
 
     # 게시글 신청
     path('v1/posts/applicants', postApplication_views.PostApplicantsList.as_view()),
+    path('v1/posts/applicants/<int:pk>',
+         postApplication_views.UserApplicantsList.as_view()),
     path('v1/posts/<int:pk>/applicants',
          postApplication_views.PostApplicants.as_view()),
     path('v1/posts/<int:post_pk>/applicants/<int:user_pk>',
