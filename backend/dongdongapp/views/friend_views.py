@@ -116,6 +116,17 @@ class FriendDetail3(APIView):
             return Response(Util.response(True,result,204),status=status.HTTP_204_NO_CONTENT)
         return Response(Util.response(True,friend.values("status")[0],204),status=status.HTTP_204_NO_CONTENT)
 
+class FriendDetail4(APIView):
+    permission_classes = [permissions.AllowAny]
+    def get(self,request,user1):
+        my_id = self.kwargs['user1']
+        friends = Friend.objects.filter(Q(my_id=my_id)&Q(status='REQUESTED'))
+        queryset = friends.select_related("your_id").values("your_id__username")
+        queryset = queryset.values(friend_username=F("your_id__username"))
+
+        return Response(Util.response(True,queryset.values("friend_username"),204),status=status.HTTP_204_NO_CONTENT)
+
+
 class Util():
     def response(success,data,status):
         return {
