@@ -76,7 +76,7 @@ export default function Home({ navigation }) {
           .get(
             `http://${manifest.debuggerHost
               .split(":")
-              .shift()}:8080/api/v1/posts/all`
+              .shift()}:8080/api/v1/posts/all?id=${idNum}`
           )
           .then((response) => {
             if (response.data["success"] == true) {
@@ -87,7 +87,7 @@ export default function Home({ navigation }) {
               // console.log(data);
 
               //console.log(response.data["data"]);
-              //console.log(postData);
+              console.log(postData);
               //console.log(response.data["data"][1]["age"]);
             }
           })
@@ -247,7 +247,7 @@ export default function Home({ navigation }) {
             {postCheck ? (
               postData.map((post, index) => (
                 <TouchableOpacity
-                  key={post["post_date"]}
+                  key={post["post_id"]}
                   onPress={() =>
                     navigation.navigate("Post", { postId: post["post_id"] })
                   }
