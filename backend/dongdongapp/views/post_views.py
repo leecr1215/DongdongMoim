@@ -124,7 +124,7 @@ class PostDetail(APIView):
         serializer = PostSerializer(self.get_object(pk))
         if serializer.is_valid():
             serializer.delete()
-            return Response(Util.response(True, serializer.data, status=204), status=status.HTTP_204_NO_CONTENT)
+            return Response(Util.response(True, serializer.data, status=200), status=status.HTTP_200_OK)
         return Response(Util.response(False, serializer.errors, 400), status=status.HTTP_400_BAD_REQUEST)
 
 

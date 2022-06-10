@@ -86,7 +86,7 @@ class PostApplicationDetail(APIView):
             # 해당 post의 신청인원 감소
             Post.objects.filter(pk=post_pk).update(
                 applicantsNum=post.applicantsNum - 1)
-            return Response(Util.response(True, "", 204), status=status.HTTP_204_NO_CONTENT)
+            return Response(Util.response(True, "", 200), status=status.HTTP_200_OK)
         except PostApplication.DoesNotExist:
             return Response(Util.response(False, "", 400), status=status.HTTP_400_BAD_REQUEST)
 

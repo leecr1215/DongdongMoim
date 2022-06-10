@@ -81,7 +81,7 @@ class FriendDetail(APIView):
         your_id = self.kwargs['user2']
         Friend.objects.filter(Q(my_id=my_id, your_id=your_id) | Q(
             my_id=your_id, your_id=my_id)).update(status="CONNECTING")
-        return Response(Util.response(True, "친구 수락에 성공하였습니다.", 204), status=status.HTTP_204_NO_CONTENT)
+        return Response(Util.response(True, "친구 수락에 성공하였습니다.", 200), status=status.HTTP_200_OK)
 
     # 친구 연결 끊기
     # 자신의 id(my),친구 끊을 id(your)
@@ -93,7 +93,7 @@ class FriendDetail(APIView):
         serializer = FriendSerializer(instance=friend, many=True)
         friend.delete()
 
-        return Response(Util.response(True, serializer.data, 204), status=status.HTTP_204_NO_CONTENT)
+        return Response(Util.response(True, serializer.data, 200), status=status.HTTP_200_OK)
 
 
 class FriendDetail2(APIView):
@@ -111,7 +111,7 @@ class FriendDetail2(APIView):
 
         print(str(queryset))
 
-        return Response(Util.response(True, queryset.values("friend_username", "phone_number"), 204), status=status.HTTP_204_NO_CONTENT)
+        return Response(Util.response(True, queryset.values("friend_username", "phone_number"), 200), status=status.HTTP_200_OK)
 
 # 친구 여부 조회 CONNECTING, NONE, REQUEST, REQUESTED
 
@@ -126,8 +126,8 @@ class FriendDetail3(APIView):
         if not friend:
             result = {}
             result["status"] = "None"
-            return Response(Util.response(True, result, 204), status=status.HTTP_204_NO_CONTENT)
-        return Response(Util.response(True, friend.values("status")[0], 204), status=status.HTTP_204_NO_CONTENT)
+            return Response(Util.response(True, result, 200), status=status.HTTP_200_OK)
+        return Response(Util.response(True, friend.values("status")[0], 200), status=status.HTTP_200_OK)
 
 
 class FriendDetail4(APIView):
@@ -140,7 +140,7 @@ class FriendDetail4(APIView):
             "your_id").values("your_id__username")
         queryset = queryset.values(friend_username=F("your_id__username"))
 
-        return Response(Util.response(True, queryset.values("your_id", "friend_username"), 204), status=status.HTTP_204_NO_CONTENT)
+        return Response(Util.response(True, queryset.values("your_id", "friend_username"), 200), status=status.HTTP_200_OK)
 
 
 class Util():
