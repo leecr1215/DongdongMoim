@@ -31,10 +31,10 @@ export default function Home({ navigation }) {
   const [city, setCity] = useState("Loading...");
   const [permission, setPermission] = useState(true);
 
-  const [selectedAge, setSelectedAge] = useState(null);
-  const [selectedGender, setSelectedGender] = useState(null);
-  const [selectedSkill, setSelectedSkill] = useState(null);
-  const [selectedExercise, setSelectedExercise] = useState(null);
+  const [selectedAge, setSelectedAge] = useState("0");
+  const [selectedGender, setSelectedGender] = useState("I");
+  const [selectedSkill, setSelectedSkill] = useState("0");
+  const [selectedExercise, setSelectedExercise] = useState("0");
 
   const [postData, setPostData] = useState(null);
   const [postCheck, setPostCheck] = useState(false);
@@ -72,11 +72,14 @@ export default function Home({ navigation }) {
   useEffect(() => {
     async function getData() {
       try {
+        if (idNum == "undefined") {
+          return;
+        }
         const response = await axios
           .get(
             `http://${manifest.debuggerHost
               .split(":")
-              .shift()}:8080/api/v1/posts/all?id=${idNum}`
+              .shift()}:8080/api/v1/posts/all?id=${idNum}&age=${selectedAge}&gender=${selectedGender}&exercise=${selectedExercise}`
           )
           .then((response) => {
             if (response.data["success"] == true) {
@@ -104,7 +107,7 @@ export default function Home({ navigation }) {
     }
     getData();
     getLocation();
-  }, [focus]);
+  }, [focus, selectedAge, selectedExercise, selectedGender, selectedExercise]);
 
   const storage1 = AsyncStorage.getItem("@username").then((name) =>
     setUsername(name.slice(1, -1))
@@ -138,6 +141,7 @@ export default function Home({ navigation }) {
   ];
 
   const exerItems = [
+    { label: "무관", value: "0" },
     { label: "야구", value: "baseball" },
     { label: "축구", value: "soccer" },
     { label: "농구", value: "basketball" },
@@ -157,80 +161,93 @@ export default function Home({ navigation }) {
       <StatusBar backgroundColor={"#D3EEFF"} translucent={false} />
       <View style={styles.body}>
         <View style={styles.search}>
-          <Dropdown
-            style={styles.dropdown}
-            containerStyle={styles.shadow}
-            data={ageItems}
-            labelField="label"
-            valueField="value"
-            label="Dropdown"
-            placeholder="연령"
-            value={selectedAge}
-            onChange={(item) => {
-              setSelectedAge(item.value);
-              console.log("selected", item);
-            }}
-            autoScroll
-            renderItem={(item) => _renderItem(item)}
-            textError="Error"
-            placeholderStyle={styles.selectedText}
-            selectedTextStyle={styles.selectedText}
-          />
-          <Dropdown
-            style={styles.dropdown}
-            containerStyle={styles.shadow}
-            data={genderItems}
-            labelField="label"
-            valueField="value"
-            label="Dropdown"
-            placeholder="성별"
-            value={selectedGender}
-            onChange={(item) => {
-              setSelectedGender(item.value);
-              console.log("selected", item);
-            }}
-            renderItem={(item) => _renderItem(item)}
-            textError="Error"
-            placeholderStyle={styles.selectedText}
-            selectedTextStyle={styles.selectedText}
-          />
-          <Dropdown
-            style={styles.dropdown}
-            containerStyle={styles.shadow}
-            data={skillItems}
-            labelField="label"
-            valueField="value"
-            label="Dropdown"
-            placeholder="능력"
-            value={selectedSkill}
-            onChange={(item) => {
-              setSelectedSkill(item.value);
-              console.log("selected", item);
-            }}
-            renderItem={(item) => _renderItem(item)}
-            textError="Error"
-            placeholderStyle={styles.selectedText}
-            selectedTextStyle={styles.selectedText}
-          />
-          <Dropdown
-            style={styles.dropdown}
-            containerStyle={styles.shadow}
-            data={exerItems}
-            labelField="label"
-            valueField="value"
-            label="Dropdown"
-            placeholder="운동"
-            value={selectedExercise}
-            autoScroll
-            onChange={(item) => {
-              setSelectedExercise(item.value);
-              console.log("selected", item);
-            }}
-            renderItem={(item) => _renderItem(item)}
-            textError="Error"
-            placeholderStyle={styles.selectedText}
-            selectedTextStyle={styles.selectedText}
-          />
+          <View style={styles.searchContainer}>
+            <Text style={styles.searchText}>연령</Text>
+            <Dropdown
+              style={styles.dropdown}
+              containerStyle={styles.shadow}
+              data={ageItems}
+              labelField="label"
+              valueField="value"
+              label="Dropdown"
+              placeholder="연령"
+              value={selectedAge}
+              onChange={(item) => {
+                setSelectedAge(item.value);
+                console.log("selected", item);
+              }}
+              autoScroll
+              renderItem={(item) => _renderItem(item)}
+              textError="Error"
+              placeholderStyle={styles.selectedText}
+              selectedTextStyle={styles.selectedText}
+            />
+          </View>
+          <View style={styles.searchContainer}>
+            <Text style={styles.searchText}>성별</Text>
+            <Dropdown
+              style={styles.dropdown}
+              containerStyle={styles.shadow}
+              data={genderItems}
+              labelField="label"
+              valueField="value"
+              label="Dropdown"
+              placeholder="성별"
+              value={selectedGender}
+              onChange={(item) => {
+                setSelectedGender(item.value);
+                console.log("selected", item);
+              }}
+              renderItem={(item) => _renderItem(item)}
+              textError="Error"
+              placeholderStyle={styles.selectedText}
+              selectedTextStyle={styles.selectedText}
+            />
+          </View>
+          <View style={styles.searchContainer}>
+            <Text style={styles.searchText}>능력</Text>
+            <Dropdown
+              style={styles.dropdown}
+              containerStyle={styles.shadow}
+              data={skillItems}
+              labelField="label"
+              valueField="value"
+              label="Dropdown"
+              placeholder="능력"
+              value={selectedSkill}
+              onChange={(item) => {
+                setSelectedSkill(item.value);
+                console.log("selected", item);
+              }}
+              renderItem={(item) => _renderItem(item)}
+              textError="Error"
+              placeholderStyle={styles.selectedText}
+              selectedTextStyle={styles.selectedText}
+            />
+          </View>
+          <View style={styles.searchContainer}>
+            <Text style={styles.searchText}>운동</Text>
+            <Dropdown
+              style={styles.dropdown}
+              containerStyle={styles.shadow}
+              data={exerItems}
+              labelField="label"
+              valueField="value"
+              label="Dropdown"
+              placeholder="운동"
+              value={selectedExercise}
+              autoScroll
+              onChange={(item) => {
+                setSelectedExercise(item.value);
+                console.log("selected", item);
+              }}
+              renderItem={(item) => _renderItem(item)}
+              textError="Error"
+              placeholderStyle={styles.selectedText}
+              selectedTextStyle={styles.selectedText}
+            />
+          </View>
+
           <View>
             <TouchableOpacity
               onPress={() => navigation.navigate("PostWriting")}
@@ -247,7 +264,7 @@ export default function Home({ navigation }) {
             {postCheck ? (
               postData.map((post, index) => (
                 <TouchableOpacity
-                  key={post["post_id"]}
+                  key={post["post_id"] + "post"}
                   onPress={() =>
                     navigation.navigate("Post", { postId: post["post_id"] })
                   }
@@ -306,6 +323,13 @@ const styles = StyleSheet.create({
     marginTop: SCREEN_WIDTH * 0.05,
     marginLeft: SCREEN_WIDTH * 0.05,
     marginRight: SCREEN_WIDTH * 0.05,
+  },
+  searchContainer: {
+    alignItems: "center",
+  },
+  searchText: {
+    marginBottom: SCREEN_WIDTH * 0.01,
+    fontWeight: "500",
   },
   /*드롭다운 css 시작*/
   dropdown: {
