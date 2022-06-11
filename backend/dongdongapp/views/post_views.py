@@ -17,7 +17,7 @@ class PostList(APIView):
         search_gender = request.GET.get('gender')
         search_skill = request.GET.get('skill')
         search_exercise = request.GET.get('exercise')
-        queryset = NULL
+
         if search_age == "0":
             search_age = None
         if search_gender == "I":

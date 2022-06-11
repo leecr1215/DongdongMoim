@@ -368,7 +368,7 @@ export default function Post({ route, navigation }) {
               {/* {console.log(comment)} */}
               {commentData.map((comment, index) => (
                 <TouchableOpacity
-                onPress={() => navigation.navigate("Post", { userId: comment["user_id"] })}
+                onPress={() => navigation.navigate("Profile", { userId: comment["user_id"] })}
                 > 
                 <View key={index} style={styles.commentsContainer}>
                   <Text style={styles.commentsName}>{comment["username"]}</Text>
