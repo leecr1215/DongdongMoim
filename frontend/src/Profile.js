@@ -447,20 +447,24 @@ export default function Profile({ route, navigation }) {
             </View>
           </View>
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            onPressShowFriend();
-          }}
-        >
-          <View style={styles.friendIcon}>
-            <Image
-              style={styles.friendLogo}
-              source={require("../icon/friends.png")}
-              width={40}
-              height={40}
-            />
-          </View>
-        </TouchableOpacity>
+        {profileUserId == userId ? (
+          <TouchableOpacity
+            onPress={() => {
+              onPressShowFriend();
+            }}
+          >
+            <View style={styles.friendIcon}>
+              <Image
+                style={styles.friendLogo}
+                source={require("../icon/friends.png")}
+                width={40}
+                height={40}
+              />
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <></>
+        )}
       </View>
     </View>
   );
