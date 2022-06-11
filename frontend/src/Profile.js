@@ -254,6 +254,7 @@ export default function Profile({ route, navigation }) {
   return (
     <View style={styles.container}>
       <FriendModal
+        navigation={navigation}
         isVisible={isModalClick}
         isClose={onPressModalClose}
         userId={userId}
