@@ -96,7 +96,11 @@ export default function Profile({ route, navigation }) {
   }
 
   const onPressShowFriend = async () => {
-    setModalClick(true);
+    if (isModalClick == false) {
+      setModalClick(true);
+    } else {
+      setModalClick(false);
+    }
   };
 
   const onPressModalClose = async () => {
@@ -262,7 +266,7 @@ export default function Profile({ route, navigation }) {
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
         <View style={styles.back}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.pop()}>
             <AntDesign name="left" size={18} color="black" />
           </TouchableOpacity>
           <Text style={styles.backText}>프로필</Text>
