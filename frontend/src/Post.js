@@ -367,6 +367,9 @@ export default function Post({ route, navigation }) {
             <ScrollView style={styles.scrollView}>
               {/* {console.log(comment)} */}
               {commentData.map((comment, index) => (
+                <TouchableOpacity
+                onPress={() => navigation.navigate("Post", { userId: comment["user_id"] })}
+                > 
                 <View key={index} style={styles.commentsContainer}>
                   <Text style={styles.commentsName}>{comment["username"]}</Text>
                   <Text style={styles.commentDate}>
@@ -376,6 +379,7 @@ export default function Post({ route, navigation }) {
                   <Text style={styles.commentsContent}>{comment["text"]}</Text>
                   <View style={styles.smallLine}></View>
                 </View>
+                </TouchableOpacity>
               ))}
             </ScrollView>
           </View>
