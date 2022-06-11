@@ -20,7 +20,7 @@ const { manifest } = Constants;
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-const FriendModal = ({ isVisible, isClose, userId }) => {
+const FriendModal = ({ navigation, isVisible, isClose, userId }) => {
   //const [userId, setUserId] = useState("");
   const [friends, setFriends] = useState();
   //   const s = AsyncStorage.getItem("@id").then((userid) =>
@@ -65,7 +65,7 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
         console.log("유저 아이디는 : " + userId);
         const url = `http://${manifest.debuggerHost
           .split(":")
-          .shift()}:8080/api/v2/friends/1`;
+          .shift()}:8080/api/v2/friends/${userId}`;
         const response = await axios
           .get(url)
           .then((response) => {
@@ -99,10 +99,6 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
             //alert("친구 목록을 가져오지 못했습니다.");
             //console.log(error);
             throw error;
-          })
-          .then(() => {
-            // 항상 실행
-            console.log("여긴 오니?");
           });
       } catch (error) {
         //alert("친구 목록 에러");
@@ -138,7 +134,13 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
                   <></>
                 ) : (
                   friends.map((friend, index) => (
-                    <View key={friend["friend_username"]} style={styles.friend}>
+                    <TouchableOpacity
+                      key={friend["user_id"]}
+                      onPress={() =>
+                        navigation.navigate("Profile", { userId: friend["user_id"] })
+                      }
+                      >
+                    <View key={friend["user_id"]} style={styles.friend} >
                       <Text style={styles.name}>
                         {friend["friend_username"]}
                       </Text>
@@ -146,45 +148,9 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
                         {friend["phone_number"]}
                       </Text>
                     </View>
-                  ))
-                )}
-                {/* <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View> */}
+                  </TouchableOpacity>
+                ))
+              )}
               </ScrollView>
             </View>
           </View>

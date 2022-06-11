@@ -34,9 +34,9 @@ export default function Profile({ route, navigation }) {
   const [age, setAge] = useState("...");
 
   AsyncStorage.getItem("@id").then((userid) => setUserId(userid.slice(1, -1)));
-  AsyncStorage.getItem("@username").then((username) =>
-    setUserName(username.slice(1, -1))
-  );
+  // AsyncStorage.getItem("@username").then((username) =>
+  //   setUserName(username.slice(1, -1))
+  // );
 
   const [isSoccerSelect, setSoccerSelect] = useState([
     true,
@@ -116,6 +116,7 @@ export default function Profile({ route, navigation }) {
               const data = response.data["result"];
               //console.log("나이 " + response.data["result"]["age"]);
               //setUserData(data);
+              setUserName(data["username"])
               setGender(data["gender"]);
               const changeAge = data["age"] - (data["age"] % 10);
               setAge(changeAge + "대");
@@ -169,6 +170,7 @@ export default function Profile({ route, navigation }) {
   return (
     <View style={styles.container}>
       <FriendModal
+        navigation={navigation}
         isVisible={isModalClick}
         isClose={onPressModalClose}
         userId={userId}
