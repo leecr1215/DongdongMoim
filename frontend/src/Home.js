@@ -72,7 +72,7 @@ export default function Home({ navigation }) {
   useEffect(() => {
     async function getData() {
       try {
-        if (idNum == "undefined") {
+        if (typeof idNum === "undefined") {
           return;
         }
         const response = await axios
@@ -107,7 +107,14 @@ export default function Home({ navigation }) {
     }
     getData();
     getLocation();
-  }, [focus, selectedAge, selectedExercise, selectedGender, selectedExercise]);
+  }, [
+    focus,
+    selectedAge,
+    selectedExercise,
+    selectedGender,
+    selectedExercise,
+    idNum,
+  ]);
 
   const storage1 = AsyncStorage.getItem("@username").then((name) =>
     setUsername(name.slice(1, -1))
