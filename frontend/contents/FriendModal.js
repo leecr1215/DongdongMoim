@@ -58,11 +58,12 @@ const FriendModal = ({ navigation, isVisible, isClose, userId }) => {
 
   useEffect(() => {
     async function getFriends() {
-      //   const s = AsyncStorage.getItem("@id").then((userid) =>
-      //     setUserId(userid.slice(1, -1))
-      //   );
+        // const s = AsyncStorage.getItem("@id").then((userid) =>
+        //   setUserId(userid.slice(1, -1))
+        // );
       try {
         console.log("유저 아이디는 : " + userId);
+        console.log("친구 리스트!!!!!!")
         const url = `http://${manifest.debuggerHost
           .split(":")
           .shift()}:8080/api/v2/friends/${userId}`;
@@ -116,7 +117,7 @@ const FriendModal = ({ navigation, isVisible, isClose, userId }) => {
           <View style={styles.modalcon}>
             <View style={styles.head}>
               <Text style={styles.headText}>내 친구들</Text>
-              <TouchableOpacity onPress={isClose}>
+              <TouchableOpacity onPress={isClose} >
                 <AntDesign
                   style={styles.icon}
                   name="close"
@@ -133,11 +134,12 @@ const FriendModal = ({ navigation, isVisible, isClose, userId }) => {
                 {friends == null ? (
                   <></>
                 ) : (
+                  
                   friends.map((friend, index) => (
                     <TouchableOpacity
                       key={friend["user_id"]}
                       onPress={() =>
-                        navigation.navigate("Profile", { userId: friend["user_id"] })
+                        navigation.replace("Profile", { userId: friend["user_id"] })
                       }
                       >
                     <View key={friend["user_id"]} style={styles.friend} >
@@ -168,7 +170,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     height: SCREEN_HEIGHT,
-    width: SCREEN_WIDTH,
+    width: SCREEN_WIDTH*0.7,
     //backgroundColor: "white",
     justifyContent: "flex-end",
     // alignContent: "center",
