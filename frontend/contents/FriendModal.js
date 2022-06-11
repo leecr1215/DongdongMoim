@@ -20,7 +20,7 @@ const { manifest } = Constants;
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-const FriendModal = ({ isVisible, isClose, userId }) => {
+const FriendModal = ({ navigation, isVisible, isClose, userId }) => {
   //const [userId, setUserId] = useState("");
   const [friends, setFriends] = useState();
   //   const s = AsyncStorage.getItem("@id").then((userid) =>
@@ -58,14 +58,15 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
 
   useEffect(() => {
     async function getFriends() {
-      //   const s = AsyncStorage.getItem("@id").then((userid) =>
-      //     setUserId(userid.slice(1, -1))
-      //   );
+        // const s = AsyncStorage.getItem("@id").then((userid) =>
+        //   setUserId(userid.slice(1, -1))
+        // );
       try {
         console.log("유저 아이디는 : " + userId);
+        console.log("친구 리스트!!!!!!")
         const url = `http://${manifest.debuggerHost
           .split(":")
-          .shift()}:8080/api/v2/friends/1`;
+          .shift()}:8080/api/v2/friends/${userId}`;
         const response = await axios
           .get(url)
           .then((response) => {
@@ -99,10 +100,6 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
             //alert("친구 목록을 가져오지 못했습니다.");
             //console.log(error);
             throw error;
-          })
-          .then(() => {
-            // 항상 실행
-            console.log("여긴 오니?");
           });
       } catch (error) {
         //alert("친구 목록 에러");
@@ -120,7 +117,7 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
           <View style={styles.modalcon}>
             <View style={styles.head}>
               <Text style={styles.headText}>내 친구들</Text>
-              <TouchableOpacity onPress={isClose}>
+              <TouchableOpacity onPress={isClose} >
                 <AntDesign
                   style={styles.icon}
                   name="close"
@@ -137,8 +134,15 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
                 {friends == null ? (
                   <></>
                 ) : (
+                  
                   friends.map((friend, index) => (
-                    <View key={friend["friend_username"]} style={styles.friend}>
+                    <TouchableOpacity
+                      key={friend["user_id"]}
+                      onPress={() =>
+                        navigation.replace("Profile", { userId: friend["user_id"] })
+                      }
+                      >
+                    <View key={friend["user_id"]} style={styles.friend} >
                       <Text style={styles.name}>
                         {friend["friend_username"]}
                       </Text>
@@ -146,45 +150,9 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
                         {friend["phone_number"]}
                       </Text>
                     </View>
-                  ))
-                )}
-                {/* <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View>
-                <View style={styles.friend}>
-                  <Text style={styles.name}>마라</Text>
-                  <Text style={styles.phoneNum}>010-0000-0000</Text>
-                </View> */}
+                  </TouchableOpacity>
+                ))
+              )}
               </ScrollView>
             </View>
           </View>
@@ -202,7 +170,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     height: SCREEN_HEIGHT,
-    width: SCREEN_WIDTH,
+    width: SCREEN_WIDTH*0.7,
     //backgroundColor: "white",
     justifyContent: "flex-end",
     // alignContent: "center",
