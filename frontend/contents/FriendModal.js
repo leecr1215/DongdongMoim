@@ -138,7 +138,7 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
                   <></>
                 ) : (
                   friends.map((friend, index) => (
-                    <View style={styles.friend}>
+                    <View key={friend["friend_username"]} style={styles.friend}>
                       <Text style={styles.name}>
                         {friend["friend_username"]}
                       </Text>
