@@ -106,12 +106,12 @@ class FriendDetail2(APIView):
             "friend_id", "my_id", "your_id", "your_id__username", "your_id__phone_number")
 
         queryset = queryset.values(friend_username=F(
-            "your_id__username"), phone_number=F("your_id__phone_number"))
+            "your_id__username"), phone_number=F("your_id__phone_number"),user_id=F("your_id"))
         # queryset = queryset.values(phone_number=F("your_id__phone_number"))
 
         print(str(queryset))
 
-        return Response(Util.response(True, queryset.values("friend_username", "phone_number"), 200), status=status.HTTP_200_OK)
+        return Response(Util.response(True, queryset.values("user_id","friend_username", "phone_number"), 200), status=status.HTTP_200_OK)
 
 # 친구 여부 조회 CONNECTING, NONE, REQUEST, REQUESTED
 
