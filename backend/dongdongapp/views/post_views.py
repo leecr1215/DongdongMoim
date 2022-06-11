@@ -16,12 +16,13 @@ class PostList(APIView):
         search_age = request.GET.get('age')
         search_gender = request.GET.get('gender')
         search_skill = request.GET.get('skill')
+        search_exercise = request.GET.get('exercise')
         if search_gender == "I":
             search_gender = None
-        if search_skill == 0:
+        if search_skill == "0":
             search_skill = None
         if (search_age == None) & (search_gender == None) & (search_skill == None):  # 필터조건 없는 경우
-            final_queryset = Post.objects.all().order_by('-post_date')
+            queryset = Post.objects.filter(exercise=search_exercise)
         else:
             r_age = 150
             # 나이대 필터의 경우 따로 예외처리
@@ -33,22 +34,19 @@ class PostList(APIView):
                     r_age = search_age + 10
             if (search_gender == None) & (search_skill == None):  # 나이대만 설정한 경우
                 queryset = Post.objects.filter(
-                    age__gte=search_age, age__lt=r_age)
-                final_queryset = queryset.order_by('-post_date')
+                    age__gte=search_age, age__lt=r_age, exercise=search_exercise)
             elif search_gender == None:  # 스킬로 정렬하는 경우
                 search_skill = int(search_skill)
                 queryset = Post.objects.filter(Q(age__gte=search_age) & Q(
-                    age__lt=r_age) & Q(exercise_skill=search_skill))
-                final_queryset = queryset.order_by('-post_date')
+                    age__lt=r_age) & Q(exercise_skill=search_skill) & Q(exercise=search_exercise))
             elif search_skill == None:  # 성별로 정렬하는 경우
                 queryset = Post.objects.filter(Q(age__gte=search_age) & Q(
-                    age__lt=r_age) & Q(gender=search_gender))
-                final_queryset = queryset.order_by('-post_date')
+                    age__lt=r_age) & Q(gender=search_gender) & Q(exercise=search_exercise))
             else:  # 나이대, 성별, 스킬로 정렬하는 경우
                 search_skill = int(search_skill)
                 queryset = Post.objects.filter(
-                    age__gte=search_age, age__lt=r_age, gender=search_gender, exercise_skill=search_skill)
-                final_queryset = queryset.order_by('-post_date')
+                    age__gte=search_age, age__lt=r_age, gender=search_gender, exercise_skill=search_skill, exercise=search_exercise)
+        final_queryset = queryset.order_by('-post_date')
         serializer = PostSerializer(final_queryset, many=True)
         posts = []
         for item in serializer.data:
