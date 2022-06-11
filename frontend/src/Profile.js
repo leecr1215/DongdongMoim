@@ -32,11 +32,12 @@ export default function Profile({ route, navigation }) {
   const [userData, setUserData] = useState("");
   const [gender, setGender] = useState("...");
   const [age, setAge] = useState("...");
+  const [relation, setRelation] = useState("");
 
   AsyncStorage.getItem("@id").then((userid) => setUserId(userid.slice(1, -1)));
-  AsyncStorage.getItem("@username").then((username) =>
-    setUserName(username.slice(1, -1))
-  );
+  // AsyncStorage.getItem("@username").then((username) =>
+  //   setUserName(username.slice(1, -1))
+  // );
 
   const [isSoccerSelect, setSoccerSelect] = useState([
     true,
@@ -116,6 +117,7 @@ export default function Profile({ route, navigation }) {
               const data = response.data["result"];
               //console.log("나이 " + response.data["result"]["age"]);
               //setUserData(data);
+              setUserName(data["username"]);
               setGender(data["gender"]);
               const changeAge = data["age"] - (data["age"] % 10);
               setAge(changeAge + "대");
@@ -134,10 +136,39 @@ export default function Profile({ route, navigation }) {
     getUserinfo();
   }, []);
 
+  useEffect(() => {
+    async function getRelation() {
+      try {
+        const response = await axios
+          .get(
+            `http://${manifest.debuggerHost
+              .split(":")
+              .shift()}:8080/api/v1/friends/connection/${userId}/${profileUserId}`
+          )
+          .then((response) => {
+            if (response.data["success"] == true) {
+              const data = response.data["result"]["status"];
+              //console.log(data);
+              setRelation(data);
+              //console.log("관계:" + relation);
+            }
+          })
+          .catch(function (error) {
+            throw error;
+          });
+      } catch (e) {
+        throw e;
+      }
+    }
+    getRelation();
+  }, []);
+
+  // 친구 신청 onPress
   const onPressCreateFriend = async () => {
     var data = {
-      user1_id: userId,
-      user2_id: profileUserId,
+      my_id: userId,
+      your_id: profileUserId,
+      status: "REQUEST",
     };
     try {
       console.log(data);
@@ -151,11 +182,65 @@ export default function Profile({ route, navigation }) {
         .then(function async(response) {
           if (response.data["success"] == true) {
             alert("친구 신청이 완료되었습니다.");
-            navigation.navigate("Profile");
           }
         })
         .catch(function (error) {
           alert("친구 신청 오류입니다.");
+          //console.log(error.response.data);
+          console.log(error);
+          throw error;
+        });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
+  // 친구 받기 onPress - 함수 수정하기
+  const onPressAcceptFriend = async () => {
+    try {
+      console.log(data);
+      const response = await axios
+        .put(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:8080/api/v1/friends/${userId}/${profileUserId}`
+        )
+        .then(function async(response) {
+          if (response.data["success"] == true) {
+            alert("친구 수락이 완료되었습니다.");
+          }
+        })
+        .catch(function (error) {
+          alert("친구 수락 오류입니다.");
+          //console.log(error.response.data);
+          console.log(error);
+          throw error;
+        });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
+  // 친구 끊기 onPress
+  // 친구 요청 대기 - 함수 수정하기
+  const onPressRefuseFriend = async () => {
+    try {
+      console.log(data);
+      const response = await axios
+        .delete(
+          `http://${manifest.debuggerHost
+            .split(":")
+            .shift()}:8080/api/v1/friends/${userId}/${profileUserId}`
+        )
+        .then(function async(response) {
+          if (response.data["success"] == true) {
+            alert("친구 취소가 완료되었습니다.");
+          }
+        })
+        .catch(function (error) {
+          alert("친구 취소 오류입니다.");
           //console.log(error.response.data);
           console.log(error);
           throw error;
@@ -190,19 +275,28 @@ export default function Profile({ route, navigation }) {
           </View>
           <View style={styles.idSideProfile}>
             <Text style={styles.username}>{`${userName} 님의 프로필`}</Text>
-            <View style={styles.sideProfile}>
-              <TouchableOpacity onPress={() => navigation.navigate("Userinfo")}>
-                <Text style={styles.sideProfileText}>회원정보보기</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate("MyPage")}>
-                <Text style={styles.sideProfileText}>활동내역확인</Text>
-              </TouchableOpacity>
-            </View>
+            {profileUserId == userId ? (
+              <View style={styles.sideProfile}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Userinfo")}
+                >
+                  <Text style={styles.sideProfileText}>회원정보보기</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("MyPage")}>
+                  <Text style={styles.sideProfileText}>활동내역확인</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={styles.sideProfile}>
+                <Text></Text>
+                <Text></Text>
+              </View>
+            )}
           </View>
         </View>
-        {/* {profileUserId == userId ? (
-          <Text style={{marginBottom: SCREEN_HEIGHT*0.03}}>이거 나임</Text>
-        ) : (
+        {profileUserId == userId ? (
+          <Text style={{ marginBottom: SCREEN_HEIGHT * 0.03 }}></Text>
+        ) : relation == "None" ? (
           <TouchableOpacity
             onPress={() => {
               onPressCreateFriend();
@@ -212,17 +306,38 @@ export default function Profile({ route, navigation }) {
               <Text> 친구 신청 </Text>
             </View>
           </TouchableOpacity>
-        )} */}
+        ) : relation == "Request" ? (
+          <TouchableOpacity
+            onPress={() => {
+              onPressRefuseFriend();
+            }}
+          >
+            <View style={styles.friendBtn}>
+              <Text> 친구 요청 취소</Text>
+            </View>
+          </TouchableOpacity>
+        ) : relation == "Requested" ? (
+          <TouchableOpacity
+            onPress={() => {
+              onPressAcceptFriend();
+            }}
+          >
+            <View style={styles.friendBtn}>
+              <Text> 친구 받기 </Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              onPressRefuseFriend();
+            }}
+          >
+            <View style={styles.friendBtn}>
+              <Text> 친구 끊기 </Text>
+            </View>
+          </TouchableOpacity>
+        )}
 
-        <TouchableOpacity
-          onPress={() => {
-            onPressCreateFriend();
-          }}
-        >
-          <View style={styles.friendBtn}>
-            <Text> 친구 신청 </Text>
-          </View>
-        </TouchableOpacity>
         <View style={styles.bigLine}></View>
         <View style={styles.genderContainer}>
           <Text style={styles.subject}> 성별 </Text>
