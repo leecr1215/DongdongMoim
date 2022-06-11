@@ -51,9 +51,11 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
       console.log(e);
     }
   };
+
   function isNetworkError(err) {
     return !!err.isAxiosError && !err.response;
   }
+
   useEffect(() => {
     async function getFriends() {
       //   const s = AsyncStorage.getItem("@id").then((userid) =>
@@ -61,14 +63,13 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
       //   );
       try {
         console.log("유저 아이디는 : " + userId);
-
+        const url = `http://${manifest.debuggerHost
+          .split(":")
+          .shift()}:8080/api/v2/friends/1`;
         const response = await axios
-          .get(
-            `http://${manifest.debuggerHost
-              .split(":")
-              .shift()}:8080/api/v2/friends/1`
-          )
+          .get(url)
           .then((response) => {
+            console.log(response);
             if (response.data["success"] == true) {
               const data = response.data["result"];
               setData(data);
@@ -98,6 +99,10 @@ const FriendModal = ({ isVisible, isClose, userId }) => {
             //alert("친구 목록을 가져오지 못했습니다.");
             //console.log(error);
             throw error;
+          })
+          .then(() => {
+            // 항상 실행
+            console.log("여긴 오니?");
           });
       } catch (error) {
         //alert("친구 목록 에러");

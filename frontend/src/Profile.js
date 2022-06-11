@@ -117,7 +117,8 @@ export default function Profile({ route, navigation }) {
               //console.log("나이 " + response.data["result"]["age"]);
               //setUserData(data);
               setGender(data["gender"]);
-              setAge(data["age"]);
+              const changeAge = data["age"] - (data["age"] % 10);
+              setAge(changeAge + "대");
               getSoccerSkill(data["soccer_skill"]);
               getBaseballSkill(data["baseball_skill"]);
               getBasketballSkill(data["basketball_skill"]);
