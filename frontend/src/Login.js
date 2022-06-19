@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
+  Keyboard,
+  TouchableWithoutFeedback,
   KeyboardAvoidingView,
 } from "react-native";
 import { Image } from "react-native";
@@ -75,43 +77,49 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <StatusBar style="auto" />
-      <View style={styles.head}>
-        <Image style={styles.logo} source={require("../icon/red_logo.png")} />
-        <Text style={styles.appText}>"I" CAN BE HEALTHY</Text>
-      </View>
-      <View style={styles.login}>
-        <TextInput
-          style={styles.input}
-          value={id}
-          onChangeText={setId}
-          placeholder="아이디(닉네임)"
-          placeholderTextColor="#898989"
-        />
-        <TextInput
-          style={styles.input}
-          value={pw}
-          onChangeText={setPw}
-          secureTextEntry={true}
-          placeholder="비밀번호"
-          placeholderTextColor="#898989"
-        />
-        <View style={styles.loginBtn}>
-          <TouchableOpacity
-            onPress={() => {
-              onPressLogin();
-            }}
-          >
-            <Text style={styles.loginText}>로그인</Text>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <KeyboardAvoidingView style={styles.container}>
+        <StatusBar style="auto" />
+        <View style={styles.head}>
+          <Image style={styles.logo} source={require("../icon/red_logo.png")} />
+          <Text style={styles.appText}>"I" CAN BE HEALTHY</Text>
+        </View>
+        <View style={styles.login}>
+          <TextInput
+            style={styles.input}
+            value={id}
+            onChangeText={setId}
+            placeholder="아이디(닉네임)"
+            placeholderTextColor="#898989"
+          />
+          <TextInput
+            style={styles.input}
+            value={pw}
+            onChangeText={setPw}
+            secureTextEntry={true}
+            placeholder="비밀번호"
+            placeholderTextColor="#898989"
+          />
+          <View style={styles.loginBtn}>
+            <TouchableOpacity
+              onPress={() => {
+                onPressLogin();
+              }}
+            >
+              <Text style={styles.loginText}>로그인</Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+            <Text style={styles.signupBtn}>회원가입</Text>
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-          <Text style={styles.signupBtn}>회원가입</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 

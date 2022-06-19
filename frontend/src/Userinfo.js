@@ -140,7 +140,13 @@ export default function Userinfo({ navigation }) {
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
         <View style={styles.back}>
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Profile", {
+                userId: id,
+              })
+            }
+          >
             <AntDesign name="left" size={20} color="black" />
           </TouchableOpacity>
           <Text style={styles.backText}>회원정보 보기</Text>

@@ -210,24 +210,12 @@ export default function Profile({ navigation }) {
     <View style={styles.container}>
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
-        <View style={styles.back}>
-          <TouchableOpacity onPress={() => navigation.pop()}>
+        <TouchableOpacity onPress={() => navigation.pop()}>
+          <View style={styles.back}>
             <AntDesign name="left" size={18} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.pop()}>
             <Text style={styles.backText}>활동 내역 확인</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.introContainer}>
-          <View style={styles.circle}>
-            <Image
-              style={styles.profileImage}
-              source={require("../icon/red_logo.png")}
-            />
           </View>
-          <Text style={styles.username}>{name}님 안녕하세요</Text>
-        </View>
-        <View style={styles.bigLine}></View>
+        </TouchableOpacity>
         <View style={styles.contentContainer}>
           <Text style={styles.subject}>내가 올린 게시글</Text>
           <View style={styles.listContainer}>
@@ -314,7 +302,7 @@ export default function Profile({ navigation }) {
         </View>
         <View style={styles.bigLine}></View>
         <View style={styles.contentContainer}>
-          <Text style={styles.subject}>친구 요청 내역</Text>
+          <Text style={styles.subject}>요청 받은 친구 내역</Text>
           <View style={styles.listContainer}>
             <View style={styles.listHeader}>
               <Text>닉네임</Text>
@@ -383,35 +371,7 @@ const styles = StyleSheet.create({
   backText: {
     fontSize: 18,
   },
-  introContainer: {
-    width: SCREEN_WIDTH * 0.8,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignContent: "center",
-    marginTop: SCREEN_HEIGHT * 0.03,
-    marginBottom: SCREEN_WIDTH * 0.03,
-  },
-  circle: {
-    width: SCREEN_WIDTH * 0.25,
-    height: SCREEN_WIDTH * 0.25,
-    borderRadius: (SCREEN_WIDTH * 0.25) / 2,
-    borderColor: "black",
-    borderWidth: 2,
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "center",
-  },
-  profileImage: {
-    resizeMode: "contain",
-    width: SCREEN_WIDTH * 0.17,
-    height: SCREEN_HEIGHT * 0.14,
-  },
-  username: {
-    //left: SCREEN_WIDTH * 0.33,
-    fontSize: 18,
-    marginTop: SCREEN_HEIGHT * 0.05,
-    //bottom: SCREEN_HEIGHT / 40,
-  },
+
   friendIcon: {
     marginTop: SCREEN_HEIGHT * 0.05,
     marginLeft: SCREEN_WIDTH * 0.65,
@@ -423,6 +383,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     display: "flex",
     justifyContent: "center",
+  },
+  contentContainer: {
+    marginTop: SCREEN_HEIGHT * 0.03,
   },
   bigLine: {
     width: SCREEN_WIDTH * 0.9,
@@ -436,7 +399,7 @@ const styles = StyleSheet.create({
   },
   subject: {
     fontSize: 20,
-    lineHeight: 50,
+    marginBottom: SCREEN_HEIGHT * 0.03,
     fontWeight: "700",
     justifyContent: "flex-start",
     width: SCREEN_WIDTH * 0.9,

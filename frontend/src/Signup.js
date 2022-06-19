@@ -7,7 +7,10 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
+  Keyboard,
   KeyboardAvoidingView,
+  ScrollView,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Image } from "react-native";
 import styled from "styled-components/native";
@@ -61,9 +64,12 @@ export default function Home({ navigation }) {
 
   const onPress = async () => {
     //navigation.navigate("Home");
-    if (id == "" || pw == "" || gender == "" || phoneNum == "" || age == "") {
+    if (id == "" || pw == "" || gender == "" || age == "") {
       alert("빈칸없이 다 입력해주세요😊");
     } else {
+      if (phoneNum == "") {
+        setPhoneNum("None");
+      }
       const data = {
         username: id, // 아이디
         password: pw, // 비밀번호
@@ -180,205 +186,225 @@ export default function Home({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <ExerciseModal isVisible={isModalClick} isClose={onPressModalClose} />
-      <StatusBar style="auto" />
-      <View style={styles.head}>
-        <Text style={styles.appText}>회원가입</Text>
-      </View>
-
-      <View style={styles.signUp}>
-        <View>
-          <TextInput
-            style={styles.input}
-            onChangeText={setId}
-            value={id}
-            placeholder="아이디(닉네임)"
-            placeholderTextColor="#898989"
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={setPw}
-            value={pw}
-            secureTextEntry={true}
-            placeholder="비밀번호"
-            placeholderTextColor="#898989"
-          />
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <View style={styles.container}>
+        <ExerciseModal isVisible={isModalClick} isClose={onPressModalClose} />
+        <StatusBar style="auto" />
+        <View style={styles.head}>
+          <Text style={styles.appText}>회원가입</Text>
         </View>
 
-        <View>
-          <Text style={styles.genderText}>성별</Text>
-          <View style={styles.genderContainer}>
-            <TouchableOpacity onPress={() => onPressGender("남")}>
-              <Text
-                style={
-                  isGenderSelect[0] ? styles.genderPressBtn : styles.genderBtn
-                }
-              >
-                남
+        <View style={styles.signUp}>
+          <View>
+            <TextInput
+              style={styles.input}
+              onChangeText={setId}
+              value={id}
+              placeholder="* 아이디(닉네임)"
+              placeholderTextColor="#898989"
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={setPw}
+              value={pw}
+              secureTextEntry={true}
+              placeholder="* 비밀번호"
+              placeholderTextColor="#898989"
+            />
+          </View>
+
+          <View>
+            <Text style={styles.genderText}>
+              <Text style={styles.redStar}>* </Text>성별
+            </Text>
+            <View style={styles.genderContainer}>
+              <TouchableOpacity onPress={() => onPressGender("남")}>
+                <Text
+                  style={
+                    isGenderSelect[0] ? styles.genderPressBtn : styles.genderBtn
+                  }
+                >
+                  남
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => onPressGender("여")}>
+                <Text
+                  style={
+                    isGenderSelect[1] ? styles.genderPressBtn : styles.genderBtn
+                  }
+                >
+                  여
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.ageContainer}>
+            <Text style={styles.ageText}>
+              <Text style={styles.redStar}>* </Text>나이
+            </Text>
+            <TextInput
+              style={styles.ageInput}
+              onChangeText={setAge}
+              value={age}
+              placeholder="00"
+              keyboardType="numeric"
+              maxLength={3}
+              placeholderTextColor="#898989"
+            />
+            <Text>세</Text>
+          </View>
+
+          <View style={styles.phoneContainer}>
+            <Text style={styles.phoneText}>인스타그램 ID</Text>
+            <TextInput
+              style={styles.phoneInput}
+              onChangeText={setPhoneNum}
+              value={phoneNum}
+              placeholder=""
+              maxLength={13}
+              placeholderTextColor="#898989"
+            />
+          </View>
+
+          {/* 운동 능력 부분 */}
+
+          <View style={styles.exerciseContainer}>
+            <View style={styles.exerciseTextContainer}>
+              <Text style={styles.exerciseText}>
+                <Text style={styles.redStar}>* </Text>운동능력
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => onPressGender("여")}>
-              <Text
-                style={
-                  isGenderSelect[1] ? styles.genderPressBtn : styles.genderBtn
-                }
-              >
-                여
-              </Text>
-            </TouchableOpacity>
+              <TouchableOpacity onPress={() => onPressQuestion()}>
+                <Text style={styles.question}>?</Text>
+              </TouchableOpacity>
+            </View>
+            {/* 축구 부분 */}
+            <View style={styles.exercises}>
+              <Text style={styles.soccer}>축구</Text>
+              <View style={styles.imageStyle}>
+                <TouchableOpacity onPress={() => onPressSoccer("sole")}>
+                  <Image
+                    style={isSoccerSelect[0] ? styles.pressBtn : styles.logo}
+                    source={require("../icon/sole.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.imageStyle}>
+                <TouchableOpacity onPress={() => onPressSoccer("sock")}>
+                  <Image
+                    style={isSoccerSelect[1] ? styles.pressBtn : styles.logo}
+                    source={require("../icon/sock.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.imageStyle}>
+                <TouchableOpacity onPress={() => onPressSoccer("slipper")}>
+                  <Image
+                    style={isSoccerSelect[2] ? styles.pressBtn : styles.logo}
+                    source={require("../icon/slipper.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.imageStyle}>
+                <TouchableOpacity onPress={() => onPressSoccer("sneaker")}>
+                  <Image
+                    style={isSoccerSelect[3] ? styles.pressBtn : styles.logo}
+                    source={require("../icon/sneaker.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            {/* 야구 부분 */}
+            <View style={styles.exercises}>
+              <Text style={styles.baseball}>야구</Text>
+              <View style={styles.imageStyle}>
+                <TouchableOpacity onPress={() => onPressBaseball("sole")}>
+                  <Image
+                    style={isBaseballSelect[0] ? styles.pressBtn : styles.logo}
+                    source={require("../icon/sole.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.imageStyle}>
+                <TouchableOpacity onPress={() => onPressBaseball("sock")}>
+                  <Image
+                    style={isBaseballSelect[1] ? styles.pressBtn : styles.logo}
+                    source={require("../icon/sock.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.imageStyle}>
+                <TouchableOpacity onPress={() => onPressBaseball("slipper")}>
+                  <Image
+                    style={isBaseballSelect[2] ? styles.pressBtn : styles.logo}
+                    source={require("../icon/slipper.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.imageStyle}>
+                <TouchableOpacity onPress={() => onPressBaseball("sneaker")}>
+                  <Image
+                    style={isBaseballSelect[3] ? styles.pressBtn : styles.logo}
+                    source={require("../icon/sneaker.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            {/* 배드민턴 부분 */}
+            <View style={styles.exercises}>
+              <Text style={styles.basketball}>농구</Text>
+              <View style={styles.imageStyle}>
+                <TouchableOpacity onPress={() => onPressBasket("sole")}>
+                  <Image
+                    style={
+                      isBasketballSelect[0] ? styles.pressBtn : styles.logo
+                    }
+                    source={require("../icon/sole.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.imageStyle}>
+                <TouchableOpacity onPress={() => onPressBasket("sock")}>
+                  <Image
+                    style={
+                      isBasketballSelect[1] ? styles.pressBtn : styles.logo
+                    }
+                    source={require("../icon/sock.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.imageStyle}>
+                <TouchableOpacity onPress={() => onPressBasket("slipper")}>
+                  <Image
+                    style={
+                      isBasketballSelect[2] ? styles.pressBtn : styles.logo
+                    }
+                    source={require("../icon/slipper.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.imageStyle}>
+                <TouchableOpacity onPress={() => onPressBasket("sneaker")}>
+                  <Image
+                    style={
+                      isBasketballSelect[3] ? styles.pressBtn : styles.logo
+                    }
+                    source={require("../icon/sneaker.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
-        </View>
-        <View style={styles.ageContainer}>
-          <Text style={styles.ageText}>나이</Text>
-          <TextInput
-            style={styles.ageInput}
-            onChangeText={setAge}
-            value={age}
-            placeholder="00"
-            keyboardType="numeric"
-            maxLength={3}
-            placeholderTextColor="#898989"
-          />
-          <Text>세</Text>
-        </View>
 
-        <View style={styles.phoneContainer}>
-          <Text style={styles.phoneText}>전화번호</Text>
-          <TextInput
-            style={styles.phoneInput}
-            onChangeText={setPhoneNum}
-            value={phoneNum}
-            placeholder="010-0000-0000"
-            maxLength={13}
-            placeholderTextColor="#898989"
-          />
+          <TouchableOpacity onPress={() => onPress()} underlayColor="white">
+            <Text style={styles.signUpBtn}>확인</Text>
+          </TouchableOpacity>
         </View>
-
-        {/* 운동 능력 부분 */}
-
-        <View style={styles.exerciseContainer}>
-          <View style={styles.exerciseTextContainer}>
-            <Text style={styles.exerciseText}>운동능력</Text>
-            <TouchableOpacity onPress={() => onPressQuestion()}>
-              <Text style={styles.question}>?</Text>
-            </TouchableOpacity>
-          </View>
-          {/* 축구 부분 */}
-          <View style={styles.exercises}>
-            <Text style={styles.soccer}>축구</Text>
-            <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("sole")}>
-                <Image
-                  style={isSoccerSelect[0] ? styles.pressBtn : styles.logo}
-                  source={require("../icon/sole.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("sock")}>
-                <Image
-                  style={isSoccerSelect[1] ? styles.pressBtn : styles.logo}
-                  source={require("../icon/sock.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("slipper")}>
-                <Image
-                  style={isSoccerSelect[2] ? styles.pressBtn : styles.logo}
-                  source={require("../icon/slipper.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressSoccer("sneaker")}>
-                <Image
-                  style={isSoccerSelect[3] ? styles.pressBtn : styles.logo}
-                  source={require("../icon/sneaker.png")}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-          {/* 야구 부분 */}
-          <View style={styles.exercises}>
-            <Text style={styles.baseball}>야구</Text>
-            <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressBaseball("sole")}>
-                <Image
-                  style={isBaseballSelect[0] ? styles.pressBtn : styles.logo}
-                  source={require("../icon/sole.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressBaseball("sock")}>
-                <Image
-                  style={isBaseballSelect[1] ? styles.pressBtn : styles.logo}
-                  source={require("../icon/sock.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressBaseball("slipper")}>
-                <Image
-                  style={isBaseballSelect[2] ? styles.pressBtn : styles.logo}
-                  source={require("../icon/slipper.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressBaseball("sneaker")}>
-                <Image
-                  style={isBaseballSelect[3] ? styles.pressBtn : styles.logo}
-                  source={require("../icon/sneaker.png")}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-          {/* 배드민턴 부분 */}
-          <View style={styles.exercises}>
-            <Text style={styles.basketball}>농구</Text>
-            <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressBasket("sole")}>
-                <Image
-                  style={isBasketballSelect[0] ? styles.pressBtn : styles.logo}
-                  source={require("../icon/sole.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressBasket("sock")}>
-                <Image
-                  style={isBasketballSelect[1] ? styles.pressBtn : styles.logo}
-                  source={require("../icon/sock.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressBasket("slipper")}>
-                <Image
-                  style={isBasketballSelect[2] ? styles.pressBtn : styles.logo}
-                  source={require("../icon/slipper.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.imageStyle}>
-              <TouchableOpacity onPress={() => onPressBasket("sneaker")}>
-                <Image
-                  style={isBasketballSelect[3] ? styles.pressBtn : styles.logo}
-                  source={require("../icon/sneaker.png")}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        <TouchableOpacity onPress={() => onPress()} underlayColor="white">
-          <Text style={styles.signUpBtn}>확인</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -406,6 +432,9 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     alignItems: "center",
     justifyContent: "center",
+  },
+  redStar: {
+    color: "red",
   },
   input: {
     borderLeftWidth: 0,
@@ -468,7 +497,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderBottomWidth: 1,
     marginBottom: SCREEN_HEIGHT * 0.05,
-    width: SCREEN_WIDTH * 0.3,
+    width: SCREEN_WIDTH * 0.25,
     borderColor: "#9C9C9C",
   },
   exerciseContainer: { width: SCREEN_WIDTH * 0.55 },
