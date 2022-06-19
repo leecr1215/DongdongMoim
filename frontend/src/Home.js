@@ -54,7 +54,9 @@ export default function Home({ navigation }) {
       { latitude, longitude },
       { useGoogleMaps: false }
     );
-
+    const sum =
+      location[0].region + " " + location[0].city + " " + location[0].street;
+    const a = await AsyncStorage.setItem("@location", JSON.stringify(sum));
     setCity(location[0].region);
     //console.log(location[0]);
   };
@@ -316,9 +318,9 @@ export default function Home({ navigation }) {
             )}
           </ScrollView>
         </View>
-        <View>
+        {/* <View>
           <Text>{city}</Text>
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );
@@ -347,6 +349,7 @@ const styles = StyleSheet.create({
   searchText: {
     marginBottom: SCREEN_WIDTH * 0.01,
     fontWeight: "500",
+    color: "#898989",
   },
   /*드롭다운 css 시작*/
   dropdown: {
@@ -435,6 +438,7 @@ const styles = StyleSheet.create({
   postId: { color: "#898989", fontSize: 13 },
   postUsername: {
     color: "gray",
+    marginLeft: SCREEN_WIDTH * 0.02,
     marginTop: SCREEN_WIDTH * 0.02,
   },
   postDate: { color: "#898989", fontSize: 13 },

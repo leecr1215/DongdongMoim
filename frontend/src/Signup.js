@@ -450,6 +450,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: SCREEN_WIDTH * 0.55,
     justifyContent: "space-between",
+    paddingBottom: 0,
   },
   genderText: {
     fontSize: 15,
@@ -466,14 +467,14 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.25,
     shadowColor: "#000000",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: { width: 1, height: 1 },
     elevation: 3,
-    marginBottom: SCREEN_HEIGHT * 0.05,
   },
   ageContainer: {
     flexDirection: "row",
     width: SCREEN_WIDTH * 0.55,
     justifyContent: "space-between",
+    marginTop: SCREEN_HEIGHT * 0.05,
   },
   ageText: { fontSize: 15, fontWeight: "700" },
   ageInput: {
@@ -592,6 +593,6 @@ const styles = StyleSheet.create({
     color: "black",
     borderColor: "#ffd700",
     borderWidth: 1,
-    marginBottom: SCREEN_HEIGHT * 0.05,
+    //marginBottom: SCREEN_HEIGHT * 0.05,
   },
 });

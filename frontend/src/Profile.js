@@ -34,8 +34,13 @@ export default function Profile({ route, navigation }) {
   const [gender, setGender] = useState("...");
   const [age, setAge] = useState("...");
   const [relation, setRelation] = useState("");
+  const [location, setLocation] = useState(" ");
 
   AsyncStorage.getItem("@id").then((userid) => setUserId(userid.slice(1, -1)));
+  AsyncStorage.getItem("@location").then((locate) =>
+    setLocation(locate.slice(1, -1))
+  );
+
   // AsyncStorage.getItem("@username").then((username) =>
   //   setUserName(username.slice(1, -1))
   // );
@@ -110,6 +115,9 @@ export default function Profile({ route, navigation }) {
 
   useEffect(() => {
     async function getUserinfo() {
+      const a = await AsyncStorage.getItem("@location").then((locate) =>
+        setLocation(locate.slice(1, -1))
+      );
       try {
         const response = await axios
           .get(
@@ -298,12 +306,12 @@ export default function Profile({ route, navigation }) {
       />
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
-        <View style={styles.back}>
-          <TouchableOpacity onPress={() => navigation.pop()}>
+        <TouchableOpacity onPress={() => navigation.pop()}>
+          <View style={styles.back}>
             <AntDesign name="left" size={18} color="black" />
-          </TouchableOpacity>
-          <Text style={styles.backText}>프로필</Text>
-        </View>
+            <Text style={styles.backText}>프로필</Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.introContainer}>
           <View style={styles.circle}>
             <Image
@@ -336,7 +344,7 @@ export default function Profile({ route, navigation }) {
           </View>
         </View>
         {profileUserId == userId ? (
-          <Text style={{ marginBottom: SCREEN_HEIGHT * 0.03 }}></Text>
+          <Text style={{ marginBottom: SCREEN_HEIGHT * 0.02 }}></Text>
         ) : relation == "None" ? (
           <TouchableOpacity
             onPress={() => {
@@ -483,6 +491,17 @@ export default function Profile({ route, navigation }) {
             </View>
           </View>
         </View>
+        {profileUserId == userId ? <View style={styles.bigLine}></View> : <></>}
+        {profileUserId == userId ? (
+          <View style={{ flexDirection: "row" }}>
+            <View style={styles.locationContainer}>
+              <Text style={styles.subject}> 지역 </Text>
+              <Text style={styles.locationText}>{location}</Text>
+            </View>
+          </View>
+        ) : (
+          <></>
+        )}
         {profileUserId == userId ? (
           <TouchableOpacity
             onPress={() => {
@@ -493,8 +512,8 @@ export default function Profile({ route, navigation }) {
               <Image
                 style={styles.friendLogo}
                 source={require("../icon/friends.png")}
-                width={40}
-                height={40}
+                width={30}
+                height={30}
               />
             </View>
           </TouchableOpacity>
@@ -564,7 +583,7 @@ const styles = StyleSheet.create({
   sideProfileText: {
     textDecorationLine: "underline",
     textDecorationColor: "black",
-    fontSize: 12,
+    fontSize: 13,
     lineHeight: 20,
     fontWeight: "600",
   },
@@ -572,7 +591,7 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     color: "#9B111E",
     // backgroundColor: "#E5E5E5",
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: "600",
     lineHeight: 20,
     paddingLeft: SCREEN_WIDTH * 0.01,
@@ -613,7 +632,7 @@ const styles = StyleSheet.create({
     marginBottom: SCREEN_HEIGHT * 0.03,
   },
   genderText: {
-    fontSize: 18,
+    fontSize: 17,
   },
   ageContainer: {
     width: SCREEN_WIDTH * 0.66,
@@ -623,11 +642,12 @@ const styles = StyleSheet.create({
     marginBottom: SCREEN_HEIGHT * 0.03,
   },
   ageText: {
-    fontSize: 18,
+    fontSize: 17,
   },
   exerciseContainer: {
     width: SCREEN_WIDTH * 0.66,
     marginTop: SCREEN_HEIGHT * 0.03,
+    marginBottom: SCREEN_HEIGHT * 0.03,
   },
   exerciseTextContainer: {
     flexDirection: "row",
@@ -685,11 +705,11 @@ const styles = StyleSheet.create({
     marginRight: SCREEN_WIDTH * 0.09,
   },
   friendIcon: {
-    marginTop: SCREEN_HEIGHT * 0.01,
-    marginBottom: SCREEN_HEIGHT * 0.03,
+    //marginTop: SCREEN_HEIGHT * 0.01,
+    //marginBottom: SCREEN_HEIGHT * 0.03,
     marginLeft: SCREEN_WIDTH * 0.7,
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
     borderRadius: 50,
     backgroundColor: "#D3EEFF",
     alignContent: "center",
@@ -699,8 +719,8 @@ const styles = StyleSheet.create({
   },
   friendLogo: {
     resizeMode: "contain",
-    height: SCREEN_HEIGHT * 0.025,
-    width: SCREEN_WIDTH * 0.08,
+    // height: SCREEN_HEIGHT * 0.005,
+    // width: SCREEN_WIDTH * 0.01,
     alignContent: "center",
   },
   bigLine: {
@@ -708,4 +728,12 @@ const styles = StyleSheet.create({
     height: 5,
     backgroundColor: "#E5E5E5",
   },
+  locationContainer: {
+    width: SCREEN_WIDTH * 0.66,
+    flexDirection: "row",
+    alignItems: "center",
+    alignContent: "center",
+    marginTop: SCREEN_HEIGHT * 0.03,
+  },
+  locationText: { fontSize: 17 },
 });

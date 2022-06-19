@@ -54,20 +54,24 @@ export default function Login({ navigation }) {
             data
           )
           .then(function async(response) {
-            if (response.data["success"] == true) {
+            if (response.data["success"] === true) {
               alert("로그인되었습니다.");
+              console.log(response.data["message"]);
               console.log("id는 " + response.data["id"].toString());
               storeData(id, response.data["id"].toString());
               navigation.navigate("Home");
               setId("");
               setPw("");
+            } else if (response.data["success"] === false) {
+              console.log("틀림");
+              alert("아이디 또는 비밀번호가 틀립니다.");
             }
           })
           .catch(function (error) {
-            alert("로그인 오류입니다.");
+            alert("아이디 또는 비밀번호가 틀립니다.");
             //console.log(error.response.data);
             console.log(error);
-            throw error;
+            //throw error;
           });
       } catch (error) {
         console.log(error);
@@ -104,13 +108,15 @@ export default function Login({ navigation }) {
             placeholder="비밀번호"
             placeholderTextColor="#898989"
           />
-          <View style={styles.loginBtn}>
+          <View style={{ marginBottom: SCREEN_HEIGHT * 0.08 }}>
             <TouchableOpacity
               onPress={() => {
                 onPressLogin();
               }}
             >
-              <Text style={styles.loginText}>로그인</Text>
+              <View style={styles.loginBtn}>
+                <Text style={styles.loginText}>로그인</Text>
+              </View>
             </TouchableOpacity>
           </View>
 
@@ -173,7 +179,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: { width: 2, height: 2 },
     elevation: 3,
-    marginBottom: SCREEN_HEIGHT * 0.08,
+    //marginBottom: SCREEN_HEIGHT * 0.08,
   },
   loginText: { fontSize: 17 },
   signupBtn: {

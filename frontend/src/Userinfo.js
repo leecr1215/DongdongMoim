@@ -139,18 +139,18 @@ export default function Userinfo({ navigation }) {
     <View style={styles.container}>
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
-        <View style={styles.back}>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("Profile", {
-                userId: id,
-              })
-            }
-          >
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("Profile", {
+              userId: id,
+            })
+          }
+        >
+          <View style={styles.back}>
             <AntDesign name="left" size={20} color="black" />
-          </TouchableOpacity>
-          <Text style={styles.backText}>회원정보 보기</Text>
-        </View>
+            <Text style={styles.backText}>회원정보 보기</Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.introContainer}>
           <Text style={styles.username}>
             {userData["username"]}님의 회원정보
@@ -170,8 +170,14 @@ export default function Userinfo({ navigation }) {
         <View style={styles.info}>
           <View style={styles.genderContainer}>
             <Text style={styles.subject}> 성별 </Text>
-            <Text style={styles.genderText}> {userData["gender"] == "F" ? ("여자") :(
-                userData["gender"] == "M" ? ("남자") : ("무관"))} </Text>
+            <Text style={styles.genderText}>
+              {" "}
+              {userData["gender"] == "F"
+                ? "여자"
+                : userData["gender"] == "M"
+                ? "남자"
+                : "무관"}{" "}
+            </Text>
           </View>
 
           <View style={styles.ageContainer}>
@@ -180,18 +186,16 @@ export default function Userinfo({ navigation }) {
           </View>
 
           <View style={styles.phoneNumContainer}>
-            <Text style={styles.subject}> 전화번호 </Text>
-            <Text style={styles.phoneNumText}>
-              {" "}
-              {userData["phone_number"]}{" "}
-            </Text>
+            <Text style={styles.subject}> 인스타그램 ID </Text>
+            <Text style={styles.phoneNumText}>{userData["phone_number"]}</Text>
           </View>
 
           {/* 운동 능력 부분 */}
+          <View style={styles.exerciseTextContainer}>
+            <Text style={styles.subject}>운동능력</Text>
+            <Text style={styles.phoneNumText}></Text>
+          </View>
           <View style={styles.exerciseContainer}>
-            <View style={styles.exerciseTextContainer}>
-              <Text style={styles.subject}>운동능력</Text>
-            </View>
             {/* 축구 부분 */}
             <View style={styles.exercises}>
               <Text style={styles.soccer}>축구</Text>
@@ -299,18 +303,23 @@ const styles = StyleSheet.create({
   back: {
     flexDirection: "row",
     marginRight: SCREEN_WIDTH * 0.6,
+    marginTop: SCREEN_HEIGHT * 0.03,
+    alignItems: "center",
   },
   backText: {
-    fontSize: 20,
+    fontSize: 18,
   },
   introContainer: {
     width: SCREEN_WIDTH * 0.75,
-    marginTop: SCREEN_HEIGHT * 0.04,
+    marginTop: SCREEN_HEIGHT * 0.03,
+    flexDirection: "row",
     justifyContent: "space-between",
+    alignContent: "center",
   },
   username: {
-    fontSize: 23,
+    fontSize: 22,
     fontWeight: "700",
+    alignSelf: "center",
   },
   modifyinfo: {
     marginTop: SCREEN_HEIGHT * 0.03,
@@ -332,16 +341,17 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.8,
     height: SCREEN_HEIGHT * 0.6,
     borderRadius: 30,
+    marginTop: SCREEN_HEIGHT * 0.03,
     //paddingLeft: SCREEN_WIDTH*0.05,
-    //paddingTop: SCREEN_HEIGHT*0.03,
+    paddingTop: SCREEN_HEIGHT * 0.03,
     //paddingBottom: SCREEN_HEIGHT*0.05,
     alignItems: "center",
   },
   subject: {
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 70,
     fontWeight: "700",
-    width: 80,
+    width: "auto",
   },
   genderContainer: {
     width: SCREEN_WIDTH * 0.65,
@@ -350,7 +360,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   genderText: {
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 70,
   },
   ageContainer: {
@@ -360,7 +370,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   ageText: {
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 70,
   },
   phoneNumContainer: {
@@ -370,26 +380,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   phoneNumText: {
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 70,
   },
   exerciseContainer: {
     width: SCREEN_WIDTH * 0.65,
+    alignItems: "center",
   },
   exerciseTextContainer: {
     width: SCREEN_WIDTH * 0.65,
     justifyContent: "space-between",
     flexDirection: "row",
-    fontWeight: "700",
+    alignItems: "center",
+    paddingLeft: 5,
   },
   exerciseText: {
-    fontSize: 20,
+    fontSize: 18,
     //marginTop:SCREEN_HEIGHT*0.03,
     //marginBottom:SCREEN_HEIGHT*0.05
   },
   imageStyle: {
-    borderColor: "#898989",
-    borderWidth: 1,
     alignContent: "center",
     marginLeft: SCREEN_WIDTH * 0.01,
   },
@@ -406,12 +416,14 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT * 0.025,
     width: SCREEN_WIDTH * 0.08,
     alignContent: "center",
+    borderColor: "#898989",
+    borderWidth: 1,
   },
   exercises: {
     width: SCREEN_WIDTH * 0.55,
     justifyContent: "space-between",
     flexDirection: "row",
-    lineHeight: 20,
+    marginBottom: SCREEN_HEIGHT * 0.02,
   },
   soccer: {
     fontSize: 13,
