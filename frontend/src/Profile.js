@@ -9,6 +9,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Button,
+  Alert,
 } from "react-native";
 import { Image } from "react-native";
 import axios from "axios";
@@ -267,6 +268,26 @@ export default function Profile({ route, navigation }) {
     }
   };
 
+  const onPressLogout = async () => {
+    Alert.alert("로그아웃", "로그아웃 하시겠습니까?", [
+      {
+        text: "취소",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "확인",
+        onPress: async () => {
+          try {
+            navigation.navigate("Login");
+          } catch (e) {
+            console.log(e);
+          }
+        },
+      },
+    ]);
+  };
+
   return (
     <View style={styles.container}>
       <FriendModal
@@ -297,10 +318,13 @@ export default function Profile({ route, navigation }) {
                 <TouchableOpacity
                   onPress={() => navigation.navigate("Userinfo")}
                 >
-                  <Text style={styles.sideProfileText}>회원정보보기</Text>
+                  <Text style={styles.sideProfileText}>회원정보</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate("MyPage")}>
-                  <Text style={styles.sideProfileText}>활동내역확인</Text>
+                  <Text style={styles.sideProfileText}>활동내역</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => onPressLogout()}>
+                  <Text style={styles.logoutText}>로그아웃</Text>
                 </TouchableOpacity>
               </View>
             ) : (
@@ -535,12 +559,27 @@ const styles = StyleSheet.create({
   sideProfile: {
     justifyContent: "space-evenly",
     flexDirection: "row",
+    alignItems: "flex-end",
   },
   sideProfileText: {
     textDecorationLine: "underline",
     textDecorationColor: "black",
-    fontSize: 13,
+    fontSize: 12,
+    lineHeight: 20,
     fontWeight: "600",
+  },
+  logoutText: {
+    textDecorationLine: "underline",
+    color: "#9B111E",
+    // backgroundColor: "#E5E5E5",
+    fontSize: 12,
+    fontWeight: "600",
+    lineHeight: 20,
+    paddingLeft: SCREEN_WIDTH * 0.01,
+    paddingRight: SCREEN_WIDTH * 0.01,
+    // borderRadius: 5,
+    // borderColor: "black",
+    // borderWidth: 1,
   },
   /* 프로필 친구 신청 버튼 윗부분 끝 */
   friendBtn: {
