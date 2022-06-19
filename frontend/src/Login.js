@@ -54,20 +54,24 @@ export default function Login({ navigation }) {
             data
           )
           .then(function async(response) {
-            if (response.data["success"] == true) {
+            if (response.data["success"] === true) {
               alert("로그인되었습니다.");
+              console.log(response.data["message"]);
               console.log("id는 " + response.data["id"].toString());
               storeData(id, response.data["id"].toString());
               navigation.navigate("Home");
               setId("");
               setPw("");
+            } else if (response.data["success"] === false) {
+              console.log("틀림");
+              alert("아이디 또는 비밀번호가 틀립니다.");
             }
           })
           .catch(function (error) {
-            alert("로그인 오류입니다.");
+            alert("아이디 또는 비밀번호가 틀립니다.");
             //console.log(error.response.data);
             console.log(error);
-            throw error;
+            //throw error;
           });
       } catch (error) {
         console.log(error);

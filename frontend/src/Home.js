@@ -346,6 +346,7 @@ const styles = StyleSheet.create({
   searchText: {
     marginBottom: SCREEN_WIDTH * 0.01,
     fontWeight: "500",
+    color: "#898989",
   },
   /*드롭다운 css 시작*/
   dropdown: {
