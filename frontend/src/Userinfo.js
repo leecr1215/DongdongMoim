@@ -173,18 +173,16 @@ export default function Userinfo({ navigation }) {
           </View>
 
           <View style={styles.phoneNumContainer}>
-            <Text style={styles.subject}> 전화번호 </Text>
-            <Text style={styles.phoneNumText}>
-              {" "}
-              {userData["phone_number"]}{" "}
-            </Text>
+            <Text style={styles.subject}> 인스타그램 ID </Text>
+            <Text style={styles.phoneNumText}>{userData["phone_number"]}</Text>
           </View>
 
           {/* 운동 능력 부분 */}
+          <View style={styles.exerciseTextContainer}>
+            <Text style={styles.subject}>운동능력</Text>
+            <Text style={styles.phoneNumText}>01010</Text>
+          </View>
           <View style={styles.exerciseContainer}>
-            <View style={styles.exerciseTextContainer}>
-              <Text style={styles.subject}>운동능력</Text>
-            </View>
             {/* 축구 부분 */}
             <View style={styles.exercises}>
               <Text style={styles.soccer}>축구</Text>
@@ -334,7 +332,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     lineHeight: 70,
     fontWeight: "700",
-    width: 80,
+    width: "auto",
   },
   genderContainer: {
     width: SCREEN_WIDTH * 0.65,
@@ -368,12 +366,14 @@ const styles = StyleSheet.create({
   },
   exerciseContainer: {
     width: SCREEN_WIDTH * 0.65,
+    alignItems: "center",
   },
   exerciseTextContainer: {
     width: SCREEN_WIDTH * 0.65,
     justifyContent: "space-between",
     flexDirection: "row",
-    fontWeight: "700",
+    alignItems: "center",
+    paddingLeft: 5,
   },
   exerciseText: {
     fontSize: 20,

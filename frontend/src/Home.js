@@ -55,8 +55,12 @@ export default function Home({ navigation }) {
       { latitude, longitude },
       { useGoogleMaps: false }
     );
-
+    const a = await AsyncStorage.setItem(
+      "@location",
+      JSON.stringify(location[0].region)
+    );
     setCity(location[0].region);
+
     console.log(location[0]);
   };
 
@@ -306,9 +310,9 @@ export default function Home({ navigation }) {
             )}
           </ScrollView>
         </View>
-        <View>
+        {/* <View>
           <Text>{city}</Text>
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );
