@@ -368,6 +368,11 @@ export default function Post({ route, navigation }) {
                 </View>
                 <View style={styles.smallLine}></View>
                 <View style={styles.contentContainer}>
+                  <Text style={styles.subject}> 나이 </Text>
+                  <Text style={styles.content}>{age}대</Text>
+                </View>
+                <View style={styles.smallLine}></View>
+                <View style={styles.contentContainer}>
                   <Text style={styles.subject}> 장소 </Text>
                   <Text style={styles.content}> {postData["location"]}</Text>
                 </View>
@@ -375,54 +380,19 @@ export default function Post({ route, navigation }) {
                 <View style={styles.contentContainer}>
                   <Text style={styles.subject}> 일시 </Text>
                   <Text style={styles.content}>
-                    {" "}
-                    {postData["meeting_date"].split("T")[0] +
+                    {postData["meeting_date"] == undefined ? (
+                      <></>
+                    ) : (
+                      postData["meeting_date"].split("T")[0] +
                       " " +
-                      postData["meeting_date"].split("T")[1].slice(0, 5)}
+                      postData["meeting_date"].split("T")[1].slice(0, 5)
+                    )}
                   </Text>
                 </View>
                 <View style={styles.smallLine}></View>
                 <View style={styles.writing}>
                   <Text style={styles.content}>{postData["content"]}</Text>
                 </View>
-              </View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.subject}>운동</Text>
-                <Text style={styles.content}>
-                  {postData["exercise"] == "baseball"
-                    ? "야구"
-                    : postData["exercise"] == "soccer"
-                    ? "축구"
-                    : "농구"}
-                </Text>
-              </View>
-              <View style={styles.smallLine}></View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.subject}>능력</Text>
-                <Text style={styles.content}>
-                  {skillList[postData["exercise_skill"]]}
-                </Text>
-              </View>
-              <View style={styles.smallLine}></View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.subject}> 성별 </Text>
-                <Text style={styles.content}>
-                  {" "}
-                  {postData["gender"] == "F"
-                    ? "여자"
-                    : postData["gender"] == "M"
-                    ? "남자"
-                    : "무관"}{" "}
-                </Text>
-              </View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.subject}> 나이 </Text>
-                <Text style={styles.content}>{age}대</Text>
-              </View>
-              <View style={styles.smallLine}></View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.subject}> 장소 </Text>
-                <Text style={styles.content}> {postData["location"]}</Text>
               </View>
             </ScrollView>
           </View>
@@ -547,7 +517,7 @@ const styles = StyleSheet.create({
   },
   firstContainer: {
     width: SCREEN_WIDTH * 0.9,
-    // height: SCREEN_HEIGHT * 0.4,
+    height: SCREEN_HEIGHT * 0.4,
   },
   info: {
     backgroundColor: "white",
@@ -673,7 +643,7 @@ const styles = StyleSheet.create({
   },
   commentsListContainer: {
     width: SCREEN_WIDTH * 0.9,
-    // height: SCREEN_HEIGHT * 0.28,
+    height: SCREEN_HEIGHT * 0.28,
     //borderWidth: 3,
     //borderColor: "#DFDFDF",
     backgroundColor: "white",
