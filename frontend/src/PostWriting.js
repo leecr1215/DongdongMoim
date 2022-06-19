@@ -10,6 +10,8 @@ import {
   ScrollView,
   FlatList,
   KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Image } from "react-native";
 import axios from "axios";
@@ -143,150 +145,156 @@ export default function PostWriting({ navigation }) {
     }
   };
   return (
-    <View style={styles.container}>
-      <Header navigation={navigation}></Header>
-      <View style={styles.body}>
-        <View style={styles.postContainer}>
-          <View style={styles.postHeader}>
-            <Text style={styles.postHeaderText}> 게시물 등록 </Text>
-          </View>
-          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-            <Image style={styles.x} source={require("../icon/x.png")} />
-          </TouchableOpacity>
-          <ScrollView
-            nestedScrollEnabled={true}
-            style={styles.scrollView}
-            persistentScrollbar={true}
-          >
-            <View style={styles.postInfo}>
-              <View style={styles.titleContainer}>
-                <Text style={styles.titleLabel}>제목</Text>
-                <TextInput
-                  style={styles.titleInput}
-                  onChangeText={setTitle}
-                  value={title}
-                  maxLength={50}
-                />
-              </View>
-              <View style={styles.locationContainer}>
-                <Text style={styles.locationLabel}>운동장소</Text>
-                <TextInput
-                  style={styles.locationInput}
-                  onChangeText={setLocation}
-                  value={location}
-                  maxLength={50}
-                />
-              </View>
-              <View style={styles.dateContainer}>
-                <Text style={styles.dateLabel}>모임날짜</Text>
-                <DatePicker
-                  style={styles.datePickerStyle}
-                  onSelectedChange={setMeetingDate}
-                />
-              </View>
-              <View style={styles.requiredNumContainer}>
-                <Text style={styles.requiredNumLabel}>필요인원</Text>
-                <TextInput
-                  style={styles.requiredNumInput}
-                  onChangeText={setRequiredNum}
-                  placeholder="00"
-                  keyboardType="numeric"
-                  maxLength={3}
-                />
-                <Text style={{ zIndex: 800 }}> 명</Text>
-              </View>
-              <View style={styles.exerciseTypeContainer}>
-                <Text style={styles.exerciseTypeLabel}>운동종류</Text>
-                <DropDownPicker
-                  style={styles.exerciseTypePicker}
-                  placeholder="축구"
-                  open={openExerciseType}
-                  containerStyle={styles.dropDownContainer}
-                  items={exerciseTypes}
-                  setOpen={setOpenExerciseType}
-                  setValue={setExerciseTypeValue}
-                  value={exerciseTypeValue}
-                  setItems={setExerciseTypes}
-                  onChangeValue={setExerciseTypeValue}
-                  listMode="SCROLLVIEW"
-                />
-              </View>
-              <View style={styles.exerciseSkillContainer}>
-                <Text style={styles.exerciseSkillLabel}>운동능력</Text>
-                <DropDownPicker
-                  style={styles.exerciseSkillPicker}
-                  placeholder="무관"
-                  open={openExerciseSkill}
-                  containerStyle={{
-                    width: SCREEN_WIDTH / 4,
-                    alignSelf: "center",
-                    backgroundColor: "white",
-                  }}
-                  items={exerciseSkills}
-                  setOpen={setOpenExerciseSkill}
-                  setValue={setExerciseSkillValue}
-                  value={exerciseSkillValue}
-                  setItems={setExerciseSkills}
-                  onChangeValue={setExerciseSkillValue}
-                  listMode="SCROLLVIEW"
-                />
-              </View>
-              <View style={styles.ageContainer}>
-                <Text style={styles.ageLabel}>나이 </Text>
-                <DropDownPicker
-                  style={styles.agePicker}
-                  placeholder="무관"
-                  open={openAge}
-                  containerStyle={styles.dropDownContainer}
-                  items={ages}
-                  setOpen={setOpenAge}
-                  setValue={setAge}
-                  value={age}
-                  setItems={setAges}
-                  onChangeValue={setAge}
-                  listMode="SCROLLVIEW"
-                />
-              </View>
-              <View style={styles.genderContainer}>
-                <Text style={styles.genderLabel}>성별 </Text>
-                <DropDownPicker
-                  style={styles.genderPicker}
-                  placeholder="무관"
-                  open={openGender}
-                  containerStyle={styles.dropDownContainer}
-                  items={manOrWomen}
-                  setOpen={setOpenGender}
-                  setValue={setGenderValue}
-                  value={genderValue}
-                  setItems={setManOrWomen}
-                  onChangeValue={setGenderValue}
-                  listMode="SCROLLVIEW"
-                />
-              </View>
-              <KeyboardAvoidingView behavior="padding" enabled>
-                <View style={styles.line}></View>
-                <TextInput
-                  style={styles.content}
-                  value={content}
-                  onChangeText={setContent}
-                  maxLength={500}
-                  placeholder="운동 모임에 필요한 내용을 적어주세요!"
-                  placeholderTextColor="#E5E5E5"
-                />
-              </KeyboardAvoidingView>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <View style={styles.container}>
+        <Header navigation={navigation}></Header>
+        <View style={styles.body}>
+          <View style={styles.postContainer}>
+            <View style={styles.postHeader}>
+              <Text style={styles.postHeaderText}> 게시물 등록 </Text>
             </View>
-          </ScrollView>
+            <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+              <Image style={styles.x} source={require("../icon/x.png")} />
+            </TouchableOpacity>
+            <ScrollView
+              nestedScrollEnabled={true}
+              style={styles.scrollView}
+              persistentScrollbar={true}
+            >
+              <View style={styles.postInfo}>
+                <View style={styles.titleContainer}>
+                  <Text style={styles.titleLabel}>제목</Text>
+                  <TextInput
+                    style={styles.titleInput}
+                    onChangeText={setTitle}
+                    value={title}
+                    maxLength={50}
+                  />
+                </View>
+                <View style={styles.locationContainer}>
+                  <Text style={styles.locationLabel}>운동장소</Text>
+                  <TextInput
+                    style={styles.locationInput}
+                    onChangeText={setLocation}
+                    value={location}
+                    maxLength={50}
+                  />
+                </View>
+                <View style={styles.dateContainer}>
+                  <Text style={styles.dateLabel}>모임날짜</Text>
+                  <DatePicker
+                    style={styles.datePickerStyle}
+                    onSelectedChange={setMeetingDate}
+                  />
+                </View>
+                <View style={styles.requiredNumContainer}>
+                  <Text style={styles.requiredNumLabel}>필요인원</Text>
+                  <TextInput
+                    style={styles.requiredNumInput}
+                    onChangeText={setRequiredNum}
+                    placeholder="00"
+                    keyboardType="numeric"
+                    maxLength={3}
+                  />
+                  <Text style={{ zIndex: 800 }}> 명</Text>
+                </View>
+                <View style={styles.exerciseTypeContainer}>
+                  <Text style={styles.exerciseTypeLabel}>운동종류</Text>
+                  <DropDownPicker
+                    style={styles.exerciseTypePicker}
+                    placeholder="축구"
+                    open={openExerciseType}
+                    containerStyle={styles.dropDownContainer}
+                    items={exerciseTypes}
+                    setOpen={setOpenExerciseType}
+                    setValue={setExerciseTypeValue}
+                    value={exerciseTypeValue}
+                    setItems={setExerciseTypes}
+                    onChangeValue={setExerciseTypeValue}
+                    listMode="SCROLLVIEW"
+                  />
+                </View>
+                <View style={styles.exerciseSkillContainer}>
+                  <Text style={styles.exerciseSkillLabel}>운동능력</Text>
+                  <DropDownPicker
+                    style={styles.exerciseSkillPicker}
+                    placeholder="무관"
+                    open={openExerciseSkill}
+                    containerStyle={{
+                      width: SCREEN_WIDTH / 4,
+                      alignSelf: "center",
+                      backgroundColor: "white",
+                    }}
+                    items={exerciseSkills}
+                    setOpen={setOpenExerciseSkill}
+                    setValue={setExerciseSkillValue}
+                    value={exerciseSkillValue}
+                    setItems={setExerciseSkills}
+                    onChangeValue={setExerciseSkillValue}
+                    listMode="SCROLLVIEW"
+                  />
+                </View>
+                <View style={styles.ageContainer}>
+                  <Text style={styles.ageLabel}>나이 </Text>
+                  <DropDownPicker
+                    style={styles.agePicker}
+                    placeholder="무관"
+                    open={openAge}
+                    containerStyle={styles.dropDownContainer}
+                    items={ages}
+                    setOpen={setOpenAge}
+                    setValue={setAge}
+                    value={age}
+                    setItems={setAges}
+                    onChangeValue={setAge}
+                    listMode="SCROLLVIEW"
+                  />
+                </View>
+                <View style={styles.genderContainer}>
+                  <Text style={styles.genderLabel}>성별 </Text>
+                  <DropDownPicker
+                    style={styles.genderPicker}
+                    placeholder="무관"
+                    open={openGender}
+                    containerStyle={styles.dropDownContainer}
+                    items={manOrWomen}
+                    setOpen={setOpenGender}
+                    setValue={setGenderValue}
+                    value={genderValue}
+                    setItems={setManOrWomen}
+                    onChangeValue={setGenderValue}
+                    listMode="SCROLLVIEW"
+                  />
+                </View>
+                <KeyboardAvoidingView behavior="padding" enabled>
+                  <View style={styles.line}></View>
+                  <TextInput
+                    style={styles.content}
+                    value={content}
+                    onChangeText={setContent}
+                    maxLength={500}
+                    placeholder="운동 모임에 필요한 내용을 적어주세요!"
+                    placeholderTextColor="#E5E5E5"
+                  />
+                </KeyboardAvoidingView>
+              </View>
+            </ScrollView>
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              opPressCreatePost();
+            }}
+            underlayColor="white"
+          >
+            <Text style={styles.postBtn}>확인</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            opPressCreatePost();
-          }}
-          underlayColor="white"
-        >
-          <Text style={styles.postBtn}>확인</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
