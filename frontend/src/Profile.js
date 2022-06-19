@@ -583,7 +583,7 @@ const styles = StyleSheet.create({
   sideProfileText: {
     textDecorationLine: "underline",
     textDecorationColor: "black",
-    fontSize: 12,
+    fontSize: 13,
     lineHeight: 20,
     fontWeight: "600",
   },
@@ -591,7 +591,7 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     color: "#9B111E",
     // backgroundColor: "#E5E5E5",
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: "600",
     lineHeight: 20,
     paddingLeft: SCREEN_WIDTH * 0.01,
