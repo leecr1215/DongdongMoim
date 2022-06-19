@@ -280,9 +280,11 @@ export default function Home({ navigation }) {
                     <View style={styles.postIdDate}>
                       <Text style={styles.postId}>{post["post_id"]}</Text>
                       <Text style={styles.postDate}>
-                        {post["post_date"].split(" ")[0]}
+                        {post["post_date"].split("T")[0]+" "+ post["post_date"].split("T")[1].slice(0,5)}
                       </Text>
                     </View>
+                    <Text style={styles.postUsername}>작성자 {post["username"]}</Text>
+
                     <View style={styles.postTitleNumber}>
                       <Text style={styles.postTitle}>{post["title"]}</Text>
                       <View style={styles.postApplyNumber}>
@@ -296,9 +298,9 @@ export default function Home({ navigation }) {
                             "/" +
                             post["required_number"]}
                         </Text>
+                        </View>
                       </View>
                     </View>
-                  </View>
                 </TouchableOpacity>
               ))
             ) : (
@@ -408,6 +410,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   postId: { color: "#898989", fontSize: 13 },
+  postUsername: {
+    color:"gray",
+    marginLeft:SCREEN_WIDTH*0.02,
+    marginTop:SCREEN_WIDTH*0.02
+
+  },
   postDate: { color: "#898989", fontSize: 13 },
   postTitleNumber: {
     flexDirection: "row",
@@ -416,11 +424,13 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     alignContent: "center",
     alignItems: "center",
-    paddingTop: 10,
+    paddingTop: 3,
   },
+
   postTitle: { fontWeight: "500" },
   postApplyNumber: {
     alignItems: "center",
+
   },
   applyStyle: { color: "red", fontSize: 12, paddingBottom: 5 },
   applicantsNum: { color: "#0500FF", fontSize: 12, paddingBottom: 10 },
