@@ -29,6 +29,7 @@ export default function Post({ route, navigation }) {
   const { postId } = route.params;
   const [postData, setPostData] = useState("");
   const [comment, setComment] = useState("");
+  const [age, setAge] = useState("");
   const [commentData, setCommentData] = useState("");
   const [createdDate, setCreatedDate] = useState(new Date());
   const [commentCheck, setCommentCheck] = useState(false);
@@ -61,6 +62,8 @@ export default function Post({ route, navigation }) {
             if (response.data["success"] == true) {
               const data = response.data["data"];
               setData(data);
+              const changeAge = data["age"] - (data["age"] % 10);
+              setAge(changeAge + "대");
               console.log("난 data");
               console.log(data);
             }
@@ -317,6 +320,10 @@ export default function Post({ route, navigation }) {
                     : "무관"}{" "}
                 </Text>
               </View>
+              <View style={styles.contentContainer}>
+                <Text style={styles.subject}> 나이 </Text>
+                <Text style={styles.content}>{age}대</Text>
+              </View>
               <View style={styles.smallLine}></View>
               <View style={styles.contentContainer}>
                 <Text style={styles.subject}> 장소 </Text>
@@ -391,9 +398,7 @@ export default function Post({ route, navigation }) {
                   }
                   key={comment["comment_id"]}
                 >
-                  <View
-                    style={styles.commentsContainer}
-                  >
+                  <View style={styles.commentsContainer}>
                     <Text style={styles.commentsName}>
                       {comment["username"]}
                     </Text>
