@@ -164,7 +164,8 @@ export default function Userinfo({ navigation }) {
         <View style={styles.info}>
           <View style={styles.genderContainer}>
             <Text style={styles.subject}> 성별 </Text>
-            <Text style={styles.genderText}> {userData["gender"]} </Text>
+            <Text style={styles.genderText}> {userData["gender"] == "F" ? ("여자") :(
+                userData["gender"] == "M" ? ("남자") : ("무관"))} </Text>
           </View>
 
           <View style={styles.ageContainer}>
