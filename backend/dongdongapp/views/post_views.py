@@ -4,7 +4,7 @@ from rest_framework import status, permissions
 
 from ..serializers import PostSerializer
 from ..models import Post, PostApplication
-from django.db.models import Q
+from django.db.models import Q,F
 from urllib import parse
 
 
@@ -17,7 +17,7 @@ class PostList(APIView):
         search_gender = request.GET.get('gender')
         search_skill = request.GET.get('skill')
         search_exercise = request.GET.get('exercise')
-
+        
         if search_age == "0":
             search_age = None
         if search_gender == "I":
@@ -53,10 +53,19 @@ class PostList(APIView):
                     age__gte=search_age, age__lt=r_age, gender=search_gender, exercise_skill=search_skill)
         if search_exercise != None:
             queryset = queryset.filter(exercise=search_exercise)
+        
+        queryset = queryset.select_related("user_id")
+        queryset = queryset.values("post_id","user_id","title","content","location","meeting_date",
+                                   "post_date","required_number","age","gender","exercise",
+                                   "exercise_skill","applicantsNum",
+                                   username=F("user_id__username"))
+
+        print(queryset)
         final_queryset = queryset.order_by('-post_date')
         serializer = PostSerializer(final_queryset, many=True)
+        
         posts = []
-        for item in serializer.data:
+        for item in queryset:
             isApply = False
             cur_postid = item["post_id"]
             isApplication = PostApplication.objects.filter(
@@ -66,6 +75,7 @@ class PostList(APIView):
             data = {
                 "post_id": item["post_id"],
                 "user_id": item["user_id"],
+                "username":item["username"],
                 "title": item["title"],
                 "content": item["content"],
                 "location": item["location"],

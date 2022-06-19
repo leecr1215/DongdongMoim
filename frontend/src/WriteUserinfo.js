@@ -18,6 +18,7 @@ import { AntDesign } from "@expo/vector-icons";
 import Header from "../contents/Header";
 import Constants from "expo-constants";
 import { useIsFocused } from "@react-navigation/native";
+import ExerciseModal from "../contents/ExerciseModal";
 
 const { manifest } = Constants;
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -35,7 +36,7 @@ export default function WriteUserinfo({ navigation }) {
   const [basketball, setBasketball] = useState(1);
 
   const [isGenderSelect, setGenderSelect] = useState([true, false]);
-
+  const [isModalClick, setModalClick] = useState(false);
   const [isSoccerSelect, setSoccerSelect] = useState([
     true,
     false,
@@ -64,6 +65,14 @@ export default function WriteUserinfo({ navigation }) {
   //     console.log(e);
   //   }
   // };
+
+  const onPressQuestion = async () => {
+    setModalClick(true);
+  };
+
+  const onPressModalClose = async () => {
+    setModalClick(false);
+  };
 
   // 사용자 운동 능력 가져오기
   function getSoccerSkill(idx) {
@@ -263,6 +272,7 @@ export default function WriteUserinfo({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <ExerciseModal isVisible={isModalClick} isClose={onPressModalClose} />
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
         <View style={styles.back}>

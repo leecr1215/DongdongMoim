@@ -389,9 +389,9 @@ export default function Post({ route, navigation }) {
                       userId: comment["user_id"],
                     })
                   }
+                  key={comment["comment_id"]}
                 >
                   <View
-                    key={comment["comment_id"]}
                     style={styles.commentsContainer}
                   >
                     <Text style={styles.commentsName}>
