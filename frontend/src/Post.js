@@ -36,7 +36,6 @@ export default function Post({ route, navigation }) {
   const skillList = ["무관", "발바닥", "양말", "슬리퍼", "운동화"];
 
   AsyncStorage.getItem("@id").then((userid) => setUserId(userid.slice(1, -1)));
-
   const setData = async (data) => {
     try {
       await setPostData(data);

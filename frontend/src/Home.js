@@ -55,10 +55,9 @@ export default function Home({ navigation }) {
       { latitude, longitude },
       { useGoogleMaps: false }
     );
-    const a = await AsyncStorage.setItem(
-      "@location",
-      JSON.stringify(location[0].region)
-    );
+    const sum =
+      location[0].region + " " + location[0].city + " " + location[0].street;
+    const a = await AsyncStorage.setItem("@location", JSON.stringify(sum));
     setCity(location[0].region);
 
     console.log(location[0]);
@@ -284,10 +283,14 @@ export default function Home({ navigation }) {
                     <View style={styles.postIdDate}>
                       <Text style={styles.postId}>{post["post_id"]}</Text>
                       <Text style={styles.postDate}>
-                        {post["post_date"].split("T")[0]+" "+ post["post_date"].split("T")[1].slice(0,5)}
+                        {post["post_date"].split("T")[0] +
+                          " " +
+                          post["post_date"].split("T")[1].slice(0, 5)}
                       </Text>
                     </View>
-                    <Text style={styles.postUsername}>작성자 {post["username"]}</Text>
+                    <Text style={styles.postUsername}>
+                      작성자 {post["username"]}
+                    </Text>
 
                     <View style={styles.postTitleNumber}>
                       <Text style={styles.postTitle}>{post["title"]}</Text>
@@ -302,9 +305,9 @@ export default function Home({ navigation }) {
                             "/" +
                             post["required_number"]}
                         </Text>
-                        </View>
                       </View>
                     </View>
+                  </View>
                 </TouchableOpacity>
               ))
             ) : (
@@ -415,10 +418,9 @@ const styles = StyleSheet.create({
   },
   postId: { color: "#898989", fontSize: 13 },
   postUsername: {
-    color:"gray",
-    marginLeft:SCREEN_WIDTH*0.02,
-    marginTop:SCREEN_WIDTH*0.02
-
+    color: "gray",
+    marginLeft: SCREEN_WIDTH * 0.02,
+    marginTop: SCREEN_WIDTH * 0.02,
   },
   postDate: { color: "#898989", fontSize: 13 },
   postTitleNumber: {
@@ -434,7 +436,6 @@ const styles = StyleSheet.create({
   postTitle: { fontWeight: "500" },
   postApplyNumber: {
     alignItems: "center",
-
   },
   applyStyle: { color: "red", fontSize: 12, paddingBottom: 5 },
   applicantsNum: { color: "#0500FF", fontSize: 12, paddingBottom: 10 },
