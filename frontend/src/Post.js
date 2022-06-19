@@ -373,7 +373,9 @@ export default function Post({ route, navigation }) {
                   <Text style={styles.subject}> 일시 </Text>
                   <Text style={styles.content}>
                     {" "}
-                    {postData["meeting_date"]}
+                    {postData["meeting_date"].split("T")[0] +
+                    " " +
+                    postData["meeting_date"].split("T")[1].slice(0, 5)}
                   </Text>
                 </View>
                 <View style={styles.smallLine}></View>
@@ -504,7 +506,7 @@ const styles = StyleSheet.create({
   },
   firstContainer: {
     width: SCREEN_WIDTH * 0.9,
-    height: SCREEN_HEIGHT * 0.4,
+    // height: SCREEN_HEIGHT * 0.4,
   },
   info: {
     backgroundColor: "white",
@@ -630,7 +632,7 @@ const styles = StyleSheet.create({
   },
   commentsListContainer: {
     width: SCREEN_WIDTH * 0.9,
-    height: SCREEN_HEIGHT * 0.28,
+    // height: SCREEN_HEIGHT * 0.28,
     //borderWidth: 3,
     //borderColor: "#DFDFDF",
     backgroundColor: "white",
