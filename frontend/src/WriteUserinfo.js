@@ -275,12 +275,12 @@ export default function WriteUserinfo({ navigation }) {
       <ExerciseModal isVisible={isModalClick} isClose={onPressModalClose} />
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
-        <View style={styles.back}>
-          <TouchableOpacity onPress={() => navigation.navigate("Userinfo")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Userinfo")}>
+          <View style={styles.back}>
             <AntDesign name="left" size={20} color="black" />
-          </TouchableOpacity>
-          <Text style={styles.backText}>회원정보 수정</Text>
-        </View>
+            <Text style={styles.backText}>회원정보 수정</Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.introContainer}>
           <Text style={styles.username}>{username}님의 회원정보</Text>
         </View>
@@ -322,7 +322,7 @@ export default function WriteUserinfo({ navigation }) {
           </View>
 
           <View style={styles.phoneContainer}>
-            <Text style={styles.phoneText}>전화번호</Text>
+            <Text style={styles.phoneText}>인스타그램 ID</Text>
             <TextInput
               style={styles.phoneInput}
               onChangeText={setPhoneNum}
@@ -519,9 +519,11 @@ const styles = StyleSheet.create({
   back: {
     flexDirection: "row",
     marginRight: SCREEN_WIDTH * 0.6,
+    marginTop: SCREEN_HEIGHT * 0.03,
+    alignItems: "center",
   },
   backText: {
-    fontSize: 20,
+    fontSize: 18,
   },
   introContainer: {
     width: SCREEN_WIDTH * 0.75,
@@ -537,7 +539,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: SCREEN_WIDTH * 0.8,
     height: SCREEN_HEIGHT * 0.55,
-    borderRadius: 30,
+    borderRadius: 20,
     //paddingLeft: SCREEN_WIDTH*0.05,
     //paddingTop: SCREEN_HEIGHT*0.03,
     //paddingBottom: SCREEN_HEIGHT*0.05,
@@ -601,7 +603,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderBottomWidth: 1,
     marginBottom: SCREEN_HEIGHT * 0.05,
-    width: SCREEN_WIDTH * 0.3,
+    width: SCREEN_WIDTH * 0.25,
     borderColor: "#9C9C9C",
   },
   exerciseContainer: { width: SCREEN_WIDTH * 0.55 },

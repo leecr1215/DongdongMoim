@@ -277,12 +277,12 @@ export default function Profile({ route, navigation }) {
       />
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
-        <View style={styles.back}>
-          <TouchableOpacity onPress={() => navigation.pop()}>
+        <TouchableOpacity onPress={() => navigation.pop()}>
+          <View style={styles.back}>
             <AntDesign name="left" size={18} color="black" />
-          </TouchableOpacity>
-          <Text style={styles.backText}>프로필</Text>
-        </View>
+            <Text style={styles.backText}>프로필</Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.introContainer}>
           <View style={styles.circle}>
             <Image
@@ -539,7 +539,7 @@ const styles = StyleSheet.create({
   sideProfileText: {
     textDecorationLine: "underline",
     textDecorationColor: "black",
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: "600",
   },
   /* 프로필 친구 신청 버튼 윗부분 끝 */
