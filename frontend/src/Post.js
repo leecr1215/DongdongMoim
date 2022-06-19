@@ -33,6 +33,7 @@ export default function Post({ route, navigation }) {
   const [createdDate, setCreatedDate] = useState(new Date());
   const [commentCheck, setCommentCheck] = useState(false);
   const [isApply, setIsApply] = useState(false);
+  const skillList = ["무관","발바닥","양말","슬리퍼","운동화"];
 
   const focus = useIsFocused();
 
@@ -290,17 +291,24 @@ export default function Post({ route, navigation }) {
             </View>
             <View style={styles.contentContainer}>
               <Text style={styles.subject}>운동</Text>
-              <Text style={styles.content}>{postData["exercise"]}</Text>
+              <Text style={styles.content}>{
+              postData["exercise"] == "baseball" ? ("야구") : (
+                postData["exercise"] == "soccer" ? ("축구") : ("농구")
+              ) 
+            }</Text>
             </View>
             <View style={styles.smallLine}></View>
             <View style={styles.contentContainer}>
               <Text style={styles.subject}>능력</Text>
-              <Text style={styles.content}>{postData["exercise_skill"]}</Text>
+              <Text style={styles.content}>{
+                skillList[postData["exercise_skill"]]
+              }</Text>
             </View>
             <View style={styles.smallLine}></View>
             <View style={styles.contentContainer}>
               <Text style={styles.subject}> 성별 </Text>
-              <Text style={styles.content}> {postData["gender"]} </Text>
+              <Text style={styles.content}> {postData["gender"] == "F" ? ("여자") :(
+                postData["gender"] == "M" ? ("남자") : ("무관"))} </Text>
             </View>
             <View style={styles.smallLine}></View>
             <View style={styles.contentContainer}>
