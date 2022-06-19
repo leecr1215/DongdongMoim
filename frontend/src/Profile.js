@@ -167,7 +167,7 @@ export default function Profile({ route, navigation }) {
       }
     }
     getRelation();
-  }, [userId,profileUserId]);
+  }, [userId, profileUserId]);
 
   // 친구 신청 onPress
   const onPressCreateFriend = async () => {
@@ -188,6 +188,9 @@ export default function Profile({ route, navigation }) {
         .then(function async(response) {
           if (response.data["success"] == true) {
             alert("친구 신청이 완료되었습니다.");
+            navigation.replace("Profile", {
+              userId: profileUserId,
+            });
           }
           console.log("관계:" + relation);
         })
@@ -215,6 +218,9 @@ export default function Profile({ route, navigation }) {
         .then(function async(response) {
           if (response.data["success"] == true) {
             alert("친구 수락이 완료되었습니다.");
+            navigation.replace("Profile", {
+              userId: profileUserId,
+            });
             console.log("관계:" + relation);
           }
         })
@@ -243,6 +249,9 @@ export default function Profile({ route, navigation }) {
         .then(function async(response) {
           if (response.data["success"] == true) {
             alert("친구 취소가 완료되었습니다.");
+            navigation.replace("Profile", {
+              userId: profileUserId,
+            });
             console.log("관계:" + relation);
           }
         })
