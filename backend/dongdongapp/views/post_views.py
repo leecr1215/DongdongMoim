@@ -1,3 +1,4 @@
+from turtle import pos
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
 from rest_framework import status, permissions
@@ -60,7 +61,7 @@ class PostList(APIView):
                                    "exercise_skill","applicantsNum",
                                    username=F("user_id__username"))
 
-        print(queryset)
+        # print(queryset)
         final_queryset = queryset.order_by('-post_date')
         serializer = PostSerializer(final_queryset, many=True)
         
@@ -124,9 +125,12 @@ class PostDetail(APIView):
             return Response(Util.response(False, "NOT FOUND", 400), status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, pk):
-        serializer = PostSerializer(self.get_object(pk))
-        return Response(Util.response(True, serializer.data, 200), status=status.HTTP_200_OK)
-
+        post = Post.objects.filter(post_id=pk)
+        queryset = post.select_related("user_id").values("user_id__username")
+        queryset = queryset.values(username=F("user_id__username"))
+        # serializer = PostSerializer(self.get_object(pk))
+        return Response(Util.response(True, queryset.values()[0], 200), status=status.HTTP_200_OK)
+    
     def put(self, request, pk):
         instance = self.get_object(pk)
         serializer = PostSerializer(instance, data=request.data)
@@ -136,11 +140,11 @@ class PostDetail(APIView):
         return Response(Util.response(False, serializer.errors, 400), status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        serializer = PostSerializer(self.get_object(pk))
-        if serializer.is_valid():
-            serializer.delete()
-            return Response(Util.response(True, serializer.data, status=200), status=status.HTTP_200_OK)
-        return Response(Util.response(False, serializer.errors, 400), status=status.HTTP_400_BAD_REQUEST)
+        post = Post.objects.filter(post_id=pk)
+        # if serializer.is_valid():
+        post.delete()
+        return Response(Util.response(True, [], status=200), status=status.HTTP_200_OK)
+        # return Response(Util.response(False, serializer.errors, 400), status=status.HTTP_400_BAD_REQUEST)
 
 
 class Util():
