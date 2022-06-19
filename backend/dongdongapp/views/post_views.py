@@ -140,11 +140,11 @@ class PostDetail(APIView):
         return Response(Util.response(False, serializer.errors, 400), status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        serializer = PostSerializer(self.get_object(pk))
-        if serializer.is_valid():
-            serializer.delete()
-            return Response(Util.response(True, serializer.data, status=200), status=status.HTTP_200_OK)
-        return Response(Util.response(False, serializer.errors, 400), status=status.HTTP_400_BAD_REQUEST)
+        post = Post.objects.filter(post_id=pk)
+        # if serializer.is_valid():
+        post.delete()
+        return Response(Util.response(True, [], status=200), status=status.HTTP_200_OK)
+        # return Response(Util.response(False, serializer.errors, 400), status=status.HTTP_400_BAD_REQUEST)
 
 
 class Util():
