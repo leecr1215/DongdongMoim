@@ -31,6 +31,7 @@ export default function Post({ route, navigation }) {
   const { postId } = route.params;
   const [postData, setPostData] = useState("");
   const [comment, setComment] = useState("");
+  const [age, setAge] = useState("");
   const [commentData, setCommentData] = useState("");
   const [createdDate, setCreatedDate] = useState(new Date());
   const [commentCheck, setCommentCheck] = useState(false);
@@ -65,6 +66,8 @@ export default function Post({ route, navigation }) {
             if (response.data["success"] == true) {
               const data = response.data["data"];
               setData(data);
+              const changeAge = data["age"] - (data["age"] % 10);
+              setAge(changeAge + "대");
               console.log("난 data");
               console.log(data);
 
@@ -374,14 +377,52 @@ export default function Post({ route, navigation }) {
                   <Text style={styles.content}>
                     {" "}
                     {postData["meeting_date"].split("T")[0] +
-                    " " +
-                    postData["meeting_date"].split("T")[1].slice(0, 5)}
+                      " " +
+                      postData["meeting_date"].split("T")[1].slice(0, 5)}
                   </Text>
                 </View>
                 <View style={styles.smallLine}></View>
                 <View style={styles.writing}>
                   <Text style={styles.content}>{postData["content"]}</Text>
                 </View>
+              </View>
+              <View style={styles.contentContainer}>
+                <Text style={styles.subject}>운동</Text>
+                <Text style={styles.content}>
+                  {postData["exercise"] == "baseball"
+                    ? "야구"
+                    : postData["exercise"] == "soccer"
+                    ? "축구"
+                    : "농구"}
+                </Text>
+              </View>
+              <View style={styles.smallLine}></View>
+              <View style={styles.contentContainer}>
+                <Text style={styles.subject}>능력</Text>
+                <Text style={styles.content}>
+                  {skillList[postData["exercise_skill"]]}
+                </Text>
+              </View>
+              <View style={styles.smallLine}></View>
+              <View style={styles.contentContainer}>
+                <Text style={styles.subject}> 성별 </Text>
+                <Text style={styles.content}>
+                  {" "}
+                  {postData["gender"] == "F"
+                    ? "여자"
+                    : postData["gender"] == "M"
+                    ? "남자"
+                    : "무관"}{" "}
+                </Text>
+              </View>
+              <View style={styles.contentContainer}>
+                <Text style={styles.subject}> 나이 </Text>
+                <Text style={styles.content}>{age}대</Text>
+              </View>
+              <View style={styles.smallLine}></View>
+              <View style={styles.contentContainer}>
+                <Text style={styles.subject}> 장소 </Text>
+                <Text style={styles.content}> {postData["location"]}</Text>
               </View>
             </ScrollView>
           </View>
