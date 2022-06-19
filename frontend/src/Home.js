@@ -19,7 +19,6 @@ import { Dropdown } from "react-native-element-dropdown";
 import Constants from "expo-constants";
 import { useIsFocused } from "@react-navigation/native";
 import * as Location from "expo-location";
-
 const { manifest } = Constants;
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -57,7 +56,7 @@ export default function Home({ navigation }) {
     );
 
     setCity(location[0].region);
-    console.log(location[0]);
+    //console.log(location[0]);
   };
 
   const setData = async (data) => {
@@ -85,13 +84,6 @@ export default function Home({ navigation }) {
             if (response.data["success"] == true) {
               const data = response.data["data"];
               setData(data);
-
-              // console.log("난 data");
-              // console.log(data);
-
-              //console.log(response.data["data"]);
-              console.log(postData);
-              //console.log(response.data["data"][1]["age"]);
             }
           })
           .catch(function (error) {
@@ -160,6 +152,12 @@ export default function Home({ navigation }) {
         <Text style={styles.textItem}>{item.label}</Text>
       </View>
     );
+  };
+
+  const imgPath = {
+    soccer: require("../icon/soccer.png"),
+    baseball: require("../icon/baseball.png"),
+    basketball: require("../icon/basketball.png"),
   };
 
   return (
@@ -277,30 +275,40 @@ export default function Home({ navigation }) {
                   }
                 >
                   <View style={styles.scrollChild}>
-                    <View style={styles.postIdDate}>
-                      <Text style={styles.postId}>{post["post_id"]}</Text>
-                      <Text style={styles.postDate}>
-                        {post["post_date"].split("T")[0]+" "+ post["post_date"].split("T")[1].slice(0,5)}
-                      </Text>
+                    <View style={styles.leftContainer}>
+                      <Image
+                        style={styles.exerciseLogo}
+                        source={imgPath[post["exercise"]]}
+                      />
                     </View>
-                    <Text style={styles.postUsername}>작성자 {post["username"]}</Text>
-
-                    <View style={styles.postTitleNumber}>
-                      <Text style={styles.postTitle}>{post["title"]}</Text>
-                      <View style={styles.postApplyNumber}>
-                        {post["isApply"] ? (
-                          <Text style={styles.applyStyle}>신청완료</Text>
-                        ) : (
-                          <Text></Text>
-                        )}
-                        <Text style={styles.applicantsNum}>
-                          {post["applicantsNum"] +
-                            "/" +
-                            post["required_number"]}
+                    <View style={styles.rightContainer}>
+                      <View style={styles.postIdDate}>
+                        <Text style={styles.postUsername}>
+                          작성자 {post["username"]}
                         </Text>
+                        <Text style={styles.postDate}>
+                          {post["post_date"].split("T")[0] +
+                            " " +
+                            post["post_date"].split("T")[1].slice(0, 5)}
+                        </Text>
+                      </View>
+                      <View style={styles.postTitleNumber}>
+                        <Text style={styles.postTitle}>{post["title"]}</Text>
+                        <View style={styles.postApplyNumber}>
+                          {post["isApply"] ? (
+                            <Text style={styles.applyStyle}>신청완료</Text>
+                          ) : (
+                            <Text></Text>
+                          )}
+                          <Text style={styles.applicantsNum}>
+                            {post["applicantsNum"] +
+                              "/" +
+                              post["required_number"]}
+                          </Text>
                         </View>
                       </View>
                     </View>
+                  </View>
                 </TouchableOpacity>
               ))
             ) : (
@@ -399,6 +407,21 @@ const styles = StyleSheet.create({
   scrollChild: {
     borderBottomColor: "#dcdcdc",
     borderBottomWidth: 1,
+    flexDirection: "row",
+    width: SCREEN_WIDTH * 0.9,
+  },
+  leftContainer: {
+    width: SCREEN_WIDTH * 0.2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  rightContainer: {
+    width: SCREEN_WIDTH * 0.7,
+  },
+  exerciseLogo: {
+    resizeMode: "contain",
+    width: SCREEN_WIDTH * 0.1,
+    height: SCREEN_HEIGHT * 0.1,
   },
   /* 불러온 게시글 */
   postIdDate: {
@@ -411,10 +434,8 @@ const styles = StyleSheet.create({
   },
   postId: { color: "#898989", fontSize: 13 },
   postUsername: {
-    color:"gray",
-    marginLeft:SCREEN_WIDTH*0.02,
-    marginTop:SCREEN_WIDTH*0.02
-
+    color: "gray",
+    marginTop: SCREEN_WIDTH * 0.02,
   },
   postDate: { color: "#898989", fontSize: 13 },
   postTitleNumber: {
@@ -430,7 +451,6 @@ const styles = StyleSheet.create({
   postTitle: { fontWeight: "500" },
   postApplyNumber: {
     alignItems: "center",
-
   },
   applyStyle: { color: "red", fontSize: 12, paddingBottom: 5 },
   applicantsNum: { color: "#0500FF", fontSize: 12, paddingBottom: 10 },
