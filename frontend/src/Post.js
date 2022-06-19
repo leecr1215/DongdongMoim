@@ -265,14 +265,12 @@ export default function Post({ route, navigation }) {
     <View style={styles.container}>
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
-        <View style={styles.back}>
-          <TouchableOpacity onPress={() => navigation.pop()}>
+        <TouchableOpacity onPress={() => navigation.pop()}>
+          <View style={styles.back}>
             <AntDesign name="left" size={18} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.pop()}>
             <Text style={styles.backText}>게시물</Text>
-          </TouchableOpacity>
-        </View>
+          </View>
+        </TouchableOpacity>
         <View style={styles.firstContainer}>
           <ScrollView style={styles.infoScrollView}>
             <View style={styles.info}>
@@ -391,9 +389,7 @@ export default function Post({ route, navigation }) {
                   }
                   key={comment["comment_id"]}
                 >
-                  <View
-                    style={styles.commentsContainer}
-                  >
+                  <View style={styles.commentsContainer}>
                     <Text style={styles.commentsName}>
                       {comment["username"]}
                     </Text>
@@ -433,7 +429,7 @@ const styles = StyleSheet.create({
   back: {
     flexDirection: "row",
     marginRight: SCREEN_WIDTH * 0.7,
-    marginTop: SCREEN_HEIGHT * 0.01,
+    marginTop: SCREEN_HEIGHT * 0.03,
     alignItems: "center",
   },
   backText: {
