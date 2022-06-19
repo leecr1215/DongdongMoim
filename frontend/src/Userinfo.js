@@ -140,7 +140,13 @@ export default function Userinfo({ navigation }) {
       <Header navigation={navigation}></Header>
       <View style={styles.body}>
         <View style={styles.back}>
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Profile", {
+                userId: id,
+              })
+            }
+          >
             <AntDesign name="left" size={20} color="black" />
           </TouchableOpacity>
           <Text style={styles.backText}>회원정보 보기</Text>
@@ -164,7 +170,8 @@ export default function Userinfo({ navigation }) {
         <View style={styles.info}>
           <View style={styles.genderContainer}>
             <Text style={styles.subject}> 성별 </Text>
-            <Text style={styles.genderText}> {userData["gender"]} </Text>
+            <Text style={styles.genderText}> {userData["gender"] == "F" ? ("여자") :(
+                userData["gender"] == "M" ? ("남자") : ("무관"))} </Text>
           </View>
 
           <View style={styles.ageContainer}>

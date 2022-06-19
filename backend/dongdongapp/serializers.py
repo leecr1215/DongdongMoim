@@ -67,7 +67,6 @@ class MyTokenObtainPairView(TokenObtainPairView):
 class PostSerializer(serializers.ModelSerializer):
     meeting_date = serializers.DateTimeField(format="%Y/%m/%d %H:%M")
     post_date = serializers.DateTimeField(format="%Y/%m/%d %H:%M")
-
     class Meta:
         model = Post
         fields = ('post_id', 'user_id', 'title', 'content', 'location', 'meeting_date', 'post_date',

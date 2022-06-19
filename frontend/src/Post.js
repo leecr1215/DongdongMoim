@@ -33,9 +33,7 @@ export default function Post({ route, navigation }) {
   const [createdDate, setCreatedDate] = useState(new Date());
   const [commentCheck, setCommentCheck] = useState(false);
   const [isApply, setIsApply] = useState(false);
-  const skillList = ["무관","발바닥","양말","슬리퍼","운동화"];
-
-  const focus = useIsFocused();
+  const skillList = ["무관", "발바닥", "양말", "슬리퍼", "운동화"];
 
   AsyncStorage.getItem("@id").then((userid) => setUserId(userid.slice(1, -1)));
 
@@ -79,7 +77,7 @@ export default function Post({ route, navigation }) {
       }
     }
     getData();
-  }, [setPostData, focus, userId]);
+  }, [setPostData, userId]);
 
   // 댓글 조회
   useEffect(() => {
@@ -112,7 +110,7 @@ export default function Post({ route, navigation }) {
       }
     }
     getData();
-  }, [setCommentData, focus, userId]);
+  }, [setCommentData, userId]);
 
   // 신청 여부 조회
   useEffect(() => {
@@ -150,7 +148,7 @@ export default function Post({ route, navigation }) {
       }
     }
     getData();
-  }, [focus, userId]);
+  }, [userId]);
 
   // 댓글 작성 버튼 누른 경우
   const opPressCreateComment = async () => {
@@ -275,57 +273,67 @@ export default function Post({ route, navigation }) {
             <Text style={styles.backText}>게시물</Text>
           </TouchableOpacity>
         </View>
-        <ScrollView style={styles.scrollView}>
-          <View style={styles.info}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.title}>{postData["title"]}</Text>
-              <View style={styles.peopleContainer}>
-                <Image
-                  style={styles.post_peopleLogo}
-                  source={require("../icon/post_people.png")}
-                />
-                <Text style={styles.peopleText}>
-                  {postData["applicantsNum"]}/{postData["required_number"]}
+        <View style={styles.firstContainer}>
+          <ScrollView style={styles.infoScrollView}>
+            <View style={styles.info}>
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>{postData["title"]}</Text>
+                <View style={styles.peopleContainer}>
+                  <Image
+                    style={styles.post_peopleLogo}
+                    source={require("../icon/post_people.png")}
+                  />
+                  <Text style={styles.peopleText}>
+                    {postData["applicantsNum"]}/{postData["required_number"]}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.contentContainer}>
+                <Text style={styles.subject}>운동</Text>
+                <Text style={styles.content}>
+                  {postData["exercise"] == "baseball"
+                    ? "야구"
+                    : postData["exercise"] == "soccer"
+                    ? "축구"
+                    : "농구"}
                 </Text>
               </View>
+              <View style={styles.smallLine}></View>
+              <View style={styles.contentContainer}>
+                <Text style={styles.subject}>능력</Text>
+                <Text style={styles.content}>
+                  {skillList[postData["exercise_skill"]]}
+                </Text>
+              </View>
+              <View style={styles.smallLine}></View>
+              <View style={styles.contentContainer}>
+                <Text style={styles.subject}> 성별 </Text>
+                <Text style={styles.content}>
+                  {" "}
+                  {postData["gender"] == "F"
+                    ? "여자"
+                    : postData["gender"] == "M"
+                    ? "남자"
+                    : "무관"}{" "}
+                </Text>
+              </View>
+              <View style={styles.smallLine}></View>
+              <View style={styles.contentContainer}>
+                <Text style={styles.subject}> 장소 </Text>
+                <Text style={styles.content}> {postData["location"]}</Text>
+              </View>
+              <View style={styles.smallLine}></View>
+              <View style={styles.contentContainer}>
+                <Text style={styles.subject}> 일시 </Text>
+                <Text style={styles.content}> {postData["meeting_date"]}</Text>
+              </View>
+              <View style={styles.smallLine}></View>
+              <View style={styles.writing}>
+                <Text style={styles.content}>{postData["content"]}</Text>
+              </View>
             </View>
-            <View style={styles.contentContainer}>
-              <Text style={styles.subject}>운동</Text>
-              <Text style={styles.content}>{
-              postData["exercise"] == "baseball" ? ("야구") : (
-                postData["exercise"] == "soccer" ? ("축구") : ("농구")
-              ) 
-            }</Text>
-            </View>
-            <View style={styles.smallLine}></View>
-            <View style={styles.contentContainer}>
-              <Text style={styles.subject}>능력</Text>
-              <Text style={styles.content}>{
-                skillList[postData["exercise_skill"]]
-              }</Text>
-            </View>
-            <View style={styles.smallLine}></View>
-            <View style={styles.contentContainer}>
-              <Text style={styles.subject}> 성별 </Text>
-              <Text style={styles.content}> {postData["gender"] == "F" ? ("여자") :(
-                postData["gender"] == "M" ? ("남자") : ("무관"))} </Text>
-            </View>
-            <View style={styles.smallLine}></View>
-            <View style={styles.contentContainer}>
-              <Text style={styles.subject}> 장소 </Text>
-              <Text style={styles.content}> {postData["location"]}</Text>
-            </View>
-            <View style={styles.smallLine}></View>
-            <View style={styles.contentContainer}>
-              <Text style={styles.subject}> 일시 </Text>
-              <Text style={styles.content}> {postData["meeting_date"]}</Text>
-            </View>
-            <View style={styles.smallLine}></View>
-            <View style={styles.writing}>
-              <Text style={styles.content}>{postData["content"]}</Text>
-            </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
 
         {isApply ? (
           <TouchableOpacity
@@ -381,9 +389,9 @@ export default function Post({ route, navigation }) {
                       userId: comment["user_id"],
                     })
                   }
+                  key={comment["comment_id"]}
                 >
                   <View
-                    key={comment["comment_id"]}
                     style={styles.commentsContainer}
                   >
                     <Text style={styles.commentsName}>
@@ -430,6 +438,10 @@ const styles = StyleSheet.create({
   },
   backText: {
     fontSize: 18,
+  },
+  firstContainer: {
+    width: SCREEN_WIDTH * 0.9,
+    height: SCREEN_HEIGHT * 0.4,
   },
   info: {
     backgroundColor: "white",
@@ -506,8 +518,8 @@ const styles = StyleSheet.create({
     marginBottom: SCREEN_HEIGHT * 0.01,
   },
   btnText: {
-    fontSize: 18,
-    lineHeight: 40,
+    fontSize: 15,
+    lineHeight: 30,
   },
   inputContainer: {
     width: SCREEN_WIDTH * 0.9,
@@ -543,16 +555,16 @@ const styles = StyleSheet.create({
   },
   commentsListContainer: {
     width: SCREEN_WIDTH * 0.9,
+    height: SCREEN_HEIGHT * 0.28,
     //borderWidth: 3,
     //borderColor: "#DFDFDF",
     backgroundColor: "white",
     alignItems: "center",
-    height: SCREEN_HEIGHT * 0.2,
   },
   commentsContainer: {
     flexDirection: "column",
     width: SCREEN_WIDTH * 0.88,
-    marginTop: SCREEN_HEIGHT * 0.01,
+    marginTop: SCREEN_HEIGHT * 0.005,
   },
   commentsName: {
     fontSize: 13,
@@ -569,6 +581,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginLeft: SCREEN_WIDTH * 0.5,
     color: "#ABA8A8",
+  },
+  infoScrollView: {
+    backgroundColor: "#FFFFFF",
+    marginVertical: 20,
   },
   scrollView: {
     backgroundColor: "#FFFFFF",
