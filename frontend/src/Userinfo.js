@@ -400,8 +400,6 @@ const styles = StyleSheet.create({
     //marginBottom:SCREEN_HEIGHT*0.05
   },
   imageStyle: {
-    borderColor: "#898989",
-    borderWidth: 1,
     alignContent: "center",
     marginLeft: SCREEN_WIDTH * 0.01,
   },
@@ -418,12 +416,14 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT * 0.025,
     width: SCREEN_WIDTH * 0.08,
     alignContent: "center",
+    borderColor: "#898989",
+    borderWidth: 1,
   },
   exercises: {
     width: SCREEN_WIDTH * 0.55,
     justifyContent: "space-between",
     flexDirection: "row",
-    lineHeight: 20,
+    marginBottom: SCREEN_HEIGHT * 0.02,
   },
   soccer: {
     fontSize: 13,
