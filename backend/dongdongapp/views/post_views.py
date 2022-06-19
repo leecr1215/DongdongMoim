@@ -63,10 +63,10 @@ class PostList(APIView):
 
         # print(queryset)
         final_queryset = queryset.order_by('-post_date')
-        serializer = PostSerializer(final_queryset, many=True)
+        # serializer = PostSerializer(final_queryset, many=True)
         
         posts = []
-        for item in queryset:
+        for item in final_queryset:
             isApply = False
             cur_postid = item["post_id"]
             isApplication = PostApplication.objects.filter(
