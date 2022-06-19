@@ -289,6 +289,11 @@ export default function Post({ route, navigation }) {
                 </View>
               </View>
               <View style={styles.contentContainer}>
+                <Text style={styles.subject}>작성자</Text>
+                <Text style={styles.content}>{postData["username"]}</Text>
+                </View>
+                <View style={styles.smallLine}></View>
+              <View style={styles.contentContainer}>
                 <Text style={styles.subject}>운동</Text>
                 <Text style={styles.content}>
                   {postData["exercise"] == "baseball"
@@ -590,4 +595,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     marginVertical: 20,
   },
+  postUser: {
+  }
 });
