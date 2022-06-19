@@ -151,10 +151,12 @@ export default function Profile({ route, navigation }) {
           )
           .then((response) => {
             if (response.data["success"] == true) {
+              //setRelation("");
               const data = response.data["result"]["status"];
               //console.log(data);
               setRelation(data);
-              //console.log("관계:" + relation);
+              //console.log(relation);
+              console.log("관계:" + relation);
             }
           })
           .catch(function (error) {
@@ -187,6 +189,7 @@ export default function Profile({ route, navigation }) {
           if (response.data["success"] == true) {
             alert("친구 신청이 완료되었습니다.");
           }
+          console.log("관계:" + relation);
         })
         .catch(function (error) {
           alert("친구 신청 오류입니다.");
@@ -203,7 +206,6 @@ export default function Profile({ route, navigation }) {
   // 친구 받기 onPress - 함수 수정하기
   const onPressAcceptFriend = async () => {
     try {
-      console.log(data);
       const response = await axios
         .put(
           `http://${manifest.debuggerHost
@@ -213,6 +215,7 @@ export default function Profile({ route, navigation }) {
         .then(function async(response) {
           if (response.data["success"] == true) {
             alert("친구 수락이 완료되었습니다.");
+            console.log("관계:" + relation);
           }
         })
         .catch(function (error) {
@@ -231,7 +234,6 @@ export default function Profile({ route, navigation }) {
   // 친구 요청 대기 - 함수 수정하기
   const onPressRefuseFriend = async () => {
     try {
-      console.log(data);
       const response = await axios
         .delete(
           `http://${manifest.debuggerHost
@@ -241,6 +243,7 @@ export default function Profile({ route, navigation }) {
         .then(function async(response) {
           if (response.data["success"] == true) {
             alert("친구 취소가 완료되었습니다.");
+            console.log("관계:" + relation);
           }
         })
         .catch(function (error) {
@@ -311,7 +314,7 @@ export default function Profile({ route, navigation }) {
               <Text> 친구 신청 </Text>
             </View>
           </TouchableOpacity>
-        ) : relation == "Request" ? (
+        ) : relation == "REQUEST" ? (
           <TouchableOpacity
             onPress={() => {
               onPressRefuseFriend();
@@ -321,7 +324,7 @@ export default function Profile({ route, navigation }) {
               <Text> 친구 요청 취소</Text>
             </View>
           </TouchableOpacity>
-        ) : relation == "Requested" ? (
+        ) : relation == "REQUESTED" ? (
           <TouchableOpacity
             onPress={() => {
               onPressAcceptFriend();
