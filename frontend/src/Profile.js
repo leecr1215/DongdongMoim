@@ -167,7 +167,7 @@ export default function Profile({ route, navigation }) {
       }
     }
     getRelation();
-  }, []);
+  }, [userId,profileUserId]);
 
   // 친구 신청 onPress
   const onPressCreateFriend = async () => {
