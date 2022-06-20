@@ -303,192 +303,192 @@ export default function Post({ route, navigation }) {
   }
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}
-    >
-      <View style={styles.container}>
-        <Header navigation={navigation}></Header>
-        <View style={styles.body}>
-          <TouchableOpacity onPress={() => navigation.pop()}>
-            <View style={styles.back}>
-              <AntDesign name="left" size={18} color="black" />
-              <Text style={styles.backText}>게시물</Text>
+    <View style={styles.container}>
+      <Header navigation={navigation}></Header>
+      <View style={styles.body}>
+        <TouchableOpacity onPress={() => navigation.pop()}>
+          <View style={styles.back}>
+            <AntDesign name="left" size={18} color="black" />
+            <Text style={styles.backText}>게시물</Text>
+          </View>
+        </TouchableOpacity>
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.info}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{postData["title"]}</Text>
+              <View style={styles.peopleContainer}>
+                <Image
+                  style={styles.post_peopleLogo}
+                  source={require("../icon/post_people.png")}
+                />
+                <Text style={styles.peopleText}>
+                  {postData["applicantsNum"]}/{postData["required_number"]}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.subject}>작성자</Text>
+              <Text style={styles.content}>{postData["username"]}</Text>
+            </View>
+            <View style={styles.smallLine}></View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.subject}>운동</Text>
+              <Text style={styles.content}>
+                {postData["exercise"] == "baseball"
+                  ? "야구"
+                  : postData["exercise"] == "soccer"
+                  ? "축구"
+                  : "농구"}
+              </Text>
+            </View>
+            <View style={styles.smallLine}></View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.subject}>능력</Text>
+              <Text style={styles.content}>
+                {skillList[postData["exercise_skill"]]}
+              </Text>
+            </View>
+            <View style={styles.smallLine}></View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.subject}>성별</Text>
+              <Text style={styles.content}>
+                {postData["gender"] == "F"
+                  ? "여자"
+                  : postData["gender"] == "M"
+                  ? "남자"
+                  : "무관"}
+              </Text>
+            </View>
+            <View style={styles.smallLine}></View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.subject}>나이</Text>
+              <Text style={styles.content}>{age}대</Text>
+            </View>
+            <View style={styles.smallLine}></View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.subject}>장소</Text>
+              <Text style={styles.content}>{postData["location"]}</Text>
+            </View>
+            <View style={styles.smallLine}></View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.subject}>일시</Text>
+              <Text style={styles.content}>
+                {postData["meeting_date"] == undefined ? (
+                  <></>
+                ) : (
+                  postData["meeting_date"].split("T")[0] +
+                  " " +
+                  postData["meeting_date"].split("T")[1].slice(0, 5)
+                )}
+              </Text>
+            </View>
+            <View style={styles.smallLine}></View>
+            <View style={styles.writing}>
+              <Text style={styles.content}>{postData["content"]}</Text>
+            </View>
+          </View>
+        </ScrollView>
+
+        {isMyPost == true ? (
+          <TouchableOpacity
+            onPress={() => {
+              onPressDeletePost();
+            }}
+            underlayColor="white"
+          >
+            <View style={styles.applyBtn}>
+              <Text style={styles.btnText}>게시물 삭제</Text>
             </View>
           </TouchableOpacity>
-
-          <ScrollView style={styles.scrollView}>
-            <View style={styles.info}>
-              <View style={styles.titleContainer}>
-                <Text style={styles.title}>{postData["title"]}</Text>
-                <View style={styles.peopleContainer}>
-                  <Image
-                    style={styles.post_peopleLogo}
-                    source={require("../icon/post_people.png")}
-                  />
-                  <Text style={styles.peopleText}>
-                    {postData["applicantsNum"]}/{postData["required_number"]}
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.subject}>작성자</Text>
-                <Text style={styles.content}>{postData["username"]}</Text>
-              </View>
-              <View style={styles.smallLine}></View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.subject}>운동</Text>
-                <Text style={styles.content}>
-                  {postData["exercise"] == "baseball"
-                    ? "야구"
-                    : postData["exercise"] == "soccer"
-                    ? "축구"
-                    : "농구"}
-                </Text>
-              </View>
-              <View style={styles.smallLine}></View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.subject}>능력</Text>
-                <Text style={styles.content}>
-                  {skillList[postData["exercise_skill"]]}
-                </Text>
-              </View>
-              <View style={styles.smallLine}></View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.subject}>성별</Text>
-                <Text style={styles.content}>
-                  {postData["gender"] == "F"
-                    ? "여자"
-                    : postData["gender"] == "M"
-                    ? "남자"
-                    : "무관"}
-                </Text>
-              </View>
-              <View style={styles.smallLine}></View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.subject}>나이</Text>
-                <Text style={styles.content}>{age}대</Text>
-              </View>
-              <View style={styles.smallLine}></View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.subject}>장소</Text>
-                <Text style={styles.content}>{postData["location"]}</Text>
-              </View>
-              <View style={styles.smallLine}></View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.subject}>일시</Text>
-                <Text style={styles.content}>
-                  {postData["meeting_date"] == undefined ? (
-                    <></>
-                  ) : (
-                    postData["meeting_date"].split("T")[0] +
-                    " " +
-                    postData["meeting_date"].split("T")[1].slice(0, 5)
-                  )}
-                </Text>
-              </View>
-              <View style={styles.smallLine}></View>
-              <View style={styles.writing}>
-                <Text style={styles.content}>{postData["content"]}</Text>
-              </View>
+        ) : isOverApply == true ? (
+          <View style={styles.noApplyBtn}>
+            <Text style={styles.btnText}>신청 불가</Text>
+          </View>
+        ) : isApply ? (
+          <TouchableOpacity
+            onPress={() => {
+              opPressDeleteApplication();
+            }}
+            underlayColor="white"
+          >
+            <View style={styles.applyBtn}>
+              <Text style={styles.btnText}>신청 취소</Text>
             </View>
-          </ScrollView>
-
-          {isMyPost == true ? (
-            <TouchableOpacity
-              onPress={() => {
-                onPressDeletePost();
-              }}
-              underlayColor="white"
-            >
-              <View style={styles.applyBtn}>
-                <Text style={styles.btnText}>게시물 삭제</Text>
-              </View>
-            </TouchableOpacity>
-          ) : isOverApply == true ? (
-            <View style={styles.noApplyBtn}>
-              <Text style={styles.btnText}>신청 불가</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              opPressCreateApplication();
+            }}
+            underlayColor="white"
+          >
+            <View style={styles.applyBtn}>
+              <Text style={styles.btnText}>신청</Text>
             </View>
-          ) : isApply ? (
-            <TouchableOpacity
-              onPress={() => {
-                opPressDeleteApplication();
-              }}
-              underlayColor="white"
-            >
-              <View style={styles.applyBtn}>
-                <Text style={styles.btnText}>신청 취소</Text>
-              </View>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              onPress={() => {
-                opPressCreateApplication();
-              }}
-              underlayColor="white"
-            >
-              <View style={styles.applyBtn}>
-                <Text style={styles.btnText}>신청</Text>
-              </View>
-            </TouchableOpacity>
-          )}
+          </TouchableOpacity>
+        )}
 
-          <View style={styles.bigLine}></View>
-          <View style={styles.inputContainer}>
+        <View style={styles.bigLine}></View>
+        <View style={styles.inputContainer}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              Keyboard.dismiss();
+            }}
+          >
             <TextInput
               style={styles.input}
               onChangeText={setComment}
               value={comment}
               placeholder="댓글을 입력하세요"
             />
-            <TouchableOpacity
-              onPress={() => {
-                opPressCreateComment();
-              }}
-              underlayColor="white"
-            >
-              <View style={styles.confirmBtn}>
-                <Text style={styles.confirmBtnText}>등록</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          {commentCheck ? (
-            <View style={styles.commentsListContainer}>
-              <ScrollView style={styles.scrollView}>
-                {/* {console.log(comment)} */}
-                {commentData.map((comment, index) => (
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("Profile", {
-                        userId: comment["user_id"],
-                      })
-                    }
-                    key={comment["comment_id"]}
-                  >
-                    <View style={styles.commentsContainer}>
-                      <Text style={styles.commentsName}>
-                        {comment["username"]}
-                      </Text>
-                      <Text style={styles.commentDate}>
-                        {comment["created_date"].split("T")[0]} |{" "}
-                        {comment["created_date"].split("T")[1].split("Z")[0]}
-                      </Text>
-                      <Text style={styles.commentsContent}>
-                        {comment["text"]}
-                      </Text>
-                      <View style={styles.smallLine}></View>
-                    </View>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
+          </TouchableWithoutFeedback>
+          <TouchableOpacity
+            onPress={() => {
+              opPressCreateComment();
+            }}
+            underlayColor="white"
+          >
+            <View style={styles.confirmBtn}>
+              <Text style={styles.confirmBtnText}>등록</Text>
             </View>
-          ) : (
-            <Text>댓글 가져오는 중...</Text>
-          )}
+          </TouchableOpacity>
         </View>
+
+        {commentCheck ? (
+          <View style={styles.commentsListContainer}>
+            <ScrollView style={styles.scrollView}>
+              {/* {console.log(comment)} */}
+              {commentData.map((comment, index) => (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("Profile", {
+                      userId: comment["user_id"],
+                    })
+                  }
+                  key={comment["comment_id"]}
+                >
+                  <View style={styles.commentsContainer}>
+                    <Text style={styles.commentsName}>
+                      {comment["username"]}
+                    </Text>
+                    <Text style={styles.commentDate}>
+                      {comment["created_date"].split("T")[0]} |{" "}
+                      {comment["created_date"].split("T")[1].split("Z")[0]}
+                    </Text>
+                    <Text style={styles.commentsContent}>
+                      {comment["text"]}
+                    </Text>
+                    <View style={styles.smallLine}></View>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        ) : (
+          <Text>댓글 가져오는 중...</Text>
+        )}
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 }
 
