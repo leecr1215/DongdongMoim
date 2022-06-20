@@ -133,7 +133,7 @@ export default function Userinfo({ navigation }) {
       }
     }
     getUserinfo();
-  }, [id, isFocused]);
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>

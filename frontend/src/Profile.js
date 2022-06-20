@@ -512,8 +512,6 @@ export default function Profile({ route, navigation }) {
               <Image
                 style={styles.friendLogo}
                 source={require("../icon/friends.png")}
-                width={30}
-                height={30}
               />
             </View>
           </TouchableOpacity>
@@ -568,22 +566,23 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT * 0.14,
   },
   idSideProfile: {
-    width: SCREEN_WIDTH * 0.45,
+    width: SCREEN_WIDTH * 0.47,
     justifyContent: "space-around",
   },
   username: {
-    fontSize: 18,
+    fontSize: 17,
     alignSelf: "flex-end",
   },
   sideProfile: {
-    justifyContent: "space-evenly",
+    width: SCREEN_WIDTH * 0.47,
+    justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "flex-end",
   },
   sideProfileText: {
     textDecorationLine: "underline",
     textDecorationColor: "black",
-    fontSize: 13,
+    fontSize: 12.5,
     lineHeight: 20,
     fontWeight: "600",
   },
@@ -591,11 +590,11 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     color: "#9B111E",
     // backgroundColor: "#E5E5E5",
-    fontSize: 13,
+    fontSize: 12.5,
     fontWeight: "600",
     lineHeight: 20,
-    paddingLeft: SCREEN_WIDTH * 0.01,
-    paddingRight: SCREEN_WIDTH * 0.01,
+    //paddingLeft: SCREEN_WIDTH * 0.01,
+    //paddingRight: SCREEN_WIDTH * 0.01,
     // borderRadius: 5,
     // borderColor: "black",
     // borderWidth: 1,
@@ -719,8 +718,8 @@ const styles = StyleSheet.create({
   },
   friendLogo: {
     resizeMode: "contain",
-    // height: SCREEN_HEIGHT * 0.005,
-    // width: SCREEN_WIDTH * 0.01,
+    height: SCREEN_HEIGHT * 0.04,
+    width: SCREEN_WIDTH * 0.07,
     alignContent: "center",
   },
   bigLine: {
@@ -735,5 +734,5 @@ const styles = StyleSheet.create({
     alignContent: "center",
     marginTop: SCREEN_HEIGHT * 0.03,
   },
-  locationText: { fontSize: 17 },
+  locationText: { fontSize: 16 },
 });

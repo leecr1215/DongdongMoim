@@ -91,7 +91,7 @@ export default function Profile({ navigation }) {
             .shift()}:8080/api/v1/friends/${id}/${your_id}`
         )
         .then(function (response) {
-          alert("lego");
+          //alert("lego");
           if (response.data["success"] == true) {
             alert("친구가 삭제되었습니다.");
             navigation.replace("MyPage");
