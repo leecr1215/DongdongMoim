@@ -54,8 +54,8 @@ export default function Home({ navigation }) {
       { latitude, longitude },
       { useGoogleMaps: false }
     );
-    const sum =
-      location[0].region + " " + location[0].city + " " + location[0].street;
+    // 유성구 대신 location[0].city
+    const sum = location[0].region + " " + "유성구" + " " + location[0].street;
     const a = await AsyncStorage.setItem("@location", JSON.stringify(sum));
     setCity(location[0].region);
     //console.log(location[0]);
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
   },
   searchText: {
     marginBottom: SCREEN_WIDTH * 0.01,
-    fontWeight: "500",
+    fontWeight: "400",
     color: "#898989",
   },
   /*드롭다운 css 시작*/
